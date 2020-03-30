@@ -4,6 +4,10 @@ WebAssembly assembler for WasmVM
 
 # Quick start
 
+## Prerequisites
+
+* CMake
+
 TODO:
 
 # Design
@@ -87,5 +91,5 @@ Feature:
 #### Regression
 
 * Generated from `WasmVM/testsuite`
-* Remove `return`, `trap`
-* Ignore `invalid` until validation being developed in the future
+* Remove `return`, `trap`, `exhaustion`
+* Remove `invalid`, `unlinkable` until validation being developed in the future
