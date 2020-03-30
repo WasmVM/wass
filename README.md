@@ -7,6 +7,22 @@ WebAssembly assembler for WasmVM
 ## Prerequisites
 
 * CMake
+* git
+
+## Build
+
+```shell
+git submodule update --init --recursive
+mkdir build
+cd build && cmake ..
+make
+```
+
+## Run
+
+TODO:
+
+## Test
 
 TODO:
 
