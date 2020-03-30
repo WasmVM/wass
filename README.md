@@ -10,20 +10,7 @@ TODO:
 
 ## Assembling process
 
-```graphviz
-digraph{
-    node [shape=box];
-    "Validate Module" [style=dotted]
-    input [style=invis]
-    output [style=invis]
-    input -> "Remove comments" [label="  Wasm text file"]
-    "Remove comments" -> "Parse module" [label="  Char Array"]
-    "Parse module" -> "Compose module"  [label="  Blocks & Tokens"]
-    "Compose module" -> "Validate Module" [label="  WasmModule"]
-    "Validate Module" -> "Code generate" [label="  WasmModule"]
-    "Code generate" -> output [label="  Wasm binary file"]
-}
-```
+![](docs/Design.svg)
 
 ## Remove comments
 
