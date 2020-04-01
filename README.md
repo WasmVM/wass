@@ -8,6 +8,7 @@ WebAssembly assembler for WasmVM
 
 * CMake
 * git
+* pthread
 
 ## Build
 
@@ -24,7 +25,10 @@ TODO:
 
 ## Test
 
-TODO:
+```shell
+cd build
+ctest
+```
 
 # Design
 
