@@ -4,7 +4,9 @@
 #include <string>
 
 struct ParserContext{
+  ParserContext(std::string& data);
   std::string::iterator cursor;
+  std::string::iterator end;
 };
 
 #endif
