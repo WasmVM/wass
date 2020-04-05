@@ -1,6 +1,6 @@
 #include <parser/ParserContext.hpp>
 
-ParserContext::ParserContext(std::string& data){
+ParserContext::ParserContext(std::vector<char>& data){
   cursor = data.begin();
   end = data.end();
 }

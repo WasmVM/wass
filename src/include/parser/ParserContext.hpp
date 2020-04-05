@@ -1,12 +1,12 @@
 #ifndef GUARD_wass_parser_ParserContext
 #define GUARD_wass_parser_ParserContext
 
-#include <string>
+#include <vector>
 
 struct ParserContext{
-  ParserContext(std::string& data);
-  std::string::iterator cursor;
-  std::string::iterator end;
+  ParserContext(std::vector<char>& data);
+  std::vector<char>::iterator cursor;
+  std::vector<char>::iterator end;
 };
 
 #endif

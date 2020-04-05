@@ -1,4 +1,5 @@
 include_directories(${PROJECT_SOURCE_DIR}/src/include)
+include_directories(${CMAKE_CURRENT_LIST_DIR})
 
 add_subdirectory(lib)
 
