@@ -1,5 +1,6 @@
 #include <parser/Comment.hpp>
 #include <string>
+#include <Error.hpp>
 
 static void single_line_comment(ParserContext& context){
   while (context.cursor != context.end && (
@@ -18,7 +19,23 @@ static void single_line_comment(ParserContext& context){
 }
 
 static void multi_line_comment(ParserContext& context){
-
+  int nestedLevel = 0;
+  do{
+    if(context.cursor == context.end){
+      break;
+    }else if(*(context.cursor) == '(' && context.cursor + 1 != context.end && context.cursor[1] == ';'){
+      nestedLevel += 1;
+      context.cursor += 2;
+    }else if(*(context.cursor) == ';' && context.cursor + 1 != context.end && context.cursor[1] == ')'){
+      nestedLevel -= 1;
+      context.cursor += 2;
+    }else if(nestedLevel > 0){
+      ++context.cursor;
+    }
+  } while (nestedLevel > 0);
+  if(nestedLevel != 0){
+    throw Error<ErrorType::SyntaxError>("Multi-line comment is not closed");
+  }
 }
 
 static void white_space(ParserContext& context){
@@ -30,7 +47,6 @@ static void white_space(ParserContext& context){
   )){
     ++context.cursor;
   }
-  
 }
 
 void Comment::skip(ParserContext& context){
