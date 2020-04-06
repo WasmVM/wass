@@ -3,9 +3,8 @@
 
 #include <parser/ParserContext.hpp>
 
-class Comment{
-public:
-  static void skip(ParserContext& context);
+namespace Comment{
+  void skip(ParserContext& context);
 };
 
 #endif
