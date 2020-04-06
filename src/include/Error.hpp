@@ -6,6 +6,7 @@
 
 enum class ErrorType{
   SyntaxError,
+  UnImplemented,
 };
 
 template<ErrorType T>

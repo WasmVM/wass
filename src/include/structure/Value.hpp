@@ -5,7 +5,7 @@
 
 namespace Value {
 
-enum ValueType{
+enum class ValueType{
   i32,
   i64,
   f32,
@@ -14,19 +14,21 @@ enum ValueType{
 
 class ValueBase {
 public:
+  ValueBase(ValueType type): type(type){};
   ValueType type;
 };
 
 template<typename T, ValueType V>
-class ValueClass : ValueBase{
-  ValueClass(T value) : type(V), value(value){};
+class ValueClass : public ValueBase {
+public:
+  ValueClass(T value) : ValueBase(V), value(value){};
   T value;
 };
 
-using Int32 = ValueClass<int32_t, i32>;
-using Int64 = ValueClass<int64_t, i64>;
-using Float32 = ValueClass<float, f32>;
-using Float64 = ValueClass<double, f64>;
+using Int32 = ValueClass<int32_t, ValueType::i32>;
+using Int64 = ValueClass<int64_t, ValueType::i64>;
+using Float32 = ValueClass<float, ValueType::f32>;
+using Float64 = ValueClass<double, ValueType::f64>;
 
 }
 
