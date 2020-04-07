@@ -1,10 +1,10 @@
-#ifndef GUARD_wass_parser_Literal
-#define GUARD_wass_parser_Literal
+#ifndef GUARD_wass_parser_IntegerLiteral
+#define GUARD_wass_parser_IntegerLiteral
 
-#include <parser/ParserInstance.hpp>
+#include <any>
 #include <parser/ParserContext.hpp>
 
-class IntegerLiteral: public ParserInstance{
+class IntegerLiteral: public std::any{
 public:
   IntegerLiteral(ParserContext& context);
 };

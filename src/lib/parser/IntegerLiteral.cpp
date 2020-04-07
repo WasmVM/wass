@@ -70,7 +70,8 @@ static void hexNumber(std::any& thisAny, ParserContext& context, bool& isNegativ
   }
 }
 
-IntegerLiteral::IntegerLiteral(ParserContext& context) : ParserInstance(context){
+IntegerLiteral::IntegerLiteral(ParserContext& parent_context){
+  ParserContext context = parent_context;
   bool negative = isNegative(context);
   if((*context.cursor) != '_'){
     if((*context.cursor) == '0' && (context.cursor + 1 != context.end) && context.cursor[1] == 'x'){
@@ -78,6 +79,9 @@ IntegerLiteral::IntegerLiteral(ParserContext& context) : ParserInstance(context)
       hexNumber(*this, context, negative);
     }else{
       decimalNumber(*this, context, negative);
+    }
+    if(has_value()){
+      parent_context.cursor = context.cursor;
     }
   }
 }
