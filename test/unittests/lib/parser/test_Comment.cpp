@@ -4,7 +4,7 @@
 #include <Error.hpp>
 #include <parser/ParserContext.hpp>
 #include <parser/Comment.hpp>
-#include <Util.hpp>
+#include <Helper.hpp>
 
 TEST(unittest_Comment, SingleLine_regular){
   std::vector<char> data(create_char_vector(";;comment"));

@@ -4,7 +4,7 @@ include_directories(${CMAKE_CURRENT_LIST_DIR})
 add_subdirectory(lib)
 
 add_executable(unittest
-  Util.cpp
+  Helper.cpp
   $<TARGET_OBJECTS:test_parser>
 )
 target_link_libraries(unittest
