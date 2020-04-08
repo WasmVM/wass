@@ -68,7 +68,7 @@ TEST(unittest_FloatLiteral, minus_misc_nan){
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
   double value = std::any_cast<double>(result);
-  double expect = create_double_nan((int64_t)0x2abcde);
+  double expect = create_double_nan((int64_t)0x2abcde, true);
   EXPECT_BITWISE_EQ(value, expect);
 }
 
@@ -83,7 +83,7 @@ TEST(unittest_FloatLiteral, inf){
   EXPECT_BITWISE_EQ(value, expect);
 }
 
-TEST(unittest_FloatLiteral, minus_inf){
+TEST(unittest_FloatLiteral, plus_inf){
   std::vector<char> data(create_char_vector("+inf"));
   ParserContext context(data);
   FloatLiteral result(context);
@@ -94,13 +94,13 @@ TEST(unittest_FloatLiteral, minus_inf){
   EXPECT_BITWISE_EQ(value, expect);
 }
 
-TEST(unittest_FloatLiteral, plus_inf){
+TEST(unittest_FloatLiteral, minus_inf){
   std::vector<char> data(create_char_vector("-inf"));
   ParserContext context(data);
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
   double value = std::any_cast<double>(result);
-  double expect = create_double_inf(false);
+  double expect = create_double_inf(true);
   EXPECT_BITWISE_EQ(value, expect);
 }
