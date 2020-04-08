@@ -20,27 +20,3 @@ union DoubleUnion{
   } part;
   double value;
 };
-
-double create_double_nan(bool negative){
-  DoubleUnion data;
-  data.part.sign = negative ? 1 : 0;
-  data.part.exponent = 0x7ff;
-  data.part.mantissa = 1;
-  return data.value;
-}
-
-double create_double_nan(int64_t mantissa, bool negative){
-  DoubleUnion data;
-  data.part.sign = negative ? 1 : 0;
-  data.part.exponent = 0x7ff;
-  data.part.mantissa = mantissa;
-  return data.value;
-}
-
-double create_double_inf(bool negative){
-  DoubleUnion data;
-  data.part.sign = negative ? 1 : 0;
-  data.part.exponent = 0x7ff;
-  data.part.mantissa = 0;
-  return data.value;
-}
