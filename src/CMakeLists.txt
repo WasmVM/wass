@@ -7,4 +7,5 @@ add_library(wass-parser
   lib/parser/Comment.cpp
   lib/parser/IntegerLiteral.cpp
   lib/parser/FloatLiteral.cpp
+  lib/parser/StringLiteral.cpp
 )
