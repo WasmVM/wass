@@ -10,4 +10,5 @@ add_library(wass-parser
   lib/parser/StringLiteral.cpp
   lib/parser/Name.cpp
   lib/parser/Identifier.cpp
+  lib/structure/Value.cpp
 )

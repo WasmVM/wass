@@ -6,6 +6,7 @@ add_subdirectory(lib)
 add_executable(unittest
   Helper.cpp
   $<TARGET_OBJECTS:test_parser>
+  $<TARGET_OBJECTS:test_structure>
 )
 target_link_libraries(unittest
   wass-parser
