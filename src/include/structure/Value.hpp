@@ -4,7 +4,7 @@
 #include <any>
 #include <cstdint>
 
-enum ValueType{
+enum class ValueType{
   none,
   i32,
   i64,

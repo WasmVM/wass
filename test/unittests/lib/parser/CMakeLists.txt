@@ -5,6 +5,7 @@ add_library(test_parser OBJECT
   test_StringLiteral.cpp
   test_Name.cpp
   test_Identifier.cpp
+  test_ParserValue.cpp
 )
 add_dependencies(test_parser
   googletest
