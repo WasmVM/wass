@@ -53,4 +53,5 @@ void Comment::skip(ParserContext& context){
   single_line_comment(context);
   white_space(context);
   multi_line_comment(context);
+  white_space(context);
 }
