@@ -8,6 +8,7 @@ add_library(test_parser OBJECT
   test_ParserValue.cpp
   test_ParserParam.cpp
   test_ParserResult.cpp
+  test_ParserFuncType.cpp
 )
 add_dependencies(test_parser
   googletest
