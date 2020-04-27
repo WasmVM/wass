@@ -5,10 +5,10 @@ bool Util::matchString(std::vector<char>::iterator& begin, std::vector<char>::it
     return false;
   }
   std::string::iterator sIt = str.begin();
-  for(std::vector<char>::iterator it = begin; it != end && sIt != str.end(); ++it, ++sIt){
+  for(std::vector<char>::iterator it = begin; sIt != str.end() && it != end; ++it, ++sIt){
     if(*it != *sIt){
       return false;
     }
   }
-  return true;
+  return sIt == str.end();
 }
