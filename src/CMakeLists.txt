@@ -18,8 +18,10 @@ add_library(wass-parser
   lib/parser/ParserTableType.cpp
   lib/parser/ParserGlobalType.cpp
   lib/parser/ParserNumericInstr.cpp
+  lib/parser/ParserConstInstr.cpp
   lib/structure/Limit.cpp
   lib/structure/Value.cpp
   lib/structure/FuncType.cpp
   lib/structure/GlobalType.cpp
+  lib/structure/ConstInstr.cpp
 )
