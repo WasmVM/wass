@@ -20,6 +20,7 @@ add_library(wass-parser
   lib/parser/ParserNumericInstr.cpp
   lib/parser/ParserConstInstr.cpp
   lib/parser/ParserParamInstr.cpp
+  lib/parser/ParserVariableInstr.cpp
   lib/structure/Limit.cpp
   lib/structure/Value.cpp
   lib/structure/FuncType.cpp

@@ -4,9 +4,9 @@
 #include <any>
 #include <parser/ParserContext.hpp>
 
-class ParserConstInstr: public std::any{
+class ParserVariableInstr: public std::any{
 public:
-  ParserConstInstr(ParserContext& context);
+  ParserVariableInstr(ParserContext& context);
 };
 
 #endif
