@@ -14,6 +14,7 @@ add_library(test_parser OBJECT
   test_ParserGlobalType.cpp
   test_ParserNumericInstr.cpp
   test_ParserConstInstr.cpp
+  test_ParserParamInstr.cpp
 )
 add_dependencies(test_parser
   googletest

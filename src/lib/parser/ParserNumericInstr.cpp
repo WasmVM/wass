@@ -375,10 +375,3 @@ ParserNumericInstr::ParserNumericInstr(ParserContext& context){
     this->std::any::operator=(Instr<InstrType::F64ReinterpretI64>());
   }
 }
-
-/*,
-  I32ReinterpretF32,
-  I64ReinterpretF64,
-  F32ReinterpretI32,
-  F64ReinterpretI64,
-*/
