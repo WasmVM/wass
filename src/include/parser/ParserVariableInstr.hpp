@@ -1,5 +1,5 @@
-#ifndef GUARD_wass_parser_ParserConstInstr
-#define GUARD_wass_parser_ParserConstInstr
+#ifndef GUARD_wass_parser_ParserVariableInstr
+#define GUARD_wass_parser_ParserVariableInstr
 
 #include <any>
 #include <parser/ParserContext.hpp>

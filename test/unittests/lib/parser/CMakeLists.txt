@@ -16,6 +16,7 @@ add_library(test_parser OBJECT
   test_ParserConstInstr.cpp
   test_ParserParamInstr.cpp
   test_ParserVariableInstr.cpp
+  test_ParserMemoryInstr.cpp
 )
 add_dependencies(test_parser
   googletest
