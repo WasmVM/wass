@@ -1,6 +1,7 @@
 #include <parser/ParserControlInstr.hpp>
 
-#include <any>
+#include <optional>
+#include <variant>
 #include <vector>
 #include <cstdint>
 #include <parser/ParserContext.hpp>
@@ -9,7 +10,6 @@
 #include <parser/ParserTypeUse.hpp>
 #include <Util.hpp>
 #include <Error.hpp>
-#include <structure/Instr.hpp>
 #include <structure/ControlInstr.hpp>
 
 ParserControlInstr::ParserControlInstr(ParserContext & parent_context){
@@ -17,26 +17,26 @@ ParserControlInstr::ParserControlInstr(ParserContext & parent_context){
     ParserContext context = parent_context;
     if(Util::matchString(context.cursor, context.end, "unreachable")){
       context.cursor += 11;
-      this->std::any::operator=(Instr<InstrType::Unreachable>());
+      emplace<UnreachableInstr>(UnreachableInstr());
       parent_context.cursor = context.cursor;
     }else if(Util::matchString(context.cursor, context.end, "nop")){
       context.cursor += 3;
-      this->std::any::operator=(Instr<InstrType::Nop>());
+      emplace<NopInstr>(NopInstr());
       parent_context.cursor = context.cursor;
     }else if(Util::matchString(context.cursor, context.end, "return")){
       context.cursor += 6;
-      this->std::any::operator=(Instr<InstrType::Return>());
+      emplace<ReturnInstr>(ReturnInstr());
       parent_context.cursor = context.cursor;
     }else if(Util::matchString(context.cursor, context.end, "br_table")){
       context.cursor += 8;
       std::vector<uint32_t> labels;
       Comment::skip(context);
       for(IntegerLiteral immediate(context); immediate.has_value(); immediate = IntegerLiteral(context)){
-        labels.push_back(std::any_cast<int64_t>(immediate));
+        labels.push_back(*immediate);
         Comment::skip(context);
       }
       if(labels.size() > 0){
-        this->std::any::operator=(BrTableInstr(labels));
+        emplace<BrTableInstr>(BrTableInstr(labels));
         parent_context.cursor = context.cursor;
       }else{
         throw Error<ErrorType::SyntaxError>("expected at least a label index for br_table");
@@ -46,8 +46,7 @@ ParserControlInstr::ParserControlInstr(ParserContext & parent_context){
       Comment::skip(context);
       IntegerLiteral label(context);
       if(label.has_value()){
-        BrIfInstr instr(std::any_cast<int64_t>(label));
-        this->std::any::operator=(instr);
+        emplace<BrIfInstr>(BrIfInstr(*label));
         parent_context.cursor = context.cursor;
       }else{
         throw Error<ErrorType::SyntaxError>("expected a label index for br_if");
@@ -57,8 +56,7 @@ ParserControlInstr::ParserControlInstr(ParserContext & parent_context){
       Comment::skip(context);
       IntegerLiteral label(context);
       if(label.has_value()){
-        BrInstr instr(std::any_cast<int64_t>(label));
-        this->std::any::operator=(instr);
+        emplace<BrInstr>(BrInstr(*label));
         parent_context.cursor = context.cursor;
       }else{
         throw Error<ErrorType::SyntaxError>("expected a label index for br");
@@ -66,16 +64,15 @@ ParserControlInstr::ParserControlInstr(ParserContext & parent_context){
     }else if(Util::matchString(context.cursor, context.end, "call_indirect")){
       context.cursor += 13;
       Comment::skip(context);
-      TypeUse typeUse = std::any_cast<TypeUse>(ParserTypeUse(context));
-      this->std::any::operator=(CallIndirectInstr(typeUse));
+      ParserTypeUse typeUse(context);
+      emplace<CallIndirectInstr>(CallIndirectInstr(*typeUse));
       parent_context.cursor = context.cursor;
     }else if(Util::matchString(context.cursor, context.end, "call")){
       context.cursor += 4;
       Comment::skip(context);
       IntegerLiteral label(context);
       if(label.has_value()){
-        CallInstr instr(std::any_cast<int64_t>(label));
-        this->std::any::operator=(instr);
+        emplace<CallInstr>(*label);
         parent_context.cursor = context.cursor;
       }else{
         throw Error<ErrorType::SyntaxError>("expected a function index for call");

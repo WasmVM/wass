@@ -17,7 +17,9 @@ ParserConstInstr::ParserConstInstr(ParserContext& parent_context){
       Comment::skip(context);
       IntegerLiteral literal(context);
       if(literal.has_value()){
-        this->std::any::operator=(I32ConstInstr((int32_t)std::any_cast<int64_t>(literal)));
+        I32ConstInstr instr;
+        instr.value = *literal;
+        emplace<I32ConstInstr>(instr);
         parent_context.cursor = context.cursor;
       }else{
         throw Error<ErrorType::SyntaxError>("expected integer immediate after i32.const");
@@ -27,7 +29,9 @@ ParserConstInstr::ParserConstInstr(ParserContext& parent_context){
       Comment::skip(context);
       IntegerLiteral literal(context);
       if(literal.has_value()){
-        this->std::any::operator=(I64ConstInstr(std::any_cast<int64_t>(literal)));
+        I64ConstInstr instr;
+        instr.value = *literal;
+        emplace<I64ConstInstr>(instr);
         parent_context.cursor = context.cursor;
       }else{
         throw Error<ErrorType::SyntaxError>("expected integer immediate after i64.const");
@@ -37,7 +41,9 @@ ParserConstInstr::ParserConstInstr(ParserContext& parent_context){
       Comment::skip(context);
       FloatLiteral literal(context);
       if(literal.has_value()){
-        this->std::any::operator=(F32ConstInstr((float)std::any_cast<double>(literal)));
+        F32ConstInstr instr;
+        instr.value = *literal;
+        emplace<F32ConstInstr>(instr);
         parent_context.cursor = context.cursor;
       }else{
         throw Error<ErrorType::SyntaxError>("expected integer immediate after f32.const");
@@ -47,7 +53,9 @@ ParserConstInstr::ParserConstInstr(ParserContext& parent_context){
       Comment::skip(context);
       FloatLiteral literal(context);
       if(literal.has_value()){
-        this->std::any::operator=(F64ConstInstr(std::any_cast<double>(literal)));
+        F64ConstInstr instr;
+        instr.value = *literal;
+        emplace<F64ConstInstr>(instr);
         parent_context.cursor = context.cursor;
       }else{
         throw Error<ErrorType::SyntaxError>("expected integer immediate after f64.const");

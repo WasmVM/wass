@@ -5,7 +5,7 @@
 #include <Error.hpp>
 #include <parser/ParserContext.hpp>
 #include <parser/ParserVariableInstr.hpp>
-#include <structure/Instr.hpp>
+#include <structure/BaseInstr.hpp>
 #include <structure/VariableInstr.hpp>
 #include <Helper.hpp>
 
@@ -22,9 +22,9 @@ TEST(unittest_ParserVariableInstr, local_get){
   ParserContext context(data);
   ParserVariableInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(VariableInstr<InstrType::LocalGet>));
-  EXPECT_EQ(std::any_cast<VariableInstr<InstrType::LocalGet>>(result).index, 1);
+  LocalGetInstr* instr = std::get_if<LocalGetInstr>(&result);
+  EXPECT_NE(instr, nullptr);
+  EXPECT_EQ(instr->index, 1);
 }
 
 TEST(unittest_ParserVariableInstr, local_set){
@@ -32,9 +32,9 @@ TEST(unittest_ParserVariableInstr, local_set){
   ParserContext context(data);
   ParserVariableInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(VariableInstr<InstrType::LocalSet>));
-  EXPECT_EQ(std::any_cast<VariableInstr<InstrType::LocalSet>>(result).index, 1);
+  LocalSetInstr* instr = std::get_if<LocalSetInstr>(&result);
+  EXPECT_NE(instr, nullptr);
+  EXPECT_EQ(instr->index, 1);
 }
 
 TEST(unittest_ParserVariableInstr, local_tee){
@@ -42,9 +42,9 @@ TEST(unittest_ParserVariableInstr, local_tee){
   ParserContext context(data);
   ParserVariableInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(VariableInstr<InstrType::LocalTee>));
-  EXPECT_EQ(std::any_cast<VariableInstr<InstrType::LocalTee>>(result).index, 1);
+  LocalTeeInstr* instr = std::get_if<LocalTeeInstr>(&result);
+  EXPECT_NE(instr, nullptr);
+  EXPECT_EQ(instr->index, 1);
 }
 
 TEST(unittest_ParserVariableInstr, global_get){
@@ -52,9 +52,9 @@ TEST(unittest_ParserVariableInstr, global_get){
   ParserContext context(data);
   ParserVariableInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(VariableInstr<InstrType::GlobalGet>));
-  EXPECT_EQ(std::any_cast<VariableInstr<InstrType::GlobalGet>>(result).index, 1);
+  GlobalGetInstr* instr = std::get_if<GlobalGetInstr>(&result);
+  EXPECT_NE(instr, nullptr);
+  EXPECT_EQ(instr->index, 1);
 }
 
 TEST(unittest_ParserVariableInstr, global_set){
@@ -62,7 +62,7 @@ TEST(unittest_ParserVariableInstr, global_set){
   ParserContext context(data);
   ParserVariableInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(VariableInstr<InstrType::GlobalSet>));
-  EXPECT_EQ(std::any_cast<VariableInstr<InstrType::GlobalSet>>(result).index, 1);
+  GlobalSetInstr* instr = std::get_if<GlobalSetInstr>(&result);
+  EXPECT_NE(instr, nullptr);
+  EXPECT_EQ(instr->index, 1);
 }

@@ -1,7 +1,7 @@
 #ifndef GUARD_wass_structure_Value
 #define GUARD_wass_structure_Value
 
-#include <any>
+#include <variant>
 #include <cstdint>
 
 enum class ValueType{
@@ -12,9 +12,15 @@ enum class ValueType{
   f64,
 };
 
-class Value : public std::any {
+class Value : public std::variant<
+  std::monostate,
+  int32_t,
+  int64_t,
+  float,
+  double
+> {
 public:
-  Value() = default;
+  Value();
   explicit Value(int32_t value);
   explicit Value(int64_t value);
   explicit Value(float value);

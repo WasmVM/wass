@@ -15,9 +15,9 @@ ParserVariableInstr::ParserVariableInstr(ParserContext& parent_context){
     Comment::skip(context);
     IntegerLiteral literal(context);
     if(literal.has_value()){
-      VariableInstr<InstrType::LocalGet> instr;
-      instr.index = std::any_cast<int64_t>(literal);
-      this->std::any::operator=(instr);
+      LocalGetInstr instr;
+      instr.index = *literal;
+      emplace<LocalGetInstr>(instr);
       parent_context.cursor = context.cursor;
     }else{
       throw Error<ErrorType::SyntaxError>("expected integer immediate after local.get");
@@ -27,9 +27,9 @@ ParserVariableInstr::ParserVariableInstr(ParserContext& parent_context){
     Comment::skip(context);
     IntegerLiteral literal(context);
     if(literal.has_value()){
-      VariableInstr<InstrType::LocalSet> instr;
-      instr.index = std::any_cast<int64_t>(literal);
-      this->std::any::operator=(instr);
+      LocalSetInstr instr;
+      instr.index = *literal;
+      emplace<LocalSetInstr>(instr);
       parent_context.cursor = context.cursor;
     }else{
       throw Error<ErrorType::SyntaxError>("expected integer immediate after local.set");
@@ -39,9 +39,9 @@ ParserVariableInstr::ParserVariableInstr(ParserContext& parent_context){
     Comment::skip(context);
     IntegerLiteral literal(context);
     if(literal.has_value()){
-      VariableInstr<InstrType::LocalTee> instr;
-      instr.index = std::any_cast<int64_t>(literal);
-      this->std::any::operator=(instr);
+      LocalTeeInstr instr;
+      instr.index = *literal;
+      emplace<LocalTeeInstr>(instr);
       parent_context.cursor = context.cursor;
     }else{
       throw Error<ErrorType::SyntaxError>("expected integer immediate after local.tee");
@@ -51,9 +51,9 @@ ParserVariableInstr::ParserVariableInstr(ParserContext& parent_context){
     Comment::skip(context);
     IntegerLiteral literal(context);
     if(literal.has_value()){
-      VariableInstr<InstrType::GlobalGet> instr;
-      instr.index = std::any_cast<int64_t>(literal);
-      this->std::any::operator=(instr);
+      GlobalGetInstr instr;
+      instr.index = *literal;
+      emplace<GlobalGetInstr>(instr);
       parent_context.cursor = context.cursor;
     }else{
       throw Error<ErrorType::SyntaxError>("expected integer immediate after global.get");
@@ -63,9 +63,9 @@ ParserVariableInstr::ParserVariableInstr(ParserContext& parent_context){
     Comment::skip(context);
     IntegerLiteral literal(context);
     if(literal.has_value()){
-      VariableInstr<InstrType::GlobalSet> instr;
-      instr.index = std::any_cast<int64_t>(literal);
-      this->std::any::operator=(instr);
+      GlobalSetInstr instr;
+      instr.index = *literal;
+      emplace<GlobalSetInstr>(instr);
       parent_context.cursor = context.cursor;
     }else{
       throw Error<ErrorType::SyntaxError>("expected integer immediate after global.set");

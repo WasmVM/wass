@@ -22,11 +22,11 @@ static void parsrTypeIndex(ParserContext& parent_context, TypeUse& typeUse){
       Comment::skip(context);
       IntegerLiteral literal(context);
       if(literal.has_value()){
-        typeUse.index = (uint32_t)std::any_cast<int64_t>(literal);
+        typeUse.index = (uint32_t)*literal;
       }else{
         Identifier identifier(context);
         if(identifier.has_value()){
-          typeUse.index = std::any_cast<std::string>(identifier);
+          typeUse.index = *identifier;
         }
       }
       if(typeUse.index.has_value()){
@@ -74,6 +74,6 @@ ParserTypeUse::ParserTypeUse(ParserContext& parent_context){
     }
     Comment::skip(context);
   }
-  this->std::any::operator=(typeUse);
+  this->std::optional<TypeUse>::operator=(typeUse);
   parent_context.cursor = context.cursor;
 }

@@ -13,7 +13,7 @@ TEST(unittest_Identifier, regular){
   Identifier result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<std::string>(result), "abcd1234");
+  EXPECT_EQ(*result, "abcd1234");
 }
 
 TEST(unittest_Identifier, lowercase_alphabet){
@@ -22,7 +22,7 @@ TEST(unittest_Identifier, lowercase_alphabet){
   Identifier result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<std::string>(result), "abcdefghijklmnopqrstuvwxyz");
+  EXPECT_EQ(*result, "abcdefghijklmnopqrstuvwxyz");
 }
 
 
@@ -32,7 +32,7 @@ TEST(unittest_Identifier, uppercase_alphabet){
   Identifier result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<std::string>(result), "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+  EXPECT_EQ(*result, "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 }
 
 TEST(unittest_Identifier, digit){
@@ -41,7 +41,7 @@ TEST(unittest_Identifier, digit){
   Identifier result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<std::string>(result), "0123456789");
+  EXPECT_EQ(*result, "0123456789");
 }
 
 TEST(unittest_Identifier, punctuator){
@@ -50,7 +50,7 @@ TEST(unittest_Identifier, punctuator){
   Identifier result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<std::string>(result), "!#$%&'*+-./:<=>?@\\^_`|~");
+  EXPECT_EQ(*result, "!#$%&'*+-./:<=>?@\\^_`|~");
 }
 
 TEST(unittest_Identifier, empty){

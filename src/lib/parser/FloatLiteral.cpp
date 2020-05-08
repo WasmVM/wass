@@ -1,11 +1,14 @@
 #include <parser/FloatLiteral.hpp>
 
+#include <optional>
 #include <cstdint>
 #include <cmath>
 #include <limits>
 #include <string>
 #include <Error.hpp>
 #include <Util.hpp>
+
+using Double = std::optional<double>;
 
 static bool isNegative(ParserContext& context){
   if((*context.cursor) == '-' || (*context.cursor) == '+'){
@@ -14,7 +17,7 @@ static bool isNegative(ParserContext& context){
   return false;
 }
 
-static void decimalNumber(std::any& thisAny, ParserContext& context, bool negative){
+static Double decimalNumber(ParserContext& context, bool negative){
   double value = 0;
   // Integer part
   while(context.cursor != context.end){
@@ -22,7 +25,7 @@ static void decimalNumber(std::any& thisAny, ParserContext& context, bool negati
       value = value * 10 + (*context.cursor) - '0';
     }else if((*context.cursor) != '_' || context.cursor + 1 == context.end || context.cursor[1] < '0' || context.cursor[1] > '9'){
       if((*context.cursor) == '_'){
-        return;
+        return Double();
       }
       break;
     }
@@ -30,8 +33,7 @@ static void decimalNumber(std::any& thisAny, ParserContext& context, bool negati
   }
   // Point
   if((*context.cursor) != '.'){
-    thisAny = (negative) ? -value : value;
-    return;
+    return Double((negative) ? -value : value);
   }else{
     ++context.cursor;
   }
@@ -43,14 +45,14 @@ static void decimalNumber(std::any& thisAny, ParserContext& context, bool negati
         --exp;
       }else if((*context.cursor) != '_' || context.cursor + 1 == context.end || context.cursor[1] < '0' || context.cursor[1] > '9'){
         if((*context.cursor) == '_'){
-          return;
+          return Double();
         }
         break;
       }
       ++context.cursor;
     }
   }else{
-    return;
+    return Double();
   }
   // Expoment part
   if((*context.cursor) == 'E' || (*context.cursor) == 'e'){
@@ -63,7 +65,7 @@ static void decimalNumber(std::any& thisAny, ParserContext& context, bool negati
           exponent = exponent * 10 + (*context.cursor) - '0';
         }else if((*context.cursor) != '_' || context.cursor + 1 == context.end || context.cursor[1] < '0' || context.cursor[1] > '9'){
           if((*context.cursor) == '_'){
-            return;
+            return Double();
           }
           break;
         }
@@ -71,16 +73,16 @@ static void decimalNumber(std::any& thisAny, ParserContext& context, bool negati
       }
       exponent = (exponent_negative) ? -exponent : exponent;
       value *= pow(10, exponent);
-      thisAny = (negative) ? -value : value;
+      return Double((negative) ? -value : value);
     }else{
-      return;
+      return Double();
     }
   }else{
-    thisAny = (negative) ? -value : value;
+    return Double((negative) ? -value : value);
   }
 }
 
-static void hexNumber(std::any& thisAny, ParserContext& context, bool negative){
+static Double hexNumber(ParserContext& context, bool negative){
   double value = 0;
   // Integer part
   if((*context.cursor) != '_'){
@@ -100,19 +102,18 @@ static void hexNumber(std::any& thisAny, ParserContext& context, bool negative){
         )
       ){
         if((*context.cursor) == '_'){
-          return;
+          return Double();
         }
         break;
       }
       ++context.cursor;
     }
   }else{
-    return;
+    return Double();
   }
   // Point
   if((*context.cursor) != '.'){
-    thisAny = (negative) ? -value : value;
-    return;
+    return Double((negative) ? -value : value);
   }else{
     ++context.cursor;
   }
@@ -137,14 +138,14 @@ static void hexNumber(std::any& thisAny, ParserContext& context, bool negative){
         )
       ){
         if((*context.cursor) == '_'){
-          return;
+          return Double();
         }
         break;
       }
       ++context.cursor;
     }
   }else{
-    return;
+    return Double();
   }
   // Expoment part
   if((*context.cursor) == 'P' || (*context.cursor) == 'p'){
@@ -157,7 +158,7 @@ static void hexNumber(std::any& thisAny, ParserContext& context, bool negative){
           exponent = exponent * 10 + (*context.cursor) - '0';
         }else if((*context.cursor) != '_' || context.cursor + 1 == context.end || context.cursor[1] < '0' || context.cursor[1] > '9'){
           if((*context.cursor) == '_'){
-            return;
+            return Double();
           }
           break;
         }
@@ -165,16 +166,16 @@ static void hexNumber(std::any& thisAny, ParserContext& context, bool negative){
       }
       exponent = (exponent_negative) ? -exponent : exponent;
       value *= pow(16, exponent);
-      thisAny = (negative) ? -value : value;
+      return Double((negative) ? -value : value);
     }else{
-      return;
+      return Double();
     }
   }else{
-    thisAny = (negative) ? -value : value;
+    return Double((negative) ? -value : value);
   }
 }
 
-static void nanNumber(std::any& thisAny, ParserContext& context, bool negative){
+static Double nanNumber(ParserContext& context, bool negative){
   if(Util::matchString(context.cursor, context.end, ":0x")){
     context.cursor += 3;
     std::string mantissa("0x");
@@ -191,21 +192,21 @@ static void nanNumber(std::any& thisAny, ParserContext& context, bool negative){
           (context.cursor[1] < 'A' || context.cursor[1] > 'F'))
         ){
           if((*context.cursor) == '_'){
-            return;
+            return Double();
           }
           break;
         }
         ++context.cursor;
       }
-      thisAny = (negative) ? -std::nan(mantissa.c_str()) : std::nan(mantissa.c_str());
+      return Double((negative) ? -std::nan(mantissa.c_str()) : std::nan(mantissa.c_str()));
     }
   }else{
-    thisAny = (negative) ? -std::nan("") : std::nan("");
+    return Double((negative) ? -std::nan("") : std::nan(""));
   }
 }
 
-static void infNumber(std::any& thisAny, ParserContext& context, bool negative){
-  thisAny = (negative) ? -std::numeric_limits<double>::infinity() : std::numeric_limits<double>::infinity();
+static Double infNumber(ParserContext& context, bool negative){
+  return Double((negative) ? -std::numeric_limits<double>::infinity() : std::numeric_limits<double>::infinity());
 }
 
 FloatLiteral::FloatLiteral(ParserContext& parent_context){
@@ -216,15 +217,15 @@ FloatLiteral::FloatLiteral(ParserContext& parent_context){
       int diff = context.end - context.cursor;
       if(Util::matchString(context.cursor, context.end, "nan")){
         context.cursor += 3;
-        nanNumber(*this, context, negative);
+        this->Double::operator=(nanNumber(context, negative));
       }else if(Util::matchString(context.cursor, context.end, "inf")){
         context.cursor += 3;
-        infNumber(*this, context, negative);
+        this->Double::operator=(infNumber(context, negative));
       }else if((*context.cursor) == '0' && (context.cursor + 1 != context.end) && context.cursor[1] == 'x'){
         context.cursor += 2;
-        hexNumber(*this, context, negative);
+        this->Double::operator=(hexNumber(context, negative));
       }else{
-        decimalNumber(*this, context, negative);
+        this->Double::operator=(decimalNumber(context, negative));
       }
       if(has_value()){
         parent_context.cursor = context.cursor;

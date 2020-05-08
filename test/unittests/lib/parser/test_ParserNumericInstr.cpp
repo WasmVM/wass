@@ -1,10 +1,11 @@
 #include <gtest/gtest.h>
 
+#include <variant>
 #include <vector>
 #include <Error.hpp>
 #include <parser/ParserContext.hpp>
 #include <parser/ParserNumericInstr.hpp>
-#include <structure/Instr.hpp>
+#include <structure/BaseInstr.hpp>
 #include <Helper.hpp>
 
 TEST(unittest_ParserNumericInstr, i32_clz){
@@ -12,8 +13,7 @@ TEST(unittest_ParserNumericInstr, i32_clz){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I32Clz>));
+  EXPECT_NE(std::get_if<I32ClzInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i32_ctz){
@@ -21,8 +21,7 @@ TEST(unittest_ParserNumericInstr, i32_ctz){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I32Ctz>));
+  EXPECT_NE(std::get_if<I32CtzInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i32_add){
@@ -30,8 +29,7 @@ TEST(unittest_ParserNumericInstr, i32_add){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I32Add>));
+  EXPECT_NE(std::get_if<I32AddInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i32_sub){
@@ -39,8 +37,7 @@ TEST(unittest_ParserNumericInstr, i32_sub){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I32Sub>));
+  EXPECT_NE(std::get_if<I32SubInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i32_mul){
@@ -48,8 +45,7 @@ TEST(unittest_ParserNumericInstr, i32_mul){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I32Mul>));
+  EXPECT_NE(std::get_if<I32MulInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i32_div_s){
@@ -57,8 +53,7 @@ TEST(unittest_ParserNumericInstr, i32_div_s){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I32DivS>));
+  EXPECT_NE(std::get_if<I32DivSInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i32_div_u){
@@ -66,8 +61,7 @@ TEST(unittest_ParserNumericInstr, i32_div_u){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I32DivU>));
+  EXPECT_NE(std::get_if<I32DivUInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i32_rem_s){
@@ -75,8 +69,7 @@ TEST(unittest_ParserNumericInstr, i32_rem_s){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I32RemS>));
+  EXPECT_NE(std::get_if<I32RemSInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i32_rem_u){
@@ -84,8 +77,7 @@ TEST(unittest_ParserNumericInstr, i32_rem_u){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I32RemU>));
+  EXPECT_NE(std::get_if<I32RemUInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i32_and){
@@ -93,8 +85,7 @@ TEST(unittest_ParserNumericInstr, i32_and){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I32And>));
+  EXPECT_NE(std::get_if<I32AndInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i32_or){
@@ -102,8 +93,7 @@ TEST(unittest_ParserNumericInstr, i32_or){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I32Or>));
+  EXPECT_NE(std::get_if<I32OrInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i32_xor){
@@ -111,8 +101,7 @@ TEST(unittest_ParserNumericInstr, i32_xor){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I32Xor>));
+  EXPECT_NE(std::get_if<I32XorInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i32_shl){
@@ -120,8 +109,7 @@ TEST(unittest_ParserNumericInstr, i32_shl){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I32Shl>));
+  EXPECT_NE(std::get_if<I32ShlInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i32_shr_s){
@@ -129,8 +117,7 @@ TEST(unittest_ParserNumericInstr, i32_shr_s){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I32ShrS>));
+  EXPECT_NE(std::get_if<I32ShrSInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i32_shr_u){
@@ -138,8 +125,7 @@ TEST(unittest_ParserNumericInstr, i32_shr_u){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I32ShrU>));
+  EXPECT_NE(std::get_if<I32ShrUInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i32_rotl){
@@ -147,8 +133,7 @@ TEST(unittest_ParserNumericInstr, i32_rotl){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I32Rotl>));
+  EXPECT_NE(std::get_if<I32RotlInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i32_rotr){
@@ -156,8 +141,7 @@ TEST(unittest_ParserNumericInstr, i32_rotr){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I32Rotr>));
+  EXPECT_NE(std::get_if<I32RotrInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i64_clz){
@@ -165,8 +149,7 @@ TEST(unittest_ParserNumericInstr, i64_clz){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I64Clz>));
+  EXPECT_NE(std::get_if<I64ClzInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i64_ctz){
@@ -174,8 +157,7 @@ TEST(unittest_ParserNumericInstr, i64_ctz){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I64Ctz>));
+  EXPECT_NE(std::get_if<I64CtzInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i64_add){
@@ -183,8 +165,7 @@ TEST(unittest_ParserNumericInstr, i64_add){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I64Add>));
+  EXPECT_NE(std::get_if<I64AddInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i64_sub){
@@ -192,8 +173,7 @@ TEST(unittest_ParserNumericInstr, i64_sub){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I64Sub>));
+  EXPECT_NE(std::get_if<I64SubInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i64_mul){
@@ -201,8 +181,7 @@ TEST(unittest_ParserNumericInstr, i64_mul){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I64Mul>));
+  EXPECT_NE(std::get_if<I64MulInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i64_div_s){
@@ -210,8 +189,7 @@ TEST(unittest_ParserNumericInstr, i64_div_s){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I64DivS>));
+  EXPECT_NE(std::get_if<I64DivSInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i64_div_u){
@@ -219,8 +197,7 @@ TEST(unittest_ParserNumericInstr, i64_div_u){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I64DivU>));
+  EXPECT_NE(std::get_if<I64DivUInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i64_rem_s){
@@ -228,8 +205,7 @@ TEST(unittest_ParserNumericInstr, i64_rem_s){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I64RemS>));
+  EXPECT_NE(std::get_if<I64RemSInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i64_rem_u){
@@ -237,8 +213,7 @@ TEST(unittest_ParserNumericInstr, i64_rem_u){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I64RemU>));
+  EXPECT_NE(std::get_if<I64RemUInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i64_and){
@@ -246,8 +221,7 @@ TEST(unittest_ParserNumericInstr, i64_and){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I64And>));
+  EXPECT_NE(std::get_if<I64AndInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i64_or){
@@ -255,8 +229,7 @@ TEST(unittest_ParserNumericInstr, i64_or){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I64Or>));
+  EXPECT_NE(std::get_if<I64OrInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i64_xor){
@@ -264,8 +237,7 @@ TEST(unittest_ParserNumericInstr, i64_xor){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I64Xor>));
+  EXPECT_NE(std::get_if<I64XorInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i64_shl){
@@ -273,8 +245,7 @@ TEST(unittest_ParserNumericInstr, i64_shl){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I64Shl>));
+  EXPECT_NE(std::get_if<I64ShlInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i64_shr_s){
@@ -282,8 +253,7 @@ TEST(unittest_ParserNumericInstr, i64_shr_s){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I64ShrS>));
+  EXPECT_NE(std::get_if<I64ShrSInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i64_shr_u){
@@ -291,8 +261,7 @@ TEST(unittest_ParserNumericInstr, i64_shr_u){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I64ShrU>));
+  EXPECT_NE(std::get_if<I64ShrUInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i64_rotl){
@@ -300,8 +269,7 @@ TEST(unittest_ParserNumericInstr, i64_rotl){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I64Rotl>));
+  EXPECT_NE(std::get_if<I64RotlInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i64_rotr){
@@ -309,8 +277,7 @@ TEST(unittest_ParserNumericInstr, i64_rotr){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I64Rotr>));
+  EXPECT_NE(std::get_if<I64RotrInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f32_abs){
@@ -318,8 +285,7 @@ TEST(unittest_ParserNumericInstr, f32_abs){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F32Abs>));
+  EXPECT_NE(std::get_if<F32AbsInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f32_neg){
@@ -327,8 +293,7 @@ TEST(unittest_ParserNumericInstr, f32_neg){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F32Neg>));
+  EXPECT_NE(std::get_if<F32NegInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f32_ceil){
@@ -336,8 +301,7 @@ TEST(unittest_ParserNumericInstr, f32_ceil){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F32Ceil>));
+  EXPECT_NE(std::get_if<F32CeilInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f32_floor){
@@ -345,8 +309,7 @@ TEST(unittest_ParserNumericInstr, f32_floor){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F32Floor>));
+  EXPECT_NE(std::get_if<F32FloorInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f32_trunc){
@@ -354,8 +317,7 @@ TEST(unittest_ParserNumericInstr, f32_trunc){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F32Trunc>));
+  EXPECT_NE(std::get_if<F32TruncInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f32_nearest){
@@ -363,8 +325,7 @@ TEST(unittest_ParserNumericInstr, f32_nearest){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F32Nearest>));
+  EXPECT_NE(std::get_if<F32NearestInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f32_sqrt){
@@ -372,8 +333,7 @@ TEST(unittest_ParserNumericInstr, f32_sqrt){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F32Sqrt>));
+  EXPECT_NE(std::get_if<F32SqrtInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f32_add){
@@ -381,8 +341,7 @@ TEST(unittest_ParserNumericInstr, f32_add){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F32Add>));
+  EXPECT_NE(std::get_if<F32AddInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f32_sub){
@@ -390,8 +349,7 @@ TEST(unittest_ParserNumericInstr, f32_sub){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F32Sub>));
+  EXPECT_NE(std::get_if<F32SubInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f32_mul){
@@ -399,8 +357,7 @@ TEST(unittest_ParserNumericInstr, f32_mul){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F32Mul>));
+  EXPECT_NE(std::get_if<F32MulInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f32_div){
@@ -408,8 +365,7 @@ TEST(unittest_ParserNumericInstr, f32_div){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F32Div>));
+  EXPECT_NE(std::get_if<F32DivInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f32_min){
@@ -417,8 +373,7 @@ TEST(unittest_ParserNumericInstr, f32_min){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F32Min>));
+  EXPECT_NE(std::get_if<F32MinInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f32_max){
@@ -426,8 +381,7 @@ TEST(unittest_ParserNumericInstr, f32_max){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F32Max>));
+  EXPECT_NE(std::get_if<F32MaxInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f32_copysign){
@@ -435,8 +389,7 @@ TEST(unittest_ParserNumericInstr, f32_copysign){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F32Copysign>));
+  EXPECT_NE(std::get_if<F32CopysignInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f64_abs){
@@ -444,8 +397,7 @@ TEST(unittest_ParserNumericInstr, f64_abs){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F64Abs>));
+  EXPECT_NE(std::get_if<F64AbsInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f64_neg){
@@ -453,8 +405,7 @@ TEST(unittest_ParserNumericInstr, f64_neg){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F64Neg>));
+  EXPECT_NE(std::get_if<F64NegInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f64_ceil){
@@ -462,8 +413,7 @@ TEST(unittest_ParserNumericInstr, f64_ceil){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F64Ceil>));
+  EXPECT_NE(std::get_if<F64CeilInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f64_floor){
@@ -471,8 +421,7 @@ TEST(unittest_ParserNumericInstr, f64_floor){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F64Floor>));
+  EXPECT_NE(std::get_if<F64FloorInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f64_trunc){
@@ -480,8 +429,7 @@ TEST(unittest_ParserNumericInstr, f64_trunc){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F64Trunc>));
+  EXPECT_NE(std::get_if<F64TruncInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f64_nearest){
@@ -489,8 +437,7 @@ TEST(unittest_ParserNumericInstr, f64_nearest){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F64Nearest>));
+  EXPECT_NE(std::get_if<F64NearestInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f64_sqrt){
@@ -498,8 +445,7 @@ TEST(unittest_ParserNumericInstr, f64_sqrt){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F64Sqrt>));
+  EXPECT_NE(std::get_if<F64SqrtInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f64_add){
@@ -507,8 +453,7 @@ TEST(unittest_ParserNumericInstr, f64_add){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F64Add>));
+  EXPECT_NE(std::get_if<F64AddInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f64_sub){
@@ -516,8 +461,7 @@ TEST(unittest_ParserNumericInstr, f64_sub){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F64Sub>));
+  EXPECT_NE(std::get_if<F64SubInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f64_mul){
@@ -525,8 +469,7 @@ TEST(unittest_ParserNumericInstr, f64_mul){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F64Mul>));
+  EXPECT_NE(std::get_if<F64MulInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f64_div){
@@ -534,8 +477,7 @@ TEST(unittest_ParserNumericInstr, f64_div){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F64Div>));
+  EXPECT_NE(std::get_if<F64DivInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f64_min){
@@ -543,8 +485,7 @@ TEST(unittest_ParserNumericInstr, f64_min){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F64Min>));
+  EXPECT_NE(std::get_if<F64MinInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f64_max){
@@ -552,8 +493,7 @@ TEST(unittest_ParserNumericInstr, f64_max){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F64Max>));
+  EXPECT_NE(std::get_if<F64MaxInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f64_copysign){
@@ -561,8 +501,7 @@ TEST(unittest_ParserNumericInstr, f64_copysign){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F64Copysign>));
+  EXPECT_NE(std::get_if<F64CopysignInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i32_eqz){
@@ -570,8 +509,7 @@ TEST(unittest_ParserNumericInstr, i32_eqz){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I32Eqz>));
+  EXPECT_NE(std::get_if<I32EqzInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i32_eq){
@@ -579,8 +517,7 @@ TEST(unittest_ParserNumericInstr, i32_eq){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I32Eq>));
+  EXPECT_NE(std::get_if<I32EqInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i32_ne){
@@ -588,8 +525,7 @@ TEST(unittest_ParserNumericInstr, i32_ne){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I32Ne>));
+  EXPECT_NE(std::get_if<I32NeInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i32_lt_s){
@@ -597,8 +533,7 @@ TEST(unittest_ParserNumericInstr, i32_lt_s){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I32LtS>));
+  EXPECT_NE(std::get_if<I32LtSInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i32_lt_u){
@@ -606,8 +541,7 @@ TEST(unittest_ParserNumericInstr, i32_lt_u){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I32LtU>));
+  EXPECT_NE(std::get_if<I32LtUInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i32_gt_s){
@@ -615,8 +549,7 @@ TEST(unittest_ParserNumericInstr, i32_gt_s){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I32GtS>));
+  EXPECT_NE(std::get_if<I32GtSInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i32_gt_u){
@@ -624,8 +557,7 @@ TEST(unittest_ParserNumericInstr, i32_gt_u){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I32GtU>));
+  EXPECT_NE(std::get_if<I32GtUInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i32_le_s){
@@ -633,8 +565,7 @@ TEST(unittest_ParserNumericInstr, i32_le_s){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I32LeS>));
+  EXPECT_NE(std::get_if<I32LeSInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i32_le_u){
@@ -642,8 +573,7 @@ TEST(unittest_ParserNumericInstr, i32_le_u){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I32LeU>));
+  EXPECT_NE(std::get_if<I32LeUInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i32_ge_s){
@@ -651,8 +581,7 @@ TEST(unittest_ParserNumericInstr, i32_ge_s){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I32GeS>));
+  EXPECT_NE(std::get_if<I32GeSInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i32_ge_u){
@@ -660,8 +589,7 @@ TEST(unittest_ParserNumericInstr, i32_ge_u){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I32GeU>));
+  EXPECT_NE(std::get_if<I32GeUInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i64_eqz){
@@ -669,8 +597,7 @@ TEST(unittest_ParserNumericInstr, i64_eqz){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I64Eqz>));
+  EXPECT_NE(std::get_if<I64EqzInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i64_eq){
@@ -678,8 +605,7 @@ TEST(unittest_ParserNumericInstr, i64_eq){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I64Eq>));
+  EXPECT_NE(std::get_if<I64EqInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i64_ne){
@@ -687,8 +613,7 @@ TEST(unittest_ParserNumericInstr, i64_ne){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I64Ne>));
+  EXPECT_NE(std::get_if<I64NeInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i64_lt_s){
@@ -696,8 +621,7 @@ TEST(unittest_ParserNumericInstr, i64_lt_s){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I64LtS>));
+  EXPECT_NE(std::get_if<I64LtSInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i64_lt_u){
@@ -705,8 +629,7 @@ TEST(unittest_ParserNumericInstr, i64_lt_u){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I64LtU>));
+  EXPECT_NE(std::get_if<I64LtUInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i64_gt_s){
@@ -714,8 +637,7 @@ TEST(unittest_ParserNumericInstr, i64_gt_s){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I64GtS>));
+  EXPECT_NE(std::get_if<I64GtSInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i64_gt_u){
@@ -723,8 +645,7 @@ TEST(unittest_ParserNumericInstr, i64_gt_u){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I64GtU>));
+  EXPECT_NE(std::get_if<I64GtUInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i64_le_s){
@@ -732,8 +653,7 @@ TEST(unittest_ParserNumericInstr, i64_le_s){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I64LeS>));
+  EXPECT_NE(std::get_if<I64LeSInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i64_le_u){
@@ -741,8 +661,7 @@ TEST(unittest_ParserNumericInstr, i64_le_u){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I64LeU>));
+  EXPECT_NE(std::get_if<I64LeUInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i64_ge_s){
@@ -750,8 +669,7 @@ TEST(unittest_ParserNumericInstr, i64_ge_s){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I64GeS>));
+  EXPECT_NE(std::get_if<I64GeSInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i64_ge_u){
@@ -759,8 +677,7 @@ TEST(unittest_ParserNumericInstr, i64_ge_u){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I64GeU>));
+  EXPECT_NE(std::get_if<I64GeUInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f32_eq){
@@ -768,8 +685,7 @@ TEST(unittest_ParserNumericInstr, f32_eq){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F32Eq>));
+  EXPECT_NE(std::get_if<F32EqInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f32_ne){
@@ -777,8 +693,7 @@ TEST(unittest_ParserNumericInstr, f32_ne){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F32Ne>));
+  EXPECT_NE(std::get_if<F32NeInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f32_lt){
@@ -786,8 +701,7 @@ TEST(unittest_ParserNumericInstr, f32_lt){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F32Lt>));
+  EXPECT_NE(std::get_if<F32LtInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f32_gt){
@@ -795,8 +709,7 @@ TEST(unittest_ParserNumericInstr, f32_gt){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F32Gt>));
+  EXPECT_NE(std::get_if<F32GtInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f32_le){
@@ -804,8 +717,7 @@ TEST(unittest_ParserNumericInstr, f32_le){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F32Le>));
+  EXPECT_NE(std::get_if<F32LeInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f32_ge){
@@ -813,8 +725,7 @@ TEST(unittest_ParserNumericInstr, f32_ge){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F32Ge>));
+  EXPECT_NE(std::get_if<F32GeInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f64_eq){
@@ -822,8 +733,7 @@ TEST(unittest_ParserNumericInstr, f64_eq){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F64Eq>));
+  EXPECT_NE(std::get_if<F64EqInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f64_ne){
@@ -831,8 +741,7 @@ TEST(unittest_ParserNumericInstr, f64_ne){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F64Ne>));
+  EXPECT_NE(std::get_if<F64NeInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f64_lt){
@@ -840,8 +749,7 @@ TEST(unittest_ParserNumericInstr, f64_lt){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F64Lt>));
+  EXPECT_NE(std::get_if<F64LtInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f64_gt){
@@ -849,8 +757,7 @@ TEST(unittest_ParserNumericInstr, f64_gt){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F64Gt>));
+  EXPECT_NE(std::get_if<F64GtInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f64_le){
@@ -858,8 +765,7 @@ TEST(unittest_ParserNumericInstr, f64_le){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F64Le>));
+  EXPECT_NE(std::get_if<F64LeInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f64_ge){
@@ -867,8 +773,7 @@ TEST(unittest_ParserNumericInstr, f64_ge){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F64Ge>));
+  EXPECT_NE(std::get_if<F64GeInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i32_wrap_i64){
@@ -876,8 +781,7 @@ TEST(unittest_ParserNumericInstr, i32_wrap_i64){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I32WrapI64>));
+  EXPECT_NE(std::get_if<I32WrapI64Instr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i32_trunc_f32_s){
@@ -885,8 +789,7 @@ TEST(unittest_ParserNumericInstr, i32_trunc_f32_s){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I32TruncF32S>));
+  EXPECT_NE(std::get_if<I32TruncF32SInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i32_trunc_f32_u){
@@ -894,8 +797,7 @@ TEST(unittest_ParserNumericInstr, i32_trunc_f32_u){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I32TruncF32U>));
+  EXPECT_NE(std::get_if<I32TruncF32UInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i32_trunc_f64_s){
@@ -903,8 +805,7 @@ TEST(unittest_ParserNumericInstr, i32_trunc_f64_s){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I32TruncF64S>));
+  EXPECT_NE(std::get_if<I32TruncF64SInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i32_trunc_f64_u){
@@ -912,8 +813,7 @@ TEST(unittest_ParserNumericInstr, i32_trunc_f64_u){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I32TruncF64U>));
+  EXPECT_NE(std::get_if<I32TruncF64UInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i64_trunc_f32_s){
@@ -921,8 +821,7 @@ TEST(unittest_ParserNumericInstr, i64_trunc_f32_s){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I64TruncF32S>));
+  EXPECT_NE(std::get_if<I64TruncF32SInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i64_trunc_f32_u){
@@ -930,8 +829,7 @@ TEST(unittest_ParserNumericInstr, i64_trunc_f32_u){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I64TruncF32U>));
+  EXPECT_NE(std::get_if<I64TruncF32UInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i64_trunc_f64_s){
@@ -939,8 +837,7 @@ TEST(unittest_ParserNumericInstr, i64_trunc_f64_s){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I64TruncF64S>));
+  EXPECT_NE(std::get_if<I64TruncF64SInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i64_trunc_f64_u){
@@ -948,8 +845,7 @@ TEST(unittest_ParserNumericInstr, i64_trunc_f64_u){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I64TruncF64U>));
+  EXPECT_NE(std::get_if<I64TruncF64UInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i64_extend_i32_s){
@@ -957,8 +853,7 @@ TEST(unittest_ParserNumericInstr, i64_extend_i32_s){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I64ExtendI32S>));
+  EXPECT_NE(std::get_if<I64ExtendI32SInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i64_extend_i32_u){
@@ -966,8 +861,7 @@ TEST(unittest_ParserNumericInstr, i64_extend_i32_u){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I64ExtendI32U>));
+  EXPECT_NE(std::get_if<I64ExtendI32UInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f32_convert_i32_s){
@@ -975,8 +869,7 @@ TEST(unittest_ParserNumericInstr, f32_convert_i32_s){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F32ConvertI32S>));
+  EXPECT_NE(std::get_if<F32ConvertI32SInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f32_convert_i32_u){
@@ -984,8 +877,7 @@ TEST(unittest_ParserNumericInstr, f32_convert_i32_u){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F32ConvertI32U>));
+  EXPECT_NE(std::get_if<F32ConvertI32UInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f32_convert_i64_s){
@@ -993,8 +885,7 @@ TEST(unittest_ParserNumericInstr, f32_convert_i64_s){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F32ConvertI64S>));
+  EXPECT_NE(std::get_if<F32ConvertI64SInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f32_convert_i64_u){
@@ -1002,8 +893,7 @@ TEST(unittest_ParserNumericInstr, f32_convert_i64_u){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F32ConvertI64U>));
+  EXPECT_NE(std::get_if<F32ConvertI64UInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f64_convert_i32_s){
@@ -1011,8 +901,7 @@ TEST(unittest_ParserNumericInstr, f64_convert_i32_s){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F64ConvertI32S>));
+  EXPECT_NE(std::get_if<F64ConvertI32SInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f64_convert_i32_u){
@@ -1020,8 +909,7 @@ TEST(unittest_ParserNumericInstr, f64_convert_i32_u){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F64ConvertI32U>));
+  EXPECT_NE(std::get_if<F64ConvertI32UInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f64_convert_i64_s){
@@ -1029,8 +917,7 @@ TEST(unittest_ParserNumericInstr, f64_convert_i64_s){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F64ConvertI64S>));
+  EXPECT_NE(std::get_if<F64ConvertI64SInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f64_convert_i64_u){
@@ -1038,8 +925,7 @@ TEST(unittest_ParserNumericInstr, f64_convert_i64_u){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F64ConvertI64U>));
+  EXPECT_NE(std::get_if<F64ConvertI64UInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f32_demote_f64){
@@ -1047,8 +933,7 @@ TEST(unittest_ParserNumericInstr, f32_demote_f64){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F32DemoteF64>));
+  EXPECT_NE(std::get_if<F32DemoteF64Instr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f64_promote_f32){
@@ -1056,8 +941,7 @@ TEST(unittest_ParserNumericInstr, f64_promote_f32){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F64PromoteF32>));
+  EXPECT_NE(std::get_if<F64PromoteF32Instr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i32_reinterpret_f32){
@@ -1065,8 +949,7 @@ TEST(unittest_ParserNumericInstr, i32_reinterpret_f32){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I32ReinterpretF32>));
+  EXPECT_NE(std::get_if<I32ReinterpretF32Instr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, i64_reinterpret_f64){
@@ -1074,8 +957,7 @@ TEST(unittest_ParserNumericInstr, i64_reinterpret_f64){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::I64ReinterpretF64>));
+  EXPECT_NE(std::get_if<I64ReinterpretF64Instr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f32_reinterpret_i32){
@@ -1083,8 +965,7 @@ TEST(unittest_ParserNumericInstr, f32_reinterpret_i32){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F32ReinterpretI32>));
+  EXPECT_NE(std::get_if<F32ReinterpretI32Instr>(&result), nullptr);
 }
 
 TEST(unittest_ParserNumericInstr, f64_reinterpret_i64){
@@ -1092,6 +973,5 @@ TEST(unittest_ParserNumericInstr, f64_reinterpret_i64){
   ParserContext context(data);
   ParserNumericInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::F64ReinterpretI64>));
+  EXPECT_NE(std::get_if<F64ReinterpretI64Instr>(&result), nullptr);
 }

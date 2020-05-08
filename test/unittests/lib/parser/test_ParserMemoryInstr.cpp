@@ -1,11 +1,11 @@
 #include <gtest/gtest.h>
 
-#include <any>
+#include <variant>
 #include <vector>
 #include <Error.hpp>
 #include <parser/ParserContext.hpp>
 #include <parser/ParserMemoryInstr.hpp>
-#include <structure/Instr.hpp>
+#include <structure/BaseInstr.hpp>
 #include <structure/MemoryInstr.hpp>
 #include <Helper.hpp>
 
@@ -14,10 +14,9 @@ TEST(unittest_ParserMemoryInstr, with_align_offset){
   ParserContext context(data);
   ParserMemoryInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(MemoryInstr<InstrType::I32Load>));
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I32Load>>(result).offset, 3);
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I32Load>>(result).align, 2);
+  I32LoadInstr* instr = std::get_if<I32LoadInstr>(&result);
+  EXPECT_EQ(instr->offset, 3);
+  EXPECT_EQ(instr->align, 2);
 }
 
 TEST(unittest_ParserMemoryInstr, with_offset){
@@ -25,10 +24,9 @@ TEST(unittest_ParserMemoryInstr, with_offset){
   ParserContext context(data);
   ParserMemoryInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(MemoryInstr<InstrType::I32Load>));
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I32Load>>(result).offset, 3);
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I32Load>>(result).align, 2);
+  I32LoadInstr* instr = std::get_if<I32LoadInstr>(&result);
+  EXPECT_EQ(instr->offset, 3);
+  EXPECT_EQ(instr->align, 2);
 }
 
 TEST(unittest_ParserMemoryInstr, with_align){
@@ -36,10 +34,9 @@ TEST(unittest_ParserMemoryInstr, with_align){
   ParserContext context(data);
   ParserMemoryInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(MemoryInstr<InstrType::I32Load>));
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I32Load>>(result).align, 2);
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I32Load>>(result).offset, 0);
+  I32LoadInstr* instr = std::get_if<I32LoadInstr>(&result);
+  EXPECT_EQ(instr->align, 2);
+  EXPECT_EQ(instr->offset, 0);
 }
 
 TEST(unittest_ParserMemoryInstr, reverse_align_offset){
@@ -47,10 +44,9 @@ TEST(unittest_ParserMemoryInstr, reverse_align_offset){
   ParserContext context(data);
   ParserMemoryInstr result(context);
   EXPECT_EQ(context.cursor, data.begin() + 16);
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(MemoryInstr<InstrType::I32Load>));
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I32Load>>(result).align, 2);
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I32Load>>(result).offset, 0);
+  I32LoadInstr* instr = std::get_if<I32LoadInstr>(&result);
+  EXPECT_EQ(instr->align, 2);
+  EXPECT_EQ(instr->offset, 0);
 }
 
 TEST(unittest_ParserMemoryInstr, i32_load){
@@ -58,10 +54,9 @@ TEST(unittest_ParserMemoryInstr, i32_load){
   ParserContext context(data);
   ParserMemoryInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(MemoryInstr<InstrType::I32Load>));
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I32Load>>(result).offset, 0);
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I32Load>>(result).align, 2);
+  I32LoadInstr* instr = std::get_if<I32LoadInstr>(&result);
+  EXPECT_EQ(instr->offset, 0);
+  EXPECT_EQ(instr->align, 2);
 }
 
 TEST(unittest_ParserMemoryInstr, i64_load){
@@ -69,10 +64,9 @@ TEST(unittest_ParserMemoryInstr, i64_load){
   ParserContext context(data);
   ParserMemoryInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(MemoryInstr<InstrType::I64Load>));
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I64Load>>(result).offset, 0);
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I64Load>>(result).align, 3);
+  I64LoadInstr* instr = std::get_if<I64LoadInstr>(&result);
+  EXPECT_EQ(instr->offset, 0);
+  EXPECT_EQ(instr->align, 3);
 }
 
 TEST(unittest_ParserMemoryInstr, f32_load){
@@ -80,10 +74,9 @@ TEST(unittest_ParserMemoryInstr, f32_load){
   ParserContext context(data);
   ParserMemoryInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(MemoryInstr<InstrType::F32Load>));
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::F32Load>>(result).offset, 0);
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::F32Load>>(result).align, 2);
+  F32LoadInstr* instr = std::get_if<F32LoadInstr>(&result);
+  EXPECT_EQ(instr->offset, 0);
+  EXPECT_EQ(instr->align, 2);
 }
 
 TEST(unittest_ParserMemoryInstr, f64_load){
@@ -91,10 +84,9 @@ TEST(unittest_ParserMemoryInstr, f64_load){
   ParserContext context(data);
   ParserMemoryInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(MemoryInstr<InstrType::F64Load>));
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::F64Load>>(result).offset, 0);
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::F64Load>>(result).align, 3);
+  F64LoadInstr* instr = std::get_if<F64LoadInstr>(&result);
+  EXPECT_EQ(instr->offset, 0);
+  EXPECT_EQ(instr->align, 3);
 }
 
 TEST(unittest_ParserMemoryInstr, i32_load8_s){
@@ -102,10 +94,9 @@ TEST(unittest_ParserMemoryInstr, i32_load8_s){
   ParserContext context(data);
   ParserMemoryInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(MemoryInstr<InstrType::I32Load8S>));
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I32Load8S>>(result).offset, 0);
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I32Load8S>>(result).align, 2);
+  I32Load8SInstr* instr = std::get_if<I32Load8SInstr>(&result);
+  EXPECT_EQ(instr->offset, 0);
+  EXPECT_EQ(instr->align, 2);
 }
 
 TEST(unittest_ParserMemoryInstr, i32_load8_u){
@@ -113,10 +104,9 @@ TEST(unittest_ParserMemoryInstr, i32_load8_u){
   ParserContext context(data);
   ParserMemoryInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(MemoryInstr<InstrType::I32Load8U>));
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I32Load8U>>(result).offset, 0);
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I32Load8U>>(result).align, 2);
+  I32Load8UInstr* instr = std::get_if<I32Load8UInstr>(&result);
+  EXPECT_EQ(instr->offset, 0);
+  EXPECT_EQ(instr->align, 2);
 }
 
 TEST(unittest_ParserMemoryInstr, i32_load16_s){
@@ -124,10 +114,9 @@ TEST(unittest_ParserMemoryInstr, i32_load16_s){
   ParserContext context(data);
   ParserMemoryInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(MemoryInstr<InstrType::I32Load16S>));
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I32Load16S>>(result).offset, 0);
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I32Load16S>>(result).align, 2);
+  I32Load16SInstr* instr = std::get_if<I32Load16SInstr>(&result);
+  EXPECT_EQ(instr->offset, 0);
+  EXPECT_EQ(instr->align, 2);
 }
 
 TEST(unittest_ParserMemoryInstr, i32_load16_u){
@@ -135,10 +124,9 @@ TEST(unittest_ParserMemoryInstr, i32_load16_u){
   ParserContext context(data);
   ParserMemoryInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(MemoryInstr<InstrType::I32Load16U>));
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I32Load16U>>(result).offset, 0);
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I32Load16U>>(result).align, 2);
+  I32Load16UInstr* instr = std::get_if<I32Load16UInstr>(&result);
+  EXPECT_EQ(instr->offset, 0);
+  EXPECT_EQ(instr->align, 2);
 }
 
 TEST(unittest_ParserMemoryInstr, i64_load8_s){
@@ -146,10 +134,9 @@ TEST(unittest_ParserMemoryInstr, i64_load8_s){
   ParserContext context(data);
   ParserMemoryInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(MemoryInstr<InstrType::I64Load8S>));
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I64Load8S>>(result).offset, 0);
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I64Load8S>>(result).align, 3);
+  I64Load8SInstr* instr = std::get_if<I64Load8SInstr>(&result);
+  EXPECT_EQ(instr->offset, 0);
+  EXPECT_EQ(instr->align, 3);
 }
 
 TEST(unittest_ParserMemoryInstr, i64_load8_u){
@@ -157,10 +144,9 @@ TEST(unittest_ParserMemoryInstr, i64_load8_u){
   ParserContext context(data);
   ParserMemoryInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(MemoryInstr<InstrType::I64Load8U>));
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I64Load8U>>(result).offset, 0);
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I64Load8U>>(result).align, 3);
+  I64Load8UInstr* instr = std::get_if<I64Load8UInstr>(&result);
+  EXPECT_EQ(instr->offset, 0);
+  EXPECT_EQ(instr->align, 3);
 }
 
 TEST(unittest_ParserMemoryInstr, i64_load16_s){
@@ -168,10 +154,9 @@ TEST(unittest_ParserMemoryInstr, i64_load16_s){
   ParserContext context(data);
   ParserMemoryInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(MemoryInstr<InstrType::I64Load16S>));
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I64Load16S>>(result).offset, 0);
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I64Load16S>>(result).align, 3);
+  I64Load16SInstr* instr = std::get_if<I64Load16SInstr>(&result);
+  EXPECT_EQ(instr->offset, 0);
+  EXPECT_EQ(instr->align, 3);
 }
 
 TEST(unittest_ParserMemoryInstr, i64_load16_u){
@@ -179,10 +164,9 @@ TEST(unittest_ParserMemoryInstr, i64_load16_u){
   ParserContext context(data);
   ParserMemoryInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(MemoryInstr<InstrType::I64Load16U>));
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I64Load16U>>(result).offset, 0);
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I64Load16U>>(result).align, 3);
+  I64Load16UInstr* instr = std::get_if<I64Load16UInstr>(&result);
+  EXPECT_EQ(instr->offset, 0);
+  EXPECT_EQ(instr->align, 3);
 }
 
 TEST(unittest_ParserMemoryInstr, i64_load32_s){
@@ -190,10 +174,9 @@ TEST(unittest_ParserMemoryInstr, i64_load32_s){
   ParserContext context(data);
   ParserMemoryInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(MemoryInstr<InstrType::I64Load32S>));
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I64Load32S>>(result).offset, 0);
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I64Load32S>>(result).align, 3);
+  I64Load32SInstr* instr = std::get_if<I64Load32SInstr>(&result);
+  EXPECT_EQ(instr->offset, 0);
+  EXPECT_EQ(instr->align, 3);
 }
 
 TEST(unittest_ParserMemoryInstr, i64_load32_u){
@@ -201,10 +184,9 @@ TEST(unittest_ParserMemoryInstr, i64_load32_u){
   ParserContext context(data);
   ParserMemoryInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(MemoryInstr<InstrType::I64Load32U>));
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I64Load32U>>(result).offset, 0);
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I64Load32U>>(result).align, 3);
+  I64Load32UInstr* instr = std::get_if<I64Load32UInstr>(&result);
+  EXPECT_EQ(instr->offset, 0);
+  EXPECT_EQ(instr->align, 3);
 }
 
 TEST(unittest_ParserMemoryInstr, i32_store){
@@ -212,10 +194,9 @@ TEST(unittest_ParserMemoryInstr, i32_store){
   ParserContext context(data);
   ParserMemoryInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(MemoryInstr<InstrType::I32Store>));
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I32Store>>(result).offset, 0);
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I32Store>>(result).align, 2);
+  I32StoreInstr* instr = std::get_if<I32StoreInstr>(&result);
+  EXPECT_EQ(instr->offset, 0);
+  EXPECT_EQ(instr->align, 2);
 }
 
 TEST(unittest_ParserMemoryInstr, i64_store){
@@ -223,10 +204,9 @@ TEST(unittest_ParserMemoryInstr, i64_store){
   ParserContext context(data);
   ParserMemoryInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(MemoryInstr<InstrType::I64Store>));
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I64Store>>(result).offset, 0);
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I64Store>>(result).align, 3);
+  I64StoreInstr* instr = std::get_if<I64StoreInstr>(&result);
+  EXPECT_EQ(instr->offset, 0);
+  EXPECT_EQ(instr->align, 3);
 }
 
 TEST(unittest_ParserMemoryInstr, f32_store){
@@ -234,10 +214,9 @@ TEST(unittest_ParserMemoryInstr, f32_store){
   ParserContext context(data);
   ParserMemoryInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(MemoryInstr<InstrType::F32Store>));
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::F32Store>>(result).offset, 0);
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::F32Store>>(result).align, 2);
+  F32StoreInstr* instr = std::get_if<F32StoreInstr>(&result);
+  EXPECT_EQ(instr->offset, 0);
+  EXPECT_EQ(instr->align, 2);
 }
 
 TEST(unittest_ParserMemoryInstr, f64_store){
@@ -245,10 +224,9 @@ TEST(unittest_ParserMemoryInstr, f64_store){
   ParserContext context(data);
   ParserMemoryInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(MemoryInstr<InstrType::F64Store>));
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::F64Store>>(result).offset, 0);
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::F64Store>>(result).align, 3);
+  F64StoreInstr* instr = std::get_if<F64StoreInstr>(&result);
+  EXPECT_EQ(instr->offset, 0);
+  EXPECT_EQ(instr->align, 3);
 }
 
 TEST(unittest_ParserMemoryInstr, i32_store8){
@@ -256,10 +234,9 @@ TEST(unittest_ParserMemoryInstr, i32_store8){
   ParserContext context(data);
   ParserMemoryInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(MemoryInstr<InstrType::I32Store8>));
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I32Store8>>(result).offset, 0);
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I32Store8>>(result).align, 2);
+  I32Store8Instr* instr = std::get_if<I32Store8Instr>(&result);
+  EXPECT_EQ(instr->offset, 0);
+  EXPECT_EQ(instr->align, 2);
 }
 
 TEST(unittest_ParserMemoryInstr, i32_store16){
@@ -267,10 +244,9 @@ TEST(unittest_ParserMemoryInstr, i32_store16){
   ParserContext context(data);
   ParserMemoryInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(MemoryInstr<InstrType::I32Store16>));
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I32Store16>>(result).offset, 0);
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I32Store16>>(result).align, 2);
+  I32Store16Instr* instr = std::get_if<I32Store16Instr>(&result);
+  EXPECT_EQ(instr->offset, 0);
+  EXPECT_EQ(instr->align, 2);
 }
 
 TEST(unittest_ParserMemoryInstr, i64_store8){
@@ -278,10 +254,9 @@ TEST(unittest_ParserMemoryInstr, i64_store8){
   ParserContext context(data);
   ParserMemoryInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(MemoryInstr<InstrType::I64Store8>));
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I64Store8>>(result).offset, 0);
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I64Store8>>(result).align, 3);
+  I64Store8Instr* instr = std::get_if<I64Store8Instr>(&result);
+  EXPECT_EQ(instr->offset, 0);
+  EXPECT_EQ(instr->align, 3);
 }
 
 TEST(unittest_ParserMemoryInstr, i64_store16){
@@ -289,10 +264,9 @@ TEST(unittest_ParserMemoryInstr, i64_store16){
   ParserContext context(data);
   ParserMemoryInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(MemoryInstr<InstrType::I64Store16>));
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I64Store16>>(result).offset, 0);
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I64Store16>>(result).align, 3);
+  I64Store16Instr* instr = std::get_if<I64Store16Instr>(&result);
+  EXPECT_EQ(instr->offset, 0);
+  EXPECT_EQ(instr->align, 3);
 }
 
 TEST(unittest_ParserMemoryInstr, i64_store32){
@@ -300,10 +274,9 @@ TEST(unittest_ParserMemoryInstr, i64_store32){
   ParserContext context(data);
   ParserMemoryInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(MemoryInstr<InstrType::I64Store32>));
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I64Store32>>(result).offset, 0);
-  EXPECT_EQ(std::any_cast<MemoryInstr<InstrType::I64Store32>>(result).align, 3);
+  I64Store32Instr* instr = std::get_if<I64Store32Instr>(&result);
+  EXPECT_EQ(instr->offset, 0);
+  EXPECT_EQ(instr->align, 3);
 }
 
 TEST(unittest_ParserMemoryInstr, memory_size){
@@ -311,8 +284,8 @@ TEST(unittest_ParserMemoryInstr, memory_size){
   ParserContext context(data);
   ParserMemoryInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(MemoryInstr<InstrType::MemorySize>));
+  MemorySizeInstr* instr = std::get_if<MemorySizeInstr>(&result);
+  EXPECT_NE(instr, nullptr);
 }
 
 TEST(unittest_ParserMemoryInstr, memory_grow){
@@ -320,6 +293,6 @@ TEST(unittest_ParserMemoryInstr, memory_grow){
   ParserContext context(data);
   ParserMemoryInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(MemoryInstr<InstrType::MemoryGrow>));
+  MemoryGrowInstr* instr = std::get_if<MemoryGrowInstr>(&result);
+  EXPECT_NE(instr, nullptr);
 }

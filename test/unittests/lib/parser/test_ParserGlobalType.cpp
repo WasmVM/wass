@@ -14,7 +14,7 @@ TEST(unittest_ParserGlobalType, immutable){
   ParserGlobalType result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  GlobalType globalType = std::any_cast<GlobalType>(result);
+  GlobalType globalType = *result;
   EXPECT_EQ(globalType.type, ValueType::i32);
   EXPECT_TRUE(globalType.immutable);
 }
@@ -25,7 +25,7 @@ TEST(unittest_ParserGlobalType, Mutable){
   ParserGlobalType result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  GlobalType globalType = std::any_cast<GlobalType>(result);
+  GlobalType globalType = *result;
   EXPECT_EQ(globalType.type, ValueType::i64);
   EXPECT_FALSE(globalType.immutable);
 }

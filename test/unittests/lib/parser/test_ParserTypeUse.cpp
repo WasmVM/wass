@@ -16,7 +16,7 @@ TEST(unittest_ParserTypeUse, empty){
   ParserTypeUse result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  TypeUse typeUse = std::any_cast<TypeUse>(result);
+  TypeUse typeUse = *result;
   EXPECT_EQ(typeUse.params.size(), 0);
   EXPECT_EQ(typeUse.results.size(), 0);
   EXPECT_EQ(typeUse.paramMap.size(), 0);
@@ -29,7 +29,7 @@ TEST(unittest_ParserTypeUse, param_only){
   ParserTypeUse result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  TypeUse typeUse = std::any_cast<TypeUse>(result);
+  TypeUse typeUse = *result;
   EXPECT_EQ(typeUse.params.size(), 2);
   EXPECT_EQ(typeUse.params[0], ValueType::f32);
   EXPECT_EQ(typeUse.params[1], ValueType::i64);
@@ -44,7 +44,7 @@ TEST(unittest_ParserTypeUse, more_param){
   ParserTypeUse result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  TypeUse typeUse = std::any_cast<TypeUse>(result);
+  TypeUse typeUse = *result;
   EXPECT_EQ(typeUse.params.size(), 2);
   EXPECT_EQ(typeUse.params[0], ValueType::f32);
   EXPECT_EQ(typeUse.params[1], ValueType::i64);
@@ -59,7 +59,7 @@ TEST(unittest_ParserTypeUse, result_only){
   ParserTypeUse result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  TypeUse typeUse = std::any_cast<TypeUse>(result);
+  TypeUse typeUse = *result;
   EXPECT_EQ(typeUse.params.size(), 0);
   EXPECT_EQ(typeUse.results.size(), 2);
   EXPECT_EQ(typeUse.results[0], ValueType::f32);
@@ -74,7 +74,7 @@ TEST(unittest_ParserTypeUse, more_result){
   ParserTypeUse result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  TypeUse typeUse = std::any_cast<TypeUse>(result);
+  TypeUse typeUse = *result;
   EXPECT_EQ(typeUse.params.size(), 0);
   EXPECT_EQ(typeUse.results.size(), 2);
   EXPECT_EQ(typeUse.results[0], ValueType::f32);
@@ -89,7 +89,7 @@ TEST(unittest_ParserTypeUse, param_result){
   ParserTypeUse result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  TypeUse typeUse = std::any_cast<TypeUse>(result);
+  TypeUse typeUse = *result;
   EXPECT_EQ(typeUse.params.size(), 2);
   EXPECT_EQ(typeUse.params[0], ValueType::i32);
   EXPECT_EQ(typeUse.params[1], ValueType::f64);
@@ -106,7 +106,7 @@ TEST(unittest_ParserTypeUse, type_index){
   ParserTypeUse result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  TypeUse typeUse = std::any_cast<TypeUse>(result);
+  TypeUse typeUse = *result;
   EXPECT_EQ(typeUse.params.size(), 0);
   EXPECT_EQ(typeUse.results.size(), 0);
   EXPECT_EQ(typeUse.paramMap.size(), 0);
@@ -120,7 +120,7 @@ TEST(unittest_ParserTypeUse, type_identifier){
   ParserTypeUse result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  TypeUse typeUse = std::any_cast<TypeUse>(result);
+  TypeUse typeUse = *result;
   EXPECT_EQ(typeUse.params.size(), 0);
   EXPECT_EQ(typeUse.results.size(), 0);
   EXPECT_EQ(typeUse.paramMap.size(), 0);
@@ -134,7 +134,7 @@ TEST(unittest_ParserTypeUse, type_param){
   ParserTypeUse result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  TypeUse typeUse = std::any_cast<TypeUse>(result);
+  TypeUse typeUse = *result;
   EXPECT_EQ(typeUse.params.size(), 1);
   EXPECT_EQ(typeUse.params[0], ValueType::i64);
   EXPECT_EQ(typeUse.results.size(), 0);
@@ -149,7 +149,7 @@ TEST(unittest_ParserTypeUse, type_result){
   ParserTypeUse result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  TypeUse typeUse = std::any_cast<TypeUse>(result);
+  TypeUse typeUse = *result;
   EXPECT_EQ(typeUse.params.size(), 0);
   EXPECT_EQ(typeUse.results.size(), 1);
   EXPECT_EQ(typeUse.results[0], ValueType::i64);
@@ -164,7 +164,7 @@ TEST(unittest_ParserTypeUse, type_param_result){
   ParserTypeUse result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  TypeUse typeUse = std::any_cast<TypeUse>(result);
+  TypeUse typeUse = *result;
   EXPECT_EQ(typeUse.params.size(), 1);
   EXPECT_EQ(typeUse.params[0], ValueType::f32);
   EXPECT_EQ(typeUse.results.size(), 1);

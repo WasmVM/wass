@@ -13,7 +13,7 @@ TEST(unittest_ParserValue, type_i32){
   ParserValueType result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<ValueType>(result), ValueType::i32);
+  EXPECT_EQ(*result, ValueType::i32);
 }
 
 TEST(unittest_ParserValue, type_i64){
@@ -22,7 +22,7 @@ TEST(unittest_ParserValue, type_i64){
   ParserValueType result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<ValueType>(result), ValueType::i64);
+  EXPECT_EQ(*result, ValueType::i64);
 }
 
 TEST(unittest_ParserValue, type_f32){
@@ -31,7 +31,7 @@ TEST(unittest_ParserValue, type_f32){
   ParserValueType result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<ValueType>(result), ValueType::f32);
+  EXPECT_EQ(*result, ValueType::f32);
 }
 
 TEST(unittest_ParserValue, type_f64){
@@ -40,7 +40,7 @@ TEST(unittest_ParserValue, type_f64){
   ParserValueType result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<ValueType>(result), ValueType::f64);
+  EXPECT_EQ(*result, ValueType::f64);
 }
 
 TEST(unittest_ParserValue, type_none){

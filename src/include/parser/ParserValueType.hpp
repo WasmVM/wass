@@ -1,11 +1,11 @@
 #ifndef GUARD_wass_parser_ParserValueType
 #define GUARD_wass_parser_ParserValueType
 
-#include <any>
+#include <optional>
 #include <structure/Value.hpp>
 #include <parser/ParserContext.hpp>
 
-class ParserValueType: public std::any{
+class ParserValueType: public std::optional<ValueType>{
 public:
   ParserValueType(ParserContext& context);
 };

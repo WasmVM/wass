@@ -1,10 +1,11 @@
 #ifndef GUARD_wass_parser_ParserTypeUse
 #define GUARD_wass_parser_ParserTypeUse
 
-#include <any>
+#include <optional>
+#include <structure/TypeUse.hpp>
 #include <parser/ParserContext.hpp>
 
-class ParserTypeUse : public std::any{
+class ParserTypeUse : public std::optional<TypeUse>{
 public:
   ParserTypeUse(ParserContext& context);
 };

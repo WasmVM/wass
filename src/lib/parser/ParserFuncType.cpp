@@ -1,6 +1,6 @@
 #include <parser/ParserFuncType.hpp>
 
-#include <any>
+#include <optional>
 #include <vector>
 #include <Util.hpp>
 #include <Error.hpp>
@@ -48,7 +48,7 @@ ParserFuncType::ParserFuncType(ParserContext& parent_context){
         Comment::skip(context);
         if((*context.cursor) == ')'){
           ++context.cursor;
-          this->std::any::operator=(funcType);
+          this->std::optional<FuncType>::operator=(funcType);
           parent_context = context;
         }else{
           throw Error<ErrorType::SyntaxError>("expected ')'");

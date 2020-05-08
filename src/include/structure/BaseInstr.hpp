@@ -1,7 +1,7 @@
-#ifndef GUARD_wass_structure_Instr
-#define GUARD_wass_structure_Instr
+#ifndef GUARD_wass_structure_BaseInstr
+#define GUARD_wass_structure_BaseInstr
 
-#include <any>
+#include <variant>
 
 enum class InstrType{
   Block,
@@ -177,8 +177,9 @@ enum class InstrType{
 };
 
 template<InstrType T>
-class Instr{
+class BaseInstr{
+public:
+  BaseInstr() = default;
   const InstrType type = T;
 };
-
 #endif

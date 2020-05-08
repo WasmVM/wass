@@ -1,10 +1,11 @@
 #include <gtest/gtest.h>
 
+#include <variant>
 #include <vector>
 #include <Error.hpp>
 #include <parser/ParserContext.hpp>
 #include <parser/ParserParamInstr.hpp>
-#include <structure/Instr.hpp>
+#include <structure/BaseInstr.hpp>
 #include <Helper.hpp>
 
 TEST(unittest_ParserParamInstr, Select){
@@ -12,8 +13,7 @@ TEST(unittest_ParserParamInstr, Select){
   ParserContext context(data);
   ParserParamInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::Select>));
+  EXPECT_NE(std::get_if<SelectInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserParamInstr, drop){
@@ -21,6 +21,5 @@ TEST(unittest_ParserParamInstr, drop){
   ParserContext context(data);
   ParserParamInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::Drop>));
+  EXPECT_NE(std::get_if<DropInstr>(&result), nullptr);
 }

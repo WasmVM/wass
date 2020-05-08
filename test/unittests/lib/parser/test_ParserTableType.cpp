@@ -12,8 +12,8 @@ TEST(unittest_ParserTableType, min_only){
   ParserTableType result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<Limit>(result).min, 24);
-  EXPECT_FALSE(std::any_cast<Limit>(result).max.has_value());
+  EXPECT_EQ(result->min, 24);
+  EXPECT_FALSE(result->max.has_value());
 }
 
 TEST(unittest_ParserTableType, min_max){
@@ -22,9 +22,9 @@ TEST(unittest_ParserTableType, min_max){
   ParserTableType result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<Limit>(result).min, 24);
-  EXPECT_TRUE(std::any_cast<Limit>(result).max.has_value());
-  EXPECT_EQ(std::any_cast<Limit>(result).max, 36);
+  EXPECT_EQ(result->min, 24);
+  EXPECT_TRUE(result->max.has_value());
+  EXPECT_EQ(result->max, 36);
 }
 
 TEST(unittest_ParserTableType, no_funcref){

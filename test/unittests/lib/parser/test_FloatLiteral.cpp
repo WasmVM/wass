@@ -14,9 +14,8 @@ TEST(unittest_FloatLiteral, nan){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  double value = std::any_cast<double>(result);
   double expect = std::nan("");
-  EXPECT_BITWISE_EQ(value, expect);
+  EXPECT_BITWISE_EQ(*result, expect);
 }
 
 TEST(unittest_FloatLiteral, minus_nan){
@@ -25,9 +24,8 @@ TEST(unittest_FloatLiteral, minus_nan){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  double value = std::any_cast<double>(result);
   double expect = -std::nan("");
-  EXPECT_BITWISE_EQ(value, expect);
+  EXPECT_BITWISE_EQ(*result, expect);
 }
 
 TEST(unittest_FloatLiteral, plus_nan){
@@ -36,9 +34,8 @@ TEST(unittest_FloatLiteral, plus_nan){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  double value = std::any_cast<double>(result);
   double expect = std::nan("");
-  EXPECT_BITWISE_EQ(value, expect);
+  EXPECT_BITWISE_EQ(*result, expect);
 }
 
 TEST(unittest_FloatLiteral, misc_nan){
@@ -47,9 +44,8 @@ TEST(unittest_FloatLiteral, misc_nan){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  double value = std::any_cast<double>(result);
   double expect = std::nan("0x012345");
-  EXPECT_BITWISE_EQ(value, expect);
+  EXPECT_BITWISE_EQ(*result, expect);
 }
 
 TEST(unittest_FloatLiteral, plus_misc_nan){
@@ -58,9 +54,8 @@ TEST(unittest_FloatLiteral, plus_misc_nan){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  double value = std::any_cast<double>(result);
   double expect = std::nan("0x304050");
-  EXPECT_BITWISE_EQ(value, expect);
+  EXPECT_BITWISE_EQ(*result, expect);
 }
 
 TEST(unittest_FloatLiteral, minus_misc_nan){
@@ -69,9 +64,8 @@ TEST(unittest_FloatLiteral, minus_misc_nan){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  double value = std::any_cast<double>(result);
   double expect = std::nan("0x2abcde");
-  EXPECT_BITWISE_EQ(value, expect);
+  EXPECT_BITWISE_EQ(*result, expect);
 }
 
 TEST(unittest_FloatLiteral, inf){
@@ -80,9 +74,8 @@ TEST(unittest_FloatLiteral, inf){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  double value = std::any_cast<double>(result);
   double expect = std::numeric_limits<double>::infinity();
-  EXPECT_BITWISE_EQ(value, expect);
+  EXPECT_BITWISE_EQ(*result, expect);
 }
 
 TEST(unittest_FloatLiteral, plus_inf){
@@ -91,9 +84,8 @@ TEST(unittest_FloatLiteral, plus_inf){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  double value = std::any_cast<double>(result);
   double expect = std::numeric_limits<double>::infinity();
-  EXPECT_BITWISE_EQ(value, expect);
+  EXPECT_BITWISE_EQ(*result, expect);
 }
 
 TEST(unittest_FloatLiteral, minus_inf){
@@ -102,9 +94,8 @@ TEST(unittest_FloatLiteral, minus_inf){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  double value = std::any_cast<double>(result);
   double expect = -std::numeric_limits<double>::infinity();
-  EXPECT_BITWISE_EQ(value, expect);
+  EXPECT_BITWISE_EQ(*result, expect);
 }
 
 TEST(unittest_FloatLiteral, decimal_integer_only){
@@ -113,7 +104,7 @@ TEST(unittest_FloatLiteral, decimal_integer_only){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_FLOAT_EQ(std::any_cast<double>(result), 23);
+  EXPECT_FLOAT_EQ(*result, 23);
 }
 
 TEST(unittest_FloatLiteral, decimal_integer_with_point){
@@ -122,7 +113,7 @@ TEST(unittest_FloatLiteral, decimal_integer_with_point){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_FLOAT_EQ(std::any_cast<double>(result), 23);
+  EXPECT_FLOAT_EQ(*result, 23);
 }
 
 TEST(unittest_FloatLiteral, decimal_regular){
@@ -131,7 +122,7 @@ TEST(unittest_FloatLiteral, decimal_regular){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_FLOAT_EQ(std::any_cast<double>(result), 12.05);
+  EXPECT_FLOAT_EQ(*result, 12.05);
 }
 
 TEST(unittest_FloatLiteral, plus_decimal){
@@ -140,7 +131,7 @@ TEST(unittest_FloatLiteral, plus_decimal){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_FLOAT_EQ(std::any_cast<double>(result), 12.05);
+  EXPECT_FLOAT_EQ(*result, 12.05);
 }
 
 TEST(unittest_FloatLiteral, minus_decimal){
@@ -149,7 +140,7 @@ TEST(unittest_FloatLiteral, minus_decimal){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_FLOAT_EQ(std::any_cast<double>(result), -12.05);
+  EXPECT_FLOAT_EQ(*result, -12.05);
 }
 
 TEST(unittest_FloatLiteral, decimal_seperator_integer){
@@ -158,7 +149,7 @@ TEST(unittest_FloatLiteral, decimal_seperator_integer){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_FLOAT_EQ(std::any_cast<double>(result), 12.05);
+  EXPECT_FLOAT_EQ(*result, 12.05);
 }
 
 TEST(unittest_FloatLiteral, decimal_seperator_integer_more){
@@ -167,7 +158,7 @@ TEST(unittest_FloatLiteral, decimal_seperator_integer_more){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_FLOAT_EQ(std::any_cast<double>(result), 124.05);
+  EXPECT_FLOAT_EQ(*result, 124.05);
 }
 
 TEST(unittest_FloatLiteral, decimal_seperator_fraction){
@@ -176,7 +167,7 @@ TEST(unittest_FloatLiteral, decimal_seperator_fraction){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_FLOAT_EQ(std::any_cast<double>(result), 12.05);
+  EXPECT_FLOAT_EQ(*result, 12.05);
 }
 
 TEST(unittest_FloatLiteral, decimal_seperator_fraction_more){
@@ -185,7 +176,7 @@ TEST(unittest_FloatLiteral, decimal_seperator_fraction_more){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_FLOAT_EQ(std::any_cast<double>(result), 12.053);
+  EXPECT_FLOAT_EQ(*result, 12.053);
 }
 
 TEST(unittest_FloatLiteral, decimal_seperator_mix){
@@ -194,7 +185,7 @@ TEST(unittest_FloatLiteral, decimal_seperator_mix){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_FLOAT_EQ(std::any_cast<double>(result), 12.053);
+  EXPECT_FLOAT_EQ(*result, 12.053);
 }
 
 TEST(unittest_FloatLiteral, decimal_seperator_mix_more){
@@ -203,7 +194,7 @@ TEST(unittest_FloatLiteral, decimal_seperator_mix_more){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_FLOAT_EQ(std::any_cast<double>(result), 142.0536);
+  EXPECT_FLOAT_EQ(*result, 142.0536);
 }
 
 TEST(unittest_FloatLiteral, decimal_seperator_prefix_plus){
@@ -276,7 +267,7 @@ TEST(unittest_FloatLiteral, decimal_exponent){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_FLOAT_EQ(std::any_cast<double>(result), 4232.5);
+  EXPECT_FLOAT_EQ(*result, 4232.5);
 }
 
 TEST(unittest_FloatLiteral, decimal_upper_exponent){
@@ -285,7 +276,7 @@ TEST(unittest_FloatLiteral, decimal_upper_exponent){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_FLOAT_EQ(std::any_cast<double>(result), 4232.5);
+  EXPECT_FLOAT_EQ(*result, 4232.5);
 }
 
 TEST(unittest_FloatLiteral, decimal_plus_exponent){
@@ -294,7 +285,7 @@ TEST(unittest_FloatLiteral, decimal_plus_exponent){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_FLOAT_EQ(std::any_cast<double>(result), 4232.5);
+  EXPECT_FLOAT_EQ(*result, 4232.5);
 }
 
 TEST(unittest_FloatLiteral, decimal_minus_exponent){
@@ -303,7 +294,7 @@ TEST(unittest_FloatLiteral, decimal_minus_exponent){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_FLOAT_EQ(std::any_cast<double>(result), 1.42325);
+  EXPECT_FLOAT_EQ(*result, 1.42325);
 }
 
 TEST(unittest_FloatLiteral, decimal_exponent_separator){
@@ -312,7 +303,7 @@ TEST(unittest_FloatLiteral, decimal_exponent_separator){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_FLOAT_EQ(std::any_cast<double>(result), 1.42325);
+  EXPECT_FLOAT_EQ(*result, 1.42325);
 }
 
 TEST(unittest_FloatLiteral, decimal_exponent_separator_more){
@@ -321,7 +312,7 @@ TEST(unittest_FloatLiteral, decimal_exponent_separator_more){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_FLOAT_EQ(std::any_cast<double>(result), 2.325e20);
+  EXPECT_FLOAT_EQ(*result, 2.325e20);
 }
 
 TEST(unittest_FloatLiteral, decimal_seperator_prefix_exponent){
@@ -354,7 +345,7 @@ TEST(unittest_FloatLiteral, hex_integer_only){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_FLOAT_EQ(std::any_cast<double>(result), 0x2e);
+  EXPECT_FLOAT_EQ(*result, 0x2e);
 }
 
 TEST(unittest_FloatLiteral, hex_integer_with_point){
@@ -363,7 +354,7 @@ TEST(unittest_FloatLiteral, hex_integer_with_point){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_FLOAT_EQ(std::any_cast<double>(result), 0x2e);
+  EXPECT_FLOAT_EQ(*result, 0x2e);
 }
 
 TEST(unittest_FloatLiteral, hex_regular){
@@ -372,7 +363,7 @@ TEST(unittest_FloatLiteral, hex_regular){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_FLOAT_EQ(std::any_cast<double>(result), 28.25);
+  EXPECT_FLOAT_EQ(*result, 28.25);
 }
 
 TEST(unittest_FloatLiteral, plus_hex){
@@ -381,7 +372,7 @@ TEST(unittest_FloatLiteral, plus_hex){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_FLOAT_EQ(std::any_cast<double>(result), 28.25);
+  EXPECT_FLOAT_EQ(*result, 28.25);
 }
 
 TEST(unittest_FloatLiteral, minus_hex){
@@ -390,7 +381,7 @@ TEST(unittest_FloatLiteral, minus_hex){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_FLOAT_EQ(std::any_cast<double>(result), -28.25);
+  EXPECT_FLOAT_EQ(*result, -28.25);
 }
 
 TEST(unittest_FloatLiteral, hex_seperator_integer){
@@ -399,7 +390,7 @@ TEST(unittest_FloatLiteral, hex_seperator_integer){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_FLOAT_EQ(std::any_cast<double>(result), 28.03125);
+  EXPECT_FLOAT_EQ(*result, 28.03125);
 }
 
 TEST(unittest_FloatLiteral, hex_seperator_integer_more){
@@ -408,7 +399,7 @@ TEST(unittest_FloatLiteral, hex_seperator_integer_more){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_FLOAT_EQ(std::any_cast<double>(result), 288.03125);
+  EXPECT_FLOAT_EQ(*result, 288.03125);
 }
 
 TEST(unittest_FloatLiteral, hex_seperator_fraction){
@@ -417,7 +408,7 @@ TEST(unittest_FloatLiteral, hex_seperator_fraction){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_FLOAT_EQ(std::any_cast<double>(result), 28.03125);
+  EXPECT_FLOAT_EQ(*result, 28.03125);
 }
 
 TEST(unittest_FloatLiteral, hex_seperator_fraction_more){
@@ -426,7 +417,7 @@ TEST(unittest_FloatLiteral, hex_seperator_fraction_more){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_FLOAT_EQ(std::any_cast<double>(result), 28.03125);
+  EXPECT_FLOAT_EQ(*result, 28.03125);
 }
 
 TEST(unittest_FloatLiteral, hex_seperator_mix){
@@ -435,7 +426,7 @@ TEST(unittest_FloatLiteral, hex_seperator_mix){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_FLOAT_EQ(std::any_cast<double>(result), 18.03125);
+  EXPECT_FLOAT_EQ(*result, 18.03125);
 }
 
 TEST(unittest_FloatLiteral, hex_seperator_mix_more){
@@ -444,7 +435,7 @@ TEST(unittest_FloatLiteral, hex_seperator_mix_more){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_FLOAT_EQ(std::any_cast<double>(result), 512.03125);
+  EXPECT_FLOAT_EQ(*result, 512.03125);
 }
 
 TEST(unittest_FloatLiteral, hex_seperator_prefix_plus){
@@ -517,7 +508,7 @@ TEST(unittest_FloatLiteral, hex_exponent){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_FLOAT_EQ(std::any_cast<double>(result), 8704.5);
+  EXPECT_FLOAT_EQ(*result, 8704.5);
 }
 
 TEST(unittest_FloatLiteral, hex_upper_exponent){
@@ -526,7 +517,7 @@ TEST(unittest_FloatLiteral, hex_upper_exponent){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_FLOAT_EQ(std::any_cast<double>(result), 8704.5);
+  EXPECT_FLOAT_EQ(*result, 8704.5);
 }
 
 TEST(unittest_FloatLiteral, hex_plus_exponent){
@@ -535,7 +526,7 @@ TEST(unittest_FloatLiteral, hex_plus_exponent){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_FLOAT_EQ(std::any_cast<double>(result), 8704.5);
+  EXPECT_FLOAT_EQ(*result, 8704.5);
 }
 
 TEST(unittest_FloatLiteral, hex_minus_exponent){
@@ -544,7 +535,7 @@ TEST(unittest_FloatLiteral, hex_minus_exponent){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_FLOAT_EQ(std::any_cast<double>(result), 1.15625);
+  EXPECT_FLOAT_EQ(*result, 1.15625);
 }
 
 TEST(unittest_FloatLiteral, hex_exponent_separator){
@@ -553,7 +544,7 @@ TEST(unittest_FloatLiteral, hex_exponent_separator){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_FLOAT_EQ(std::any_cast<double>(result), 1.15625);
+  EXPECT_FLOAT_EQ(*result, 1.15625);
 }
 
 TEST(unittest_FloatLiteral, hex_exponent_separator_more){
@@ -562,7 +553,7 @@ TEST(unittest_FloatLiteral, hex_exponent_separator_more){
   FloatLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_FLOAT_EQ(std::any_cast<double>(result), 288.5);
+  EXPECT_FLOAT_EQ(*result, 288.5);
 }
 
 TEST(unittest_FloatLiteral, hex_seperator_prefix_exponent){

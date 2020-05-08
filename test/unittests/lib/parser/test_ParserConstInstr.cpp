@@ -1,11 +1,11 @@
 #include <gtest/gtest.h>
 
-#include <any>
+#include <variant>
 #include <vector>
 #include <Error.hpp>
 #include <parser/ParserContext.hpp>
 #include <parser/ParserConstInstr.hpp>
-#include <structure/Instr.hpp>
+#include <structure/BaseInstr.hpp>
 #include <structure/ConstInstr.hpp>
 #include <Helper.hpp>
 
@@ -14,9 +14,9 @@ TEST(unittest_ParserConstInstr, i32_const){
   ParserContext context(data);
   ParserConstInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(I32ConstInstr));
-  EXPECT_EQ(std::any_cast<I32ConstInstr>(result).value, 32);
+  EXPECT_NE(std::get_if<I32ConstInstr>(&result), nullptr);
+  //EXPECT_NE(std::get_if<I32ConstInstr>(instr), nullptr);
+  //EXPECT_EQ(std::get<I32ConstInstr>(instr).value, 32);
 }
 
 TEST(unittest_ParserConstInstr, no_immediate){
@@ -32,9 +32,9 @@ TEST(unittest_ParserConstInstr, i64_const){
   ParserContext context(data);
   ParserConstInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(I64ConstInstr));
-  EXPECT_EQ(std::any_cast<I64ConstInstr>(result).value, 64);
+  EXPECT_NE(std::get_if<I64ConstInstr>(&result), nullptr);
+  //EXPECT_NE(std::get_if<I64ConstInstr>(&instr), nullptr);
+  //EXPECT_EQ(std::get<I64ConstInstr>(instr).value, 64);
 }
 
 TEST(unittest_ParserConstInstr, f32_const){
@@ -42,9 +42,9 @@ TEST(unittest_ParserConstInstr, f32_const){
   ParserContext context(data);
   ParserConstInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(F32ConstInstr));
-  EXPECT_FLOAT_EQ(std::any_cast<F32ConstInstr>(result).value, 3.2);
+  EXPECT_NE(std::get_if<F32ConstInstr>(&result), nullptr);
+  //EXPECT_NE(std::get_if<F32ConstInstr>(&instr), nullptr);
+  //EXPECT_EQ(std::get<F32ConstInstr>(instr).value, 3.2);
 }
 
 TEST(unittest_ParserConstInstr, f64_const){
@@ -52,7 +52,7 @@ TEST(unittest_ParserConstInstr, f64_const){
   ParserContext context(data);
   ParserConstInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(F64ConstInstr));
-  EXPECT_FLOAT_EQ(std::any_cast<F64ConstInstr>(result).value, 0.7);
+  EXPECT_NE(std::get_if<F64ConstInstr>(&result), nullptr);
+  //EXPECT_NE(std::get_if<F64ConstInstr>(&instr), nullptr);
+  //EXPECT_EQ(std::get<F64ConstInstr>(instr).value, 0.7);
 }

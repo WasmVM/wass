@@ -4,7 +4,7 @@
 #include <Error.hpp>
 #include <parser/ParserContext.hpp>
 #include <parser/ParserControlInstr.hpp>
-#include <structure/Instr.hpp>
+#include <structure/BaseInstr.hpp>
 #include <structure/ControlInstr.hpp>
 #include <Helper.hpp>
 
@@ -13,8 +13,7 @@ TEST(unittest_ParserControlInstr, unreachable){
   ParserContext context(data);
   ParserControlInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::Unreachable>));
+  EXPECT_NE(std::get_if<UnreachableInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserControlInstr, nop){
@@ -22,8 +21,7 @@ TEST(unittest_ParserControlInstr, nop){
   ParserContext context(data);
   ParserControlInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::Nop>));
+  EXPECT_NE(std::get_if<NopInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserControlInstr, Return){
@@ -31,8 +29,7 @@ TEST(unittest_ParserControlInstr, Return){
   ParserContext context(data);
   ParserControlInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(Instr<InstrType::Return>));
+  EXPECT_NE(std::get_if<ReturnInstr>(&result), nullptr);
 }
 
 TEST(unittest_ParserControlInstr, br){
@@ -40,8 +37,9 @@ TEST(unittest_ParserControlInstr, br){
   ParserContext context(data);
   ParserControlInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(BrInstr));
+  BrInstr* instrPtr = std::get_if<BrInstr>(&result);
+  EXPECT_NE(instrPtr, nullptr);
+  EXPECT_EQ(instrPtr->label, 3);
 }
 
 TEST(unittest_ParserControlInstr, br_no_immediate){
@@ -57,8 +55,9 @@ TEST(unittest_ParserControlInstr, br_if){
   ParserContext context(data);
   ParserControlInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(BrIfInstr));
+  BrIfInstr* instrPtr = std::get_if<BrIfInstr>(&result);
+  EXPECT_NE(instrPtr, nullptr);
+  EXPECT_EQ(instrPtr->label, 3);
 }
 
 TEST(unittest_ParserControlInstr, br_if_no_immediate){
@@ -74,12 +73,11 @@ TEST(unittest_ParserControlInstr, br_table){
   ParserContext context(data);
   ParserControlInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(BrTableInstr));
-  BrTableInstr instr = std::any_cast<BrTableInstr>(result);
-  EXPECT_EQ(instr.labels.size(), 2);
-  EXPECT_EQ(instr.labels[0], 3);
-  EXPECT_EQ(instr.labels[1], 5);
+  BrTableInstr* instr = std::get_if<BrTableInstr>(&result);
+  EXPECT_NE(instr, nullptr);
+  EXPECT_EQ(instr->labels.size(), 2);
+  EXPECT_EQ(instr->labels[0], 3);
+  EXPECT_EQ(instr->labels[1], 5);
 }
 
 TEST(unittest_ParserControlInstr, br_table_default_only){
@@ -87,11 +85,10 @@ TEST(unittest_ParserControlInstr, br_table_default_only){
   ParserContext context(data);
   ParserControlInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(BrTableInstr));
-  BrTableInstr instr = std::any_cast<BrTableInstr>(result);
-  EXPECT_EQ(instr.labels.size(), 1);
-  EXPECT_EQ(instr.labels[0], 3);
+  BrTableInstr* instr = std::get_if<BrTableInstr>(&result);
+  EXPECT_NE(instr, nullptr);
+  EXPECT_EQ(instr->labels.size(), 1);
+  EXPECT_EQ(instr->labels[0], 3);
 }
 
 TEST(unittest_ParserControlInstr, br_table_no_immediate){
@@ -107,8 +104,9 @@ TEST(unittest_ParserControlInstr, call){
   ParserContext context(data);
   ParserControlInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(CallInstr));
+  CallInstr* instrPtr = std::get_if<CallInstr>(&result);
+  EXPECT_NE(instrPtr, nullptr);
+  EXPECT_EQ(instrPtr->funcidx, 3);
 }
 
 TEST(unittest_ParserControlInstr, call_no_immediate){
@@ -124,12 +122,11 @@ TEST(unittest_ParserControlInstr, call_indirect){
   ParserContext context(data);
   ParserControlInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(CallIndirectInstr));
-  CallIndirectInstr instr = std::any_cast<CallIndirectInstr>(result);
-  EXPECT_EQ(std::any_cast<uint32_t>(instr.type.index), 3);
-  EXPECT_EQ(instr.type.params.size(), 0);
-  EXPECT_EQ(instr.type.results.size(), 0);
+  CallIndirectInstr* instr = std::get_if<CallIndirectInstr>(&result);
+  EXPECT_NE(instr, nullptr);
+  EXPECT_EQ(std::any_cast<uint32_t>(instr->type.index), 3);
+  EXPECT_EQ(instr->type.params.size(), 0);
+  EXPECT_EQ(instr->type.results.size(), 0);
 }
 
 TEST(unittest_ParserControlInstr, call_indirect_no_immediate){
@@ -137,10 +134,9 @@ TEST(unittest_ParserControlInstr, call_indirect_no_immediate){
   ParserContext context(data);
   ParserControlInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result.type(), typeid(CallIndirectInstr));
-  CallIndirectInstr instr = std::any_cast<CallIndirectInstr>(result);
-  EXPECT_FALSE(instr.type.index.has_value());
-  EXPECT_EQ(instr.type.params.size(), 0);
-  EXPECT_EQ(instr.type.results.size(), 0);
+  CallIndirectInstr* instr = std::get_if<CallIndirectInstr>(&result);
+  EXPECT_NE(instr, nullptr);
+  EXPECT_FALSE(instr->type.index.has_value());
+  EXPECT_EQ(instr->type.params.size(), 0);
+  EXPECT_EQ(instr->type.results.size(), 0);
 }

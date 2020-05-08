@@ -1,6 +1,6 @@
 #include <parser/ParserGlobalType.hpp>
 
-#include <any>
+#include <optional>
 #include <Util.hpp>
 #include <Error.hpp>
 #include <parser/Comment.hpp>
@@ -22,7 +22,7 @@ ParserGlobalType::ParserGlobalType(ParserContext& parent_context){
     Comment::skip(context);
     ParserValueType type(context);
     if(type.has_value()){
-      global.type = std::any_cast<ValueType>(type);
+      global.type = *type;
       if(global.immutable == false){
         Comment::skip(context);
         if((*context.cursor) != ')'){
@@ -31,7 +31,7 @@ ParserGlobalType::ParserGlobalType(ParserContext& parent_context){
           ++context.cursor;
         }
       }
-      this->std::any::operator=(global);
+      this->std::optional<GlobalType>::operator=(global);
       parent_context.cursor = context.cursor;
     }
   }

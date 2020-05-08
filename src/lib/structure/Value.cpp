@@ -1,25 +1,30 @@
 #include <structure/Value.hpp>
 
+#include <variant>
+
+Value::Value(){
+  emplace<std::monostate>();
+}
 Value::Value(int32_t value){
-  this->std::any::operator=(value);
+  emplace<int32_t>(value);
 }
 Value::Value(int64_t value){
-  this->std::any::operator=(value);
+  emplace<int64_t>(value);
 }
 Value::Value(float value){
-  this->std::any::operator=(value);
+  emplace<float>(value);
 }
 Value::Value(double value){
-  this->std::any::operator=(value);
+  emplace<double>(value);
 }
 ValueType Value::type(){
-  if(this->std::any::type() == typeid(int32_t)){
+  if(std::get_if<int32_t>(this) != nullptr){
     return ValueType::i32;
-  }else if(this->std::any::type() == typeid(int64_t)){
+  }else if(std::get_if<int64_t>(this) != nullptr){
     return ValueType::i64;
-  }else if(this->std::any::type() == typeid(float)){
+  }else if(std::get_if<float>(this) != nullptr){
     return ValueType::f32;
-  }else if(this->std::any::type() == typeid(double)){
+  }else if(std::get_if<double>(this) != nullptr){
     return ValueType::f64;
   }else{
     return ValueType::none;

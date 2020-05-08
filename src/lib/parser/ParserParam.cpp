@@ -21,18 +21,18 @@ ParserParam::ParserParam(ParserContext& parent_context){
         Comment::skip(context);
         Identifier paramId(context);
         if(paramId.has_value()){
-          id = std::any_cast<std::string>(paramId);
+          id = *paramId;
           Comment::skip(context);
           ParserValueType param(context);
           if(param.has_value()){
-            this->std::any::operator=(std::any_cast<ValueType>(param));
+            this->std::any::operator=(*param);
           }else{
             throw Error<ErrorType::SyntaxError>("expected a parameter type");
           }
         }else{
           std::vector<ValueType> params;
           for(ParserValueType param(context); param.has_value(); param = ParserValueType(context)){
-            params.push_back(std::any_cast<ValueType>(param));
+            params.push_back(*param);
             Comment::skip(context);
           }
           switch(params.size()){

@@ -54,7 +54,7 @@ Identifier::Identifier(ParserContext& parent_context){
         }
       }
       if(value != ""){
-        this->std::any::operator=(value);
+        this->std::optional<std::string>::operator=(value);
         parent_context.cursor = context.cursor;
       }else{
         throw Error<ErrorType::SyntaxError>("identifier can't be empty");

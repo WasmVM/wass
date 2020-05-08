@@ -1,6 +1,6 @@
 #include <parser/ParserLimit.hpp>
 
-#include <any>
+#include <optional>
 #include <cstdint>
 #include <parser/Comment.hpp>
 #include <parser/IntegerLiteral.hpp>
@@ -12,13 +12,13 @@ ParserLimit::ParserLimit(ParserContext& parent_context){
     Comment::skip(context);
     IntegerLiteral min(context);
     if(min.has_value()){
-      Limit limit((uint32_t)std::any_cast<int64_t>(min));
+      Limit limit((uint32_t)*min);
       Comment::skip(context);
       IntegerLiteral max(context);
       if(max.has_value()){
-        limit.max = (uint32_t)std::any_cast<int64_t>(max);
+        limit.max = (uint32_t)*max;
       }
-      this->std::any::operator=(limit);
+      this->std::optional<Limit>::operator=(limit);
       parent_context = context;
     }
   }

@@ -1,6 +1,6 @@
 #include <parser/ParserTableType.hpp>
 
-#include <any>
+#include <optional>
 #include <cstdint>
 #include <parser/Comment.hpp>
 #include <parser/ParserLimit.hpp>
@@ -15,7 +15,7 @@ ParserTableType::ParserTableType(ParserContext& parent_context){
       Comment::skip(context);
       if(Util::matchString(context.cursor, context.end, "funcref")){
         context.cursor += 7;
-        this->std::any::operator=(std::any_cast<Limit>(limit));
+        this->std::optional<Limit>::operator=(*limit);
         parent_context = context;
       }else{
         throw Error<ErrorType::SyntaxError>("expected elememt type");

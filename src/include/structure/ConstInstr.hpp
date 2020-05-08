@@ -1,31 +1,19 @@
 #ifndef GUARD_wass_structure_ConstInstr
 #define GUARD_wass_structure_ConstInstr
 
+#include <variant>
 #include <cstdint>
-#include <structure/Instr.hpp>
+#include <structure/BaseInstr.hpp>
 
-class I32ConstInstr: public Instr<InstrType::I32Const>{
+template<InstrType T, typename V>
+class ConstInstr: public BaseInstr<T>{
 public:
-  I32ConstInstr(int32_t value);
-  int32_t value;
+  V value;
 };
 
-class I64ConstInstr: public Instr<InstrType::I64Const>{
-public:
-  I64ConstInstr(int64_t value);
-  int64_t value;
-};
-
-class F32ConstInstr: public Instr<InstrType::F32Const>{
-public:
-  F32ConstInstr(float value);
-  float value;
-};
-
-class F64ConstInstr: public Instr<InstrType::F64Const>{
-public:
-  F64ConstInstr(double value);
-  double value;
-};
+using I32ConstInstr = ConstInstr<InstrType::I32Const, int32_t>;
+using I64ConstInstr = ConstInstr<InstrType::I64Const, int64_t>;
+using F32ConstInstr = ConstInstr<InstrType::F32Const, float>;
+using F64ConstInstr = ConstInstr<InstrType::F64Const, double>;
 
 #endif

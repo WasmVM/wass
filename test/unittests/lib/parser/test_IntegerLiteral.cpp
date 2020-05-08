@@ -12,7 +12,7 @@ TEST(unittest_IntegerLiteral, regular){
   IntegerLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<int64_t>(result), 234);
+  EXPECT_EQ(*result, 234);
 }
 
 TEST(unittest_IntegerLiteral, plus_sign){
@@ -21,7 +21,7 @@ TEST(unittest_IntegerLiteral, plus_sign){
   IntegerLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<int64_t>(result), 234);
+  EXPECT_EQ(*result, 234);
 }
 
 TEST(unittest_IntegerLiteral, minus_sign){
@@ -30,7 +30,7 @@ TEST(unittest_IntegerLiteral, minus_sign){
   IntegerLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<int64_t>(result), -234);
+  EXPECT_EQ(*result, -234);
 }
 
 TEST(unittest_IntegerLiteral, hex_lower){
@@ -39,7 +39,7 @@ TEST(unittest_IntegerLiteral, hex_lower){
   IntegerLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<int64_t>(result), 0x1a2b);
+  EXPECT_EQ(*result, 0x1a2b);
 }
 
 TEST(unittest_IntegerLiteral, hex_upper){
@@ -48,7 +48,7 @@ TEST(unittest_IntegerLiteral, hex_upper){
   IntegerLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<int64_t>(result), 0x1a2b);
+  EXPECT_EQ(*result, 0x1a2b);
 }
 
 TEST(unittest_IntegerLiteral, hex_mixed){
@@ -57,7 +57,7 @@ TEST(unittest_IntegerLiteral, hex_mixed){
   IntegerLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<int64_t>(result), 0x1a2b);
+  EXPECT_EQ(*result, 0x1a2b);
 }
 
 TEST(unittest_IntegerLiteral, non_octal){
@@ -66,7 +66,7 @@ TEST(unittest_IntegerLiteral, non_octal){
   IntegerLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<int64_t>(result), 10);
+  EXPECT_EQ(*result, 10);
 }
 
 TEST(unittest_IntegerLiteral, decimal_separator){
@@ -75,7 +75,7 @@ TEST(unittest_IntegerLiteral, decimal_separator){
   IntegerLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<int64_t>(result), 2000);
+  EXPECT_EQ(*result, 2000);
 }
 
 TEST(unittest_IntegerLiteral, more_decimal_separator){
@@ -84,7 +84,7 @@ TEST(unittest_IntegerLiteral, more_decimal_separator){
   IntegerLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<int64_t>(result), 20001000);
+  EXPECT_EQ(*result, 20001000);
 }
 
 TEST(unittest_IntegerLiteral, hex_separator){
@@ -93,7 +93,7 @@ TEST(unittest_IntegerLiteral, hex_separator){
   IntegerLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<int64_t>(result), 0xabcd);
+  EXPECT_EQ(*result, 0xabcd);
 }
 
 TEST(unittest_IntegerLiteral, more_hex_separator){
@@ -102,7 +102,7 @@ TEST(unittest_IntegerLiteral, more_hex_separator){
   IntegerLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<int64_t>(result), 0xabcd200);
+  EXPECT_EQ(*result, 0xabcd200);
 }
 
 TEST(unittest_IntegerLiteral, decimal_seperator_prefix){

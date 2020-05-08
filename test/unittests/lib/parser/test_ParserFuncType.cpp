@@ -14,7 +14,7 @@ TEST(unittest_ParserFuncType, empty){
   ParserFuncType result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  FuncType funcType = std::any_cast<FuncType>(result);
+  FuncType funcType = *result;
   EXPECT_EQ(funcType.params.size(), 0);
   EXPECT_EQ(funcType.results.size(), 0);
 }
@@ -24,7 +24,7 @@ TEST(unittest_ParserFuncType, regular){
   ParserFuncType result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  FuncType funcType = std::any_cast<FuncType>(result);
+  FuncType funcType = *result;
   EXPECT_EQ(funcType.params.size(), 1);
   EXPECT_EQ(funcType.params[0], ValueType::i32);
   EXPECT_EQ(funcType.results.size(), 1);
@@ -36,7 +36,7 @@ TEST(unittest_ParserFuncType, more_param){
   ParserFuncType result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  FuncType funcType = std::any_cast<FuncType>(result);
+  FuncType funcType = *result;
   EXPECT_EQ(funcType.params.size(), 2);
   EXPECT_EQ(funcType.params[0], ValueType::i32);
   EXPECT_EQ(funcType.params[1], ValueType::f32);
@@ -49,7 +49,7 @@ TEST(unittest_ParserFuncType, more_result){
   ParserFuncType result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  FuncType funcType = std::any_cast<FuncType>(result);
+  FuncType funcType = *result;
   EXPECT_EQ(funcType.params.size(), 1);
   EXPECT_EQ(funcType.params[0], ValueType::i32);
   EXPECT_EQ(funcType.results.size(), 2);
@@ -62,7 +62,7 @@ TEST(unittest_ParserFuncType, param_only){
   ParserFuncType result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  FuncType funcType = std::any_cast<FuncType>(result);
+  FuncType funcType = *result;
   EXPECT_EQ(funcType.params.size(), 1);
   EXPECT_EQ(funcType.params[0], ValueType::i32);
   EXPECT_EQ(funcType.results.size(), 0);
@@ -74,7 +74,7 @@ TEST(unittest_ParserFuncType, param_with_id){
   ParserFuncType result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  FuncType funcType = std::any_cast<FuncType>(result);
+  FuncType funcType = *result;
   EXPECT_EQ(funcType.params.size(), 2);
   EXPECT_EQ(funcType.params[0], ValueType::i32);
   EXPECT_EQ(funcType.params[1], ValueType::f32);
@@ -89,7 +89,7 @@ TEST(unittest_ParserFuncType, result_only){
   ParserFuncType result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  FuncType funcType = std::any_cast<FuncType>(result);
+  FuncType funcType = *result;
   EXPECT_EQ(funcType.params.size(), 0);
   EXPECT_EQ(funcType.results.size(), 1);
   EXPECT_EQ(funcType.results[0], ValueType::i64);

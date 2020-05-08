@@ -3,35 +3,39 @@
 
 #include <vector>
 #include <cstdint>
-#include <structure/Instr.hpp>
+#include <structure/BaseInstr.hpp>
 #include <structure/TypeUse.hpp>
 
-class BrInstr: public Instr<InstrType::Br>{
+using UnreachableInstr = BaseInstr<InstrType::Unreachable>;
+using NopInstr = BaseInstr<InstrType::Nop>;
+using ReturnInstr = BaseInstr<InstrType::Return>;
+
+class BrInstr: public BaseInstr<InstrType::Br>{
 public:
   BrInstr(uint32_t label);
   uint32_t label;
 };
 
-class BrIfInstr: public Instr<InstrType::BrIf>{
+class BrIfInstr: public BaseInstr<InstrType::BrIf>{
 public:
   BrIfInstr(uint32_t label);
   uint32_t label;
 };
 
-class BrTableInstr: public Instr<InstrType::BrTable>{
+class BrTableInstr: public BaseInstr<InstrType::BrTable>{
 public:
   BrTableInstr() = default;
   BrTableInstr(std::vector<uint32_t>& labels);
   std::vector<uint32_t> labels;
 };
 
-class CallInstr: public Instr<InstrType::Call>{
+class CallInstr: public BaseInstr<InstrType::Call>{
 public:
   CallInstr(uint32_t funcidx);
   uint32_t funcidx;
 };
 
-class CallIndirectInstr: public Instr<InstrType::CallIndirect>{
+class CallIndirectInstr: public BaseInstr<InstrType::CallIndirect>{
 public:
   CallIndirectInstr() = default;
   CallIndirectInstr(TypeUse& type);

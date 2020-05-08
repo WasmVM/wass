@@ -20,7 +20,7 @@ ParserResult::ParserResult(ParserContext& parent_context){
         Comment::skip(context);
         std::vector<ValueType> results;
         for(ParserValueType result(context); result.has_value(); result = ParserValueType(context)){
-          results.push_back(std::any_cast<ValueType>(result));
+          results.push_back(*result);
           Comment::skip(context);
         }
         switch(results.size()){

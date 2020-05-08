@@ -1,5 +1,6 @@
 #include <parser/IntegerLiteral.hpp>
 
+#include <optional>
 #include <cstdint>
 #include <Error.hpp>
 
@@ -10,47 +11,50 @@ static bool isNegative(ParserContext& context){
   return false;
 }
 
-static void decimalNumber(std::any& thisAny, ParserContext& context, bool& isNegative){
+static std::optional<int64_t> decimalNumber(ParserContext& context, bool& isNegative){
+  std::optional<int64_t> value;
   while(context.cursor != context.end){
     if((*context.cursor) >= '0' && (*context.cursor) <= '9'){
-      if(!thisAny.has_value()){
-        thisAny = (int64_t)((*context.cursor) - '0');
+      if(value.has_value()){
+        value = (*value) * 10 + (*context.cursor) - '0';
       }else{
-        thisAny = std::any_cast<int64_t>(thisAny) * 10 + (*context.cursor) - '0';
+        value = (*context.cursor) - '0';
       }
     }else if((*context.cursor) != '_' || context.cursor + 1 == context.end || context.cursor[1] < '0' || context.cursor[1] > '9'){
       if((*context.cursor) == '_'){
-        thisAny.reset();
+        value.reset();
       }
       break;
     }
     ++context.cursor;
   }
-  if(thisAny.has_value() && isNegative){
-    thisAny = -std::any_cast<int64_t>(thisAny);
+  if(value.has_value() && isNegative){
+    value = -(*value);
   }
+  return value;
 }
 
-static void hexNumber(std::any& thisAny, ParserContext& context, bool& isNegative){
+static std::optional<int64_t> hexNumber(ParserContext& context, bool& isNegative){
+  std::optional<int64_t> value;
   if((*context.cursor) != '_'){
     while (context.cursor != context.end){
       if((*context.cursor) >= '0' && (*context.cursor) <= '9'){
-        if(!thisAny.has_value()){
-          thisAny = (int64_t)((*context.cursor) - '0');
+        if(value.has_value()){
+          value = (*value << 4) + (*context.cursor) - '0';
         }else{
-          thisAny = (std::any_cast<int64_t>(thisAny) << 4) + (*context.cursor) - '0';
+          value = (int64_t)((*context.cursor) - '0');
         }
       }else if((*context.cursor) >= 'a' && (*context.cursor) <= 'f'){
-        if(!thisAny.has_value()){
-          thisAny = (int64_t)(((*context.cursor) - 'a' + 10) * (isNegative ? -1 : 1));
+        if(value.has_value()){
+          value = (*value << 4) + (*context.cursor) - 'a' + 10;
         }else{
-          thisAny = (std::any_cast<int64_t>(thisAny) << 4) + (*context.cursor) - 'a' + 10;
+          value = (int64_t)(((*context.cursor) - 'a' + 10) * (isNegative ? -1 : 1));
         }
       }else if((*context.cursor) >= 'A' && (*context.cursor) <= 'F'){
-        if(!thisAny.has_value()){
-          thisAny = (int64_t)(((*context.cursor) - 'A' + 10) * (isNegative ? -1 : 1));
+        if(value.has_value()){
+          value = (*value << 4) + (*context.cursor) - 'A' + 10;
         }else{
-          thisAny = (std::any_cast<int64_t>(thisAny) << 4) + (*context.cursor) - 'A' + 10;
+          value = (int64_t)(((*context.cursor) - 'A' + 10) * (isNegative ? -1 : 1));
         }
       }else if((*context.cursor) != '_' || context.cursor + 1 == context.end || (
         (context.cursor[1] < '0' || context.cursor[1] > '9') &&
@@ -58,16 +62,17 @@ static void hexNumber(std::any& thisAny, ParserContext& context, bool& isNegativ
         (context.cursor[1] < 'A' || context.cursor[1] > 'F'))
       ){
         if((*context.cursor) == '_'){
-          thisAny.reset();
+          value.reset();
         }
         break;
       }
       ++context.cursor;
     }
-    if(thisAny.has_value() && isNegative){
-      thisAny = -std::any_cast<int64_t>(thisAny);
+    if(value.has_value() && isNegative){
+      value = -(*value);
     }
   }
+  return value;
 }
 
 IntegerLiteral::IntegerLiteral(ParserContext& parent_context){
@@ -77,9 +82,9 @@ IntegerLiteral::IntegerLiteral(ParserContext& parent_context){
     if((*context.cursor) != '_'){
       if((*context.cursor) == '0' && (context.cursor + 1 != context.end) && context.cursor[1] == 'x'){
         context.cursor += 2;
-        hexNumber(*this, context, negative);
+        this->std::optional<int64_t>::operator=(hexNumber(context, negative));
       }else{
-        decimalNumber(*this, context, negative);
+        this->std::optional<int64_t>::operator=(decimalNumber(context, negative));
       }
       if(has_value()){
         parent_context.cursor = context.cursor;
