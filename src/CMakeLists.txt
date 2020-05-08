@@ -28,7 +28,6 @@ add_library(wass-parser
   lib/structure/Value.cpp
   lib/structure/FuncType.cpp
   lib/structure/GlobalType.cpp
-  lib/structure/ConstInstr.cpp
   lib/structure/ControlInstr.cpp
   lib/structure/TypeUse.cpp
 )
