@@ -10,7 +10,7 @@ static void single_line_comment(ParserContext& context){
   )){
     ++context.cursor;
   }
-  if(*(context.cursor) == ';' && context.cursor + 1 != context.end && context.cursor[1] == ';'){
+  if(context.cursor != context.end && *(context.cursor) == ';' && context.cursor + 1 != context.end && context.cursor[1] == ';'){
     while (context.cursor != context.end && *(context.cursor) != '\n')
     {
       ++context.cursor;

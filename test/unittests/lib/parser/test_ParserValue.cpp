@@ -4,7 +4,7 @@
 #include <string>
 #include <Error.hpp>
 #include <parser/ParserContext.hpp>
-#include <parser/ParserValue.hpp>
+#include <parser/ParserValueType.hpp>
 #include <Helper.hpp>
 
 TEST(unittest_ParserValue, type_i32){

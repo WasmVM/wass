@@ -209,24 +209,26 @@ static void infNumber(std::any& thisAny, ParserContext& context, bool negative){
 }
 
 FloatLiteral::FloatLiteral(ParserContext& parent_context){
-  ParserContext context = parent_context;
-  bool negative = isNegative(context);
-  if((*context.cursor) != '_'){
-    int diff = context.end - context.cursor;
-    if(Util::matchString(context.cursor, context.end, "nan")){
-      context.cursor += 3;
-      nanNumber(*this, context, negative);
-    }else if(Util::matchString(context.cursor, context.end, "inf")){
-      context.cursor += 3;
-      infNumber(*this, context, negative);
-    }else if((*context.cursor) == '0' && (context.cursor + 1 != context.end) && context.cursor[1] == 'x'){
-      context.cursor += 2;
-      hexNumber(*this, context, negative);
-    }else{
-      decimalNumber(*this, context, negative);
-    }
-    if(has_value()){
-      parent_context.cursor = context.cursor;
+  if(parent_context.cursor != parent_context.end){
+    ParserContext context = parent_context;
+    bool negative = isNegative(context);
+    if((*context.cursor) != '_'){
+      int diff = context.end - context.cursor;
+      if(Util::matchString(context.cursor, context.end, "nan")){
+        context.cursor += 3;
+        nanNumber(*this, context, negative);
+      }else if(Util::matchString(context.cursor, context.end, "inf")){
+        context.cursor += 3;
+        infNumber(*this, context, negative);
+      }else if((*context.cursor) == '0' && (context.cursor + 1 != context.end) && context.cursor[1] == 'x'){
+        context.cursor += 2;
+        hexNumber(*this, context, negative);
+      }else{
+        decimalNumber(*this, context, negative);
+      }
+      if(has_value()){
+        parent_context.cursor = context.cursor;
+      }
     }
   }
 }

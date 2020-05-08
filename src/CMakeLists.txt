@@ -10,7 +10,7 @@ add_library(wass-parser
   lib/parser/StringLiteral.cpp
   lib/parser/Name.cpp
   lib/parser/Identifier.cpp
-  lib/parser/ParserValue.cpp
+  lib/parser/ParserValueType.cpp
   lib/parser/ParserParam.cpp
   lib/parser/ParserResult.cpp
   lib/parser/ParserFuncType.cpp
@@ -22,9 +22,13 @@ add_library(wass-parser
   lib/parser/ParserParamInstr.cpp
   lib/parser/ParserVariableInstr.cpp
   lib/parser/ParserMemoryInstr.cpp
+  lib/parser/ParserControlInstr.cpp
+  lib/parser/ParserTypeUse.cpp
   lib/structure/Limit.cpp
   lib/structure/Value.cpp
   lib/structure/FuncType.cpp
   lib/structure/GlobalType.cpp
   lib/structure/ConstInstr.cpp
+  lib/structure/ControlInstr.cpp
+  lib/structure/TypeUse.cpp
 )

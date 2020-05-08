@@ -1,5 +1,5 @@
-#ifndef GUARD_wass_parser_ParserValue
-#define GUARD_wass_parser_ParserValue
+#ifndef GUARD_wass_parser_ParserValueType
+#define GUARD_wass_parser_ParserValueType
 
 #include <any>
 #include <structure/Value.hpp>
@@ -8,11 +8,6 @@
 class ParserValueType: public std::any{
 public:
   ParserValueType(ParserContext& context);
-};
-
-class ParserValue: public Value{
-public:
-  ParserValue(ParserContext& context);
 };
 
 #endif

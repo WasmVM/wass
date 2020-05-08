@@ -1,4 +1,4 @@
-#include <parser/ParserValue.hpp>
+#include <parser/ParserValueType.hpp>
 
 #include <Util.hpp>
 
@@ -16,8 +16,4 @@ ParserValueType::ParserValueType(ParserContext& context){
     context.cursor += 3;
     std::any::operator=(ValueType::f64);
   }
-}
-
-ParserValue::ParserValue(ParserContext& parent_context){
-  // TODO:
 }
