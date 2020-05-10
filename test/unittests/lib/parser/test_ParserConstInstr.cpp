@@ -14,9 +14,9 @@ TEST(unittest_ParserConstInstr, i32_const){
   ParserContext context(data);
   ParserConstInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
-  EXPECT_NE(std::get_if<I32ConstInstr>(&result), nullptr);
-  //EXPECT_NE(std::get_if<I32ConstInstr>(instr), nullptr);
-  //EXPECT_EQ(std::get<I32ConstInstr>(instr).value, 32);
+  I32ConstInstr* instr = std::get_if<I32ConstInstr>(&result);
+  EXPECT_NE(instr, nullptr);
+  EXPECT_EQ(instr->value, 32);
 }
 
 TEST(unittest_ParserConstInstr, no_immediate){
@@ -33,8 +33,9 @@ TEST(unittest_ParserConstInstr, i64_const){
   ParserConstInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_NE(std::get_if<I64ConstInstr>(&result), nullptr);
-  //EXPECT_NE(std::get_if<I64ConstInstr>(&instr), nullptr);
-  //EXPECT_EQ(std::get<I64ConstInstr>(instr).value, 64);
+  I64ConstInstr* instr = std::get_if<I64ConstInstr>(&result);
+  EXPECT_NE(instr, nullptr);
+  EXPECT_EQ(instr->value, 64);
 }
 
 TEST(unittest_ParserConstInstr, f32_const){
@@ -43,8 +44,9 @@ TEST(unittest_ParserConstInstr, f32_const){
   ParserConstInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_NE(std::get_if<F32ConstInstr>(&result), nullptr);
-  //EXPECT_NE(std::get_if<F32ConstInstr>(&instr), nullptr);
-  //EXPECT_EQ(std::get<F32ConstInstr>(instr).value, 3.2);
+  F32ConstInstr* instr = std::get_if<F32ConstInstr>(&result);
+  EXPECT_NE(instr, nullptr);
+  EXPECT_FLOAT_EQ(instr->value, 3.2);
 }
 
 TEST(unittest_ParserConstInstr, f64_const){
@@ -53,6 +55,7 @@ TEST(unittest_ParserConstInstr, f64_const){
   ParserConstInstr result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_NE(std::get_if<F64ConstInstr>(&result), nullptr);
-  //EXPECT_NE(std::get_if<F64ConstInstr>(&instr), nullptr);
-  //EXPECT_EQ(std::get<F64ConstInstr>(instr).value, 0.7);
+  F64ConstInstr* instr = std::get_if<F64ConstInstr>(&result);
+  EXPECT_NE(instr, nullptr);
+  EXPECT_FLOAT_EQ(instr->value, 0.7);
 }

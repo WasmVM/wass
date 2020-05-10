@@ -3,10 +3,6 @@
 
 #include <structure/BaseInstr.hpp>
 
-using I32ConstInstr = BaseInstr<InstrType::I32Const>;
-using I64ConstInstr = BaseInstr<InstrType::I64Const>;
-using F32ConstInstr = BaseInstr<InstrType::F32Const>;
-using F64ConstInstr = BaseInstr<InstrType::F64Const>;
 using I32ClzInstr = BaseInstr<InstrType::I32Clz>;
 using I32CtzInstr = BaseInstr<InstrType::I32Ctz>;
 using I32PopcntInstr = BaseInstr<InstrType::I32Popcnt>;

@@ -1,12 +1,73 @@
-#ifndef GUARD_wass_parser_ParserNumericInstr
-#define GUARD_wass_parser_ParserNumericInstr
+#ifndef GUARD_wass_structure_BlockedInstr
+#define GUARD_wass_structure_BlockedInstr
 
+#include <vector>
 #include <variant>
+#include <string>
+#include <optional>
+#include <structure/Value.hpp>
+#include <structure/BaseInstr.hpp>
+#include <structure/ConstInstr.hpp>
+#include <structure/ControlInstr.hpp>
+#include <structure/MemoryInstr.hpp>
 #include <structure/NumericInstr.hpp>
-#include <parser/ParserContext.hpp>
+#include <structure/ParamInstr.hpp>
+#include <structure/VariableInstr.hpp>
 
-class ParserNumericInstr: public std::variant<
+
+template<InstrType T> class BlockedInstr;
+
+class IfInstr;
+
+using InstrVariant = std::variant<
   std::monostate,
+  BlockedInstr<InstrType::Block>,
+  BlockedInstr<InstrType::Loop>,
+  IfInstr,
+  UnreachableInstr,
+  NopInstr,
+  BrInstr,
+  BrIfInstr,
+  BrTableInstr,
+  ReturnInstr,
+  CallInstr,
+  CallIndirectInstr,
+  DropInstr,
+  SelectInstr,
+  LocalGetInstr,
+  LocalSetInstr,
+  LocalTeeInstr,
+  GlobalGetInstr,
+  GlobalSetInstr,
+  I32LoadInstr,
+  I32Load8SInstr,
+  I32Load8UInstr,
+  I32Load16SInstr,
+  I32Load16UInstr,
+  I32StoreInstr,
+  I32Store8Instr,
+  I32Store16Instr,
+  I64LoadInstr,
+  I64Load8SInstr,
+  I64Load8UInstr,
+  I64Load16SInstr,
+  I64Load16UInstr,
+  I64Load32SInstr,
+  I64Load32UInstr,
+  I64StoreInstr,
+  I64Store8Instr,
+  I64Store16Instr,
+  I64Store32Instr,
+  F32LoadInstr,
+  F32StoreInstr,
+  F64LoadInstr,
+  F64StoreInstr,
+  MemorySizeInstr,
+  MemoryGrowInstr,
+  I32ConstInstr,
+  I64ConstInstr,
+  F32ConstInstr,
+  F64ConstInstr,
   I32ClzInstr,
   I32CtzInstr,
   I32PopcntInstr,
@@ -130,9 +191,22 @@ class ParserNumericInstr: public std::variant<
   I64ReinterpretF64Instr,
   F32ReinterpretI32Instr,
   F64ReinterpretI64Instr
->{
+>;
+
+template<InstrType T>
+class BlockedInstr: public BaseInstr<T>{
 public:
-  ParserNumericInstr(ParserContext& context);
+  std::optional<std::string> id;
+  std::vector<ValueType> resultTypes;
+  std::vector<InstrVariant> instrs;
 };
+
+class IfInstr: public BlockedInstr<InstrType::If>{
+public:
+  std::vector<InstrVariant> elseInstrs;
+};
+
+using BlockInstr = BlockedInstr<InstrType::Block>;
+using LoopInstr = BlockedInstr<InstrType::Loop>;
 
 #endif

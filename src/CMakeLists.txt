@@ -1,8 +1,6 @@
 include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
 
 add_library(wass-parser
-  lib/Error.cpp
-  lib/Util.cpp
   lib/parser/ParserContext.cpp
   lib/parser/Comment.cpp
   lib/parser/IntegerLiteral.cpp
@@ -24,6 +22,12 @@ add_library(wass-parser
   lib/parser/ParserMemoryInstr.cpp
   lib/parser/ParserControlInstr.cpp
   lib/parser/ParserTypeUse.cpp
+  lib/parser/ParserBlockedInstr.cpp
+)
+
+add_library(wass-core
+  lib/Error.cpp
+  lib/Util.cpp
   lib/structure/Limit.cpp
   lib/structure/Value.cpp
   lib/structure/FuncType.cpp

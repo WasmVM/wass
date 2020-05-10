@@ -10,6 +10,7 @@ add_executable(unittest
 )
 target_link_libraries(unittest
   wass-parser
+  wass-core
   gtest
   gtest_main
   pthread
