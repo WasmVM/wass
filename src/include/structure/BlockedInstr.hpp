@@ -203,6 +203,7 @@ public:
 
 class IfInstr: public BlockedInstr<InstrType::If>{
 public:
+  std::vector<InstrVariant> foldedInstrs;
   std::vector<InstrVariant> elseInstrs;
 };
 

@@ -39,6 +39,13 @@ ParserBlockedInstr::ParserBlockedInstr(ParserContext& parent_context){
     std::optional<std::string>* idPtr = nullptr;
     std::vector<ValueType>* resultsPtr = nullptr;
     std::vector<InstrVariant>* instrsPtr = nullptr;
+    bool isFolded = false;
+
+    if(*context.cursor == '('){
+      ++context.cursor;
+      isFolded = true;
+      Comment::skip(context);
+    }
 
     if(Util::matchString(context.cursor, context.end, "block")){
       context.cursor += 5;
@@ -130,19 +137,60 @@ ParserBlockedInstr::ParserBlockedInstr(ParserContext& parent_context){
 
     // Check end
     Comment::skip(context);
-    if(Util::matchString(context.cursor, context.end, "end")){
-      context.cursor += 3;
+    if(isFolded){
+      if(*context.cursor != ')'){
+        throw Error<ErrorType::SyntaxError>("expected ')' in folded instruction");
+      }else{
+        ++context.cursor;
+      }
+      
     }else{
-      throw Error<ErrorType::SyntaxError>("expected 'end' in blocked instruction");
+      if(Util::matchString(context.cursor, context.end, "end")){
+        context.cursor += 3;
+        Comment::skip(context);
+        Identifier postfix(context);
+        if(postfix.has_value() && *postfix != *id){
+          throw Error<ErrorType::SyntaxError>("postfix id should match block label");
+        }
+      }else{
+        throw Error<ErrorType::SyntaxError>("expected 'end' in blocked instruction");
+      }
     }
+    parent_context.cursor = context.cursor;
+  }
+}
 
-    // Check postfix
+ParserFoldedInstr::ParserFoldedInstr(ParserContext& parent_context){
+  ParserContext context = parent_context;
+  if(*context.cursor == '('){
+    ++context.cursor;
     Comment::skip(context);
-    Identifier postfix(context);
-    if(postfix.has_value() && *postfix != *id){
-      throw Error<ErrorType::SyntaxError>("postfix id should match block label");
+    std::vector<InstrVariant>& instrs = emplace<std::vector<InstrVariant>>(std::vector<InstrVariant>());
+    InstrVariant plainInstr = getInstr<
+      ParserConstInstr,
+      ParserControlInstr,
+      ParserMemoryInstr,
+      ParserNumericInstr,
+      ParserParamInstr,
+      ParserVariableInstr,
+      ParserBlockedInstr
+    >(context);
+    if(std::holds_alternative<std::monostate>(plainInstr)){
+      throw Error<ErrorType::SyntaxError>("expected a plain instruction in folded instruction");
     }
-
+    Comment::skip(context);
+    for(ParserFoldedInstr foldedInstr(context); foldedInstr.has_value(); foldedInstr = ParserFoldedInstr(context)){
+      for(auto it = foldedInstr->begin(); it != foldedInstr->end(); ++it){
+        instrs.emplace_back(*it);
+      }
+      Comment::skip(context);
+    }
+    instrs.emplace_back(plainInstr);
+    Comment::skip(context);
+    if(*context.cursor != ')'){
+      throw Error<ErrorType::SyntaxError>("expected ')' in folded instruction");
+    }
+    ++context.cursor;
     parent_context.cursor = context.cursor;
   }
 }
