@@ -23,6 +23,7 @@ add_library(wass-parser
   lib/parser/ParserControlInstr.cpp
   lib/parser/ParserTypeUse.cpp
   lib/parser/ParserBlockedInstr.cpp
+  lib/parser/ParserType.cpp
 )
 
 add_library(wass-core

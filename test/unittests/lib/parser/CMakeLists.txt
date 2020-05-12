@@ -20,6 +20,7 @@ add_library(test_parser OBJECT
   test_ParserControlInstr.cpp
   test_ParserTypeUse.cpp
   test_ParserBlockedInstr.cpp
+  test_ParserType.cpp
 )
 add_dependencies(test_parser
   googletest
