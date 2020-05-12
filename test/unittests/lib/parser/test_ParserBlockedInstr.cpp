@@ -203,6 +203,9 @@ TEST(unittest_ParserBlockedInstr, folded_If_with_folded){
   EXPECT_EQ(instr->elseInstrs.size(), 1);
   EXPECT_NE(std::get_if<F32ConstInstr>(&(instr->elseInstrs[0])), nullptr);
   EXPECT_FLOAT_EQ(std::get_if<F32ConstInstr>(&(instr->elseInstrs[0]))->value, 0.5);
+  EXPECT_EQ(instr->foldedInstrs.size(), 1);
+  EXPECT_NE(std::get_if<I32ConstInstr>(&(instr->foldedInstrs[0])), nullptr);
+  EXPECT_FLOAT_EQ(std::get_if<I32ConstInstr>(&(instr->foldedInstrs[0]))->value, 6);
 }
 
 TEST(unittest_ParserBlockedInstr, folded_If_without_else){
@@ -218,4 +221,12 @@ TEST(unittest_ParserBlockedInstr, folded_If_without_else){
   EXPECT_NE(std::get_if<F32ConstInstr>(&(instr->instrs[0])), nullptr);
   EXPECT_FLOAT_EQ(std::get_if<F32ConstInstr>(&(instr->instrs[0]))->value, 3.2);
   EXPECT_EQ(instr->elseInstrs.size(), 0);
+}
+
+TEST(unittest_ParserBlockedInstr, folded_If_without_then){
+  std::vector<char> data(create_char_vector("(if $test (result f32))"));
+  ParserContext context(data);
+  ParserBlockedInstr* result = nullptr;
+  EXPECT_THROW(result = new ParserBlockedInstr(context), Error<ErrorType::SyntaxError>);
+  delete result;
 }
