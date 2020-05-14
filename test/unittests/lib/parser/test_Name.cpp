@@ -13,7 +13,7 @@ TEST(unittest_Name, empty){
   Name result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<std::string>(result), "");
+  EXPECT_EQ(*result, "");
 }
 
 TEST(unittest_Name, regular){
@@ -22,7 +22,7 @@ TEST(unittest_Name, regular){
   Name result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<std::string>(result), "abcd");
+  EXPECT_EQ(*result, "abcd");
 }
 
 TEST(unittest_Name, hexdigit){
@@ -31,7 +31,7 @@ TEST(unittest_Name, hexdigit){
   Name result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<std::string>(result), "\x0a");
+  EXPECT_EQ(*result, "\x0a");
 }
 
 TEST(unittest_Name, invalid_character_single){
@@ -48,7 +48,7 @@ TEST(unittest_Name, character_double){
   Name result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<std::string>(result), "\xc1\xa0");
+  EXPECT_EQ(*result, "\xc1\xa0");
 }
 
 TEST(unittest_Name, invalid_character_double){
@@ -73,7 +73,7 @@ TEST(unittest_Name, character_triple){
   Name result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<std::string>(result), "\xe1\x82\x83");
+  EXPECT_EQ(*result, "\xe1\x82\x83");
 }
 
 TEST(unittest_Name, invalid_character_triple){
@@ -106,7 +106,7 @@ TEST(unittest_Name, character_quadruple){
   Name result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<std::string>(result), "\xf1\x86\x83\x84");
+  EXPECT_EQ(*result, "\xf1\x86\x83\x84");
 }
 
 TEST(unittest_Name, invalid_character_quadruple){

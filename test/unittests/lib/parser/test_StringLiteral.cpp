@@ -13,7 +13,7 @@ TEST(unittest_StringLiteral, empty){
   StringLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<std::string>(result), "");
+  EXPECT_EQ(*result, "");
 }
 
 TEST(unittest_StringLiteral, regular){
@@ -22,7 +22,7 @@ TEST(unittest_StringLiteral, regular){
   StringLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<std::string>(result), "abcd");
+  EXPECT_EQ(*result, "abcd");
 }
 
 TEST(unittest_StringLiteral, hexdigit){
@@ -31,7 +31,7 @@ TEST(unittest_StringLiteral, hexdigit){
   StringLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<std::string>(result), "\x0a");
+  EXPECT_EQ(*result, "\x0a");
 }
 
 TEST(unittest_StringLiteral, hexdigit_one_digit){
@@ -48,7 +48,7 @@ TEST(unittest_StringLiteral, unicode_hexnum){
   StringLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<std::string>(result), "\xe0\x0c");
+  EXPECT_EQ(*result, "\xe0\x0c");
 }
 
 TEST(unittest_StringLiteral, unicode_hexnum_separator){
@@ -57,7 +57,7 @@ TEST(unittest_StringLiteral, unicode_hexnum_separator){
   StringLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<std::string>(result), "\xe0\x0c");
+  EXPECT_EQ(*result, "\xe0\x0c");
 }
 
 TEST(unittest_StringLiteral, unicode_hexnum_separator_more){
@@ -66,7 +66,7 @@ TEST(unittest_StringLiteral, unicode_hexnum_separator_more){
   StringLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<std::string>(result), "\xe0\x0c");
+  EXPECT_EQ(*result, "\xe0\x0c");
 }
 
 TEST(unittest_StringLiteral, unicode_hexnum_separator_prefix){
@@ -99,7 +99,7 @@ TEST(unittest_StringLiteral, escape_tab){
   StringLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<std::string>(result), "\t");
+  EXPECT_EQ(*result, "\t");
 }
 
 TEST(unittest_StringLiteral, escape_newline){
@@ -108,7 +108,7 @@ TEST(unittest_StringLiteral, escape_newline){
   StringLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<std::string>(result), "\n");
+  EXPECT_EQ(*result, "\n");
 }
 
 TEST(unittest_StringLiteral, escape_return){
@@ -117,7 +117,7 @@ TEST(unittest_StringLiteral, escape_return){
   StringLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<std::string>(result), "\r");
+  EXPECT_EQ(*result, "\r");
 }
 
 TEST(unittest_StringLiteral, escape_double_quote){
@@ -126,7 +126,7 @@ TEST(unittest_StringLiteral, escape_double_quote){
   StringLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<std::string>(result), "\"");
+  EXPECT_EQ(*result, "\"");
 }
 
 TEST(unittest_StringLiteral, escape_single_quote){
@@ -135,7 +135,7 @@ TEST(unittest_StringLiteral, escape_single_quote){
   StringLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<std::string>(result), "'");
+  EXPECT_EQ(*result, "'");
 }
 
 TEST(unittest_StringLiteral, escape_backslash){
@@ -144,5 +144,5 @@ TEST(unittest_StringLiteral, escape_backslash){
   StringLiteral result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::any_cast<std::string>(result), "\\");
+  EXPECT_EQ(*result, "\\");
 }

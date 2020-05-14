@@ -1,6 +1,6 @@
 #include <parser/Name.hpp>
 
-#include <any>
+#include <optional>
 #include <string>
 #include <cstdint>
 #include <Error.hpp>
@@ -8,7 +8,7 @@
 
 Name::Name(ParserContext& parent_context) : StringLiteral(parent_context){
   if(has_value()){
-    std::string value = std::any_cast<std::string>(*this);
+    std::string value = **this;
     for(std::string::iterator it = value.begin(); it != value.end(); ++it){
       if((uint8_t)*it > 0x80){
         if((uint8_t)*it < 0xC0 || it + 1 == value.end() || (uint8_t)it[1] < 0x80 || (uint8_t)it[1] >= 0xC0){

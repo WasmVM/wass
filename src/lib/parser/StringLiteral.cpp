@@ -119,7 +119,7 @@ StringLiteral::StringLiteral(ParserContext& parent_context){
       ++context.cursor;
     }
     if((*context.cursor) == '"'){
-      this->std::any::operator=(value);
+      this->std::optional<std::string>::operator=(value);
       parent_context.cursor = context.cursor + 1;
     }else{
       throw Error<ErrorType::SyntaxError>("invalid UTF-8 encoding");
