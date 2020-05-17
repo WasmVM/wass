@@ -1,0 +1,6 @@
+/home/luishsu/Desktop/wass/build-release/CMakeFiles/rebuild_cache.dir
+/home/luishsu/Desktop/wass/build-release/CMakeFiles/edit_cache.dir
+/home/luishsu/Desktop/wass/build-release/src/CMakeFiles/rebuild_cache.dir
+/home/luishsu/Desktop/wass/build-release/src/CMakeFiles/edit_cache.dir
+/home/luishsu/Desktop/wass/build-release/src/CMakeFiles/wass-core.dir
+/home/luishsu/Desktop/wass/build-release/src/CMakeFiles/wass-parser.dir

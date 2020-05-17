@@ -1,0 +1,2 @@
+/usr/bin/ar qc libwass-core.a  CMakeFiles/wass-core.dir/lib/Error.cpp.o CMakeFiles/wass-core.dir/lib/Util.cpp.o CMakeFiles/wass-core.dir/lib/structure/Limit.cpp.o CMakeFiles/wass-core.dir/lib/structure/Value.cpp.o CMakeFiles/wass-core.dir/lib/structure/FuncType.cpp.o CMakeFiles/wass-core.dir/lib/structure/GlobalType.cpp.o CMakeFiles/wass-core.dir/lib/structure/ControlInstr.cpp.o CMakeFiles/wass-core.dir/lib/structure/TypeUse.cpp.o
+/usr/bin/ranlib libwass-core.a
