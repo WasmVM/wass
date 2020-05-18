@@ -6,6 +6,7 @@
 
 class Limit{
 public:
+  Limit() = default;
   Limit(uint32_t min);
   Limit(uint32_t min, uint32_t max);
   uint32_t min;

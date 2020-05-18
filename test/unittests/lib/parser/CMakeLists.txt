@@ -23,6 +23,7 @@ add_library(test_parser OBJECT
   test_ParserType.cpp
   test_ParserImport.cpp
   test_ParserFunction.cpp
+  test_ParserTable.cpp
 )
 add_dependencies(test_parser
   googletest

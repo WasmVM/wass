@@ -26,6 +26,7 @@ add_library(wass-parser
   lib/parser/ParserType.cpp
   lib/parser/ParserImport.cpp
   lib/parser/ParserFunction.cpp
+  lib/parser/ParserTable.cpp
 )
 
 add_library(wass-core
