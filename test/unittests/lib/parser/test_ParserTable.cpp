@@ -38,3 +38,5 @@ TEST(unittest_ParserTable, min_max_with_id){
   EXPECT_TRUE(result->tableType.max.has_value());
   EXPECT_EQ(result->tableType.max, 36);
 }
+
+// TODO: Abbreviations
