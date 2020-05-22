@@ -10,7 +10,8 @@
 #include <parser/Identifier.hpp>
 #include <parser/ParserTypeUse.hpp>
 #include <parser/ParserValueType.hpp>
-#include <parser/ParserInstructions.hpp>
+#include <parser/ParserBlockedInstr.hpp>
+#include <parser/GetInstr.hpp>
 #include <structure/Function.hpp>
 
 struct Local{

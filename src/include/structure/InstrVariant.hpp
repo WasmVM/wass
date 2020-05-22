@@ -1,10 +1,10 @@
-#ifndef GUARD_wass_structure_BlockedInstr
-#define GUARD_wass_structure_BlockedInstr
+#ifndef GUARD_wass_structure_InstrVariant
+#define GUARD_wass_structure_InstrVariant
 
 #include <vector>
-#include <variant>
 #include <string>
 #include <optional>
+#include <variant>
 #include <structure/Value.hpp>
 #include <structure/BaseInstr.hpp>
 #include <structure/ConstInstr.hpp>
@@ -14,15 +14,18 @@
 #include <structure/ParamInstr.hpp>
 #include <structure/VariableInstr.hpp>
 
+template<InstrType T>
+class BlockedInstr;
 
-template<InstrType T> class BlockedInstr;
+using BlockInstr = BlockedInstr<InstrType::Block>;
+using LoopInstr = BlockedInstr<InstrType::Loop>;
 
 class IfInstr;
 
 using InstrVariant = std::variant<
   std::monostate,
-  BlockedInstr<InstrType::Block>,
-  BlockedInstr<InstrType::Loop>,
+  BlockInstr,
+  LoopInstr,
   IfInstr,
   UnreachableInstr,
   NopInstr,
@@ -206,8 +209,5 @@ public:
   std::vector<InstrVariant> foldedInstrs;
   std::vector<InstrVariant> elseInstrs;
 };
-
-using BlockInstr = BlockedInstr<InstrType::Block>;
-using LoopInstr = BlockedInstr<InstrType::Loop>;
 
 #endif

@@ -22,12 +22,14 @@ add_library(wass-parser
   lib/parser/ParserMemoryInstr.cpp
   lib/parser/ParserControlInstr.cpp
   lib/parser/ParserTypeUse.cpp
-  lib/parser/ParserInstructions.cpp
+  lib/parser/ParserBlockedInstr.cpp
   lib/parser/ParserType.cpp
   lib/parser/ParserImport.cpp
   lib/parser/ParserFunction.cpp
   lib/parser/ParserTable.cpp
   lib/parser/ParserMemory.cpp
+  lib/parser/ParserGlobal.cpp
+  lib/parser/GetInstr.cpp
 )
 
 add_library(wass-core

@@ -1,4 +1,4 @@
-#include <parser/ParserInstructions.hpp>
+#include <parser/ParserBlockedInstr.hpp>
 
 #include <variant>
 #include <optional>
@@ -8,29 +8,9 @@
 #include <parser/Comment.hpp>
 #include <parser/Identifier.hpp>
 #include <parser/ParserResult.hpp>
-#include <parser/ParserConstInstr.hpp>
-#include <parser/ParserControlInstr.hpp>
-#include <parser/ParserMemoryInstr.hpp>
-#include <parser/ParserNumericInstr.hpp>
-#include <parser/ParserParamInstr.hpp>
-#include <parser/ParserVariableInstr.hpp>
+#include <parser/GetInstr.hpp>
 #include <structure/Value.hpp>
-#include <structure/BlockedInstr.hpp>
-
-template <class... Args>
-static InstrVariant variant_cast(const std::variant<Args...>& v){
-  return std::visit([](auto&& arg) -> InstrVariant { return arg; }, v);
-}
-
-template <class... T>
-static InstrVariant getInstr(ParserContext& context){
-  for(InstrVariant result : std::vector<InstrVariant>({variant_cast(T(context))...})){
-    if(!std::holds_alternative<std::monostate>(result)){
-      return result;
-    }
-  }
-  return InstrVariant(std::monostate());
-}
+#include <structure/InstrVariant.hpp>
 
 ParserBlockedInstr::ParserBlockedInstr(ParserContext& parent_context){
   if(parent_context.cursor != parent_context.end){
@@ -117,15 +97,7 @@ ParserBlockedInstr::ParserBlockedInstr(ParserContext& parent_context){
     // Instructions
     for(bool hasInstr = true; hasInstr; ){
       Comment::skip(context);
-      InstrVariant instr = getInstr<
-        ParserConstInstr,
-        ParserControlInstr,
-        ParserMemoryInstr,
-        ParserNumericInstr,
-        ParserParamInstr,
-        ParserVariableInstr,
-        ParserBlockedInstr
-      >(context);
+      InstrVariant instr = getInstruction(context);
       if(std::holds_alternative<std::monostate>(instr)){
         hasInstr = false;
       }else{
@@ -208,15 +180,7 @@ ParserFoldedInstr::ParserFoldedInstr(ParserContext& parent_context){
     ++context.cursor;
     Comment::skip(context);
     std::vector<InstrVariant>& instrs = emplace<std::vector<InstrVariant>>(std::vector<InstrVariant>());
-    InstrVariant plainInstr = getInstr<
-      ParserConstInstr,
-      ParserControlInstr,
-      ParserMemoryInstr,
-      ParserNumericInstr,
-      ParserParamInstr,
-      ParserVariableInstr,
-      ParserBlockedInstr
-    >(context);
+    InstrVariant plainInstr = getInstruction(context);
     if(!std::holds_alternative<std::monostate>(plainInstr)){
       Comment::skip(context);
       for(ParserFoldedInstr foldedInstr(context); foldedInstr.has_value(); foldedInstr = ParserFoldedInstr(context)){
@@ -234,16 +198,4 @@ ParserFoldedInstr::ParserFoldedInstr(ParserContext& parent_context){
       parent_context.cursor = context.cursor;
     }
   }
-}
-
-InstrVariant getInstruction(ParserContext& context){
-  return getInstr<
-    ParserConstInstr,
-    ParserControlInstr,
-    ParserMemoryInstr,
-    ParserNumericInstr,
-    ParserParamInstr,
-    ParserVariableInstr,
-    ParserBlockedInstr
-  >(context);
 }

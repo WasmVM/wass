@@ -1,10 +1,10 @@
-#ifndef GUARD_wass_parser_ParserInstructions
-#define GUARD_wass_parser_ParserInstructions
+#ifndef GUARD_wass_parser_ParserBlockedInstr
+#define GUARD_wass_parser_ParserBlockedInstr
 
 #include <optional>
 #include <vector>
 #include <variant>
-#include <structure/BlockedInstr.hpp>
+#include <structure/InstrVariant.hpp>
 #include <parser/ParserContext.hpp>
 
 class ParserBlockedInstr: public std::variant<
@@ -21,7 +21,5 @@ class ParserFoldedInstr: public std::optional<std::vector<InstrVariant>>{
 public:
   ParserFoldedInstr(ParserContext& context);
 };
-
-InstrVariant getInstruction(ParserContext& context);
 
 #endif

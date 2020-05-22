@@ -7,7 +7,7 @@
 #include <optional>
 #include <cstdint>
 #include <structure/TypeUse.hpp>
-#include <structure/BlockedInstr.hpp>
+#include <structure/InstrVariant.hpp>
 
 class Function{
 public:
