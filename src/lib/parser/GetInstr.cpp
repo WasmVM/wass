@@ -10,14 +10,14 @@
 #include <parser/ParserBlockedInstr.hpp>
 #include <parser/ParserVariableInstr.hpp>
 
-template <class... Args>
-static InstrVariant variant_cast(const std::variant<Args...>& v){
-  return std::visit([](auto&& arg) -> InstrVariant { return arg; }, v);
+template <typename V, class... Args>
+static V variant_cast(const std::variant<Args...>& v){
+  return std::visit([](auto&& arg) -> V { return arg; }, v);
 }
 
 template <class... T>
 static InstrVariant getInstr(ParserContext& context){
-  for(InstrVariant result : std::vector<InstrVariant>({variant_cast(T(context))...})){
+  for(InstrVariant result : std::vector<InstrVariant>({variant_cast<InstrVariant>(T(context))...})){
     if(!std::holds_alternative<std::monostate>(result)){
       return result;
     }

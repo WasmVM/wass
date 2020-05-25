@@ -11,7 +11,7 @@ public:
   Global() = default;
   std::optional<std::string> id;
   GlobalType globalType;
-  InstrVariant expr;
+  ConstExprVariant expr;
 };
 
 #endif

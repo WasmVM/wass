@@ -5,6 +5,7 @@
 
 class GlobalType{
 public:
+  GlobalType(const GlobalType&) = default;
   GlobalType();
   GlobalType(ValueType type, bool immutable = true);
   ValueType type;

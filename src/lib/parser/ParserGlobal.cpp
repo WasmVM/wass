@@ -1,14 +1,26 @@
 #include <parser/ParserGlobal.hpp>
 
 #include <optional>
+#include <variant>
 #include <Util.hpp>
 #include <Error.hpp>
 #include <structure/Global.hpp>
+#include <structure/ConstInstr.hpp>
+#include <structure/VariableInstr.hpp>
+#include <structure/InstrVariant.hpp>
+#include <parser/GetInstr.hpp>
 #include <parser/Identifier.hpp>
 #include <parser/Comment.hpp>
 #include <parser/ParserConstInstr.hpp>
+#include <parser/ParserVariableInstr.hpp>
 #include <parser/ParserContext.hpp>
 #include <parser/ParserGlobalType.hpp>
+#include "_AssignConstExprVisitor.hpp"
+
+template <typename V, class... Args>
+static V variant_cast(const std::variant<Args...>& v){
+  return std::visit([](auto&& arg) -> V { return arg; }, v);
+}
 
 ParserGlobal::ParserGlobal(ParserContext& parent_context){
   if(parent_context.cursor != parent_context.end){
@@ -35,11 +47,16 @@ ParserGlobal::ParserGlobal(ParserContext& parent_context){
         }
         // Expression
         Comment::skip(context);
-        ParserConstInstr constInstr(context);
-        if(std::holds_alternative<std::monostate>(constInstr)){
-          throw Error<ErrorType::SyntaxError>("expected globaltype in global section");
+        ParserConstInstr constExpr(context);
+        if(std::holds_alternative<std::monostate>(constExpr)){
+          ParserVariableInstr varExpr(context);
+          if(std::holds_alternative<GlobalGetInstr>(varExpr)){
+            global.expr.emplace<GlobalGetInstr>(std::get<GlobalGetInstr>(varExpr));
+          }else{
+            throw Error<ErrorType::SyntaxError>("expected constant expression in global section");
+          }
         }else{
-          
+          std::visit(AssignExprVisitor(global.expr), variant_cast<ConstExprVariant>(constExpr));
         }
         // Postfix
         Comment::skip(context);

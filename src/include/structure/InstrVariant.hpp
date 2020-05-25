@@ -22,6 +22,15 @@ using LoopInstr = BlockedInstr<InstrType::Loop>;
 
 class IfInstr;
 
+using ConstExprVariant = std::variant<
+  std::monostate,
+  I32ConstInstr,
+  I64ConstInstr,
+  F32ConstInstr,
+  F64ConstInstr,
+  GlobalGetInstr
+>;
+
 using InstrVariant = std::variant<
   std::monostate,
   BlockInstr,
