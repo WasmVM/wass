@@ -31,6 +31,7 @@ add_library(wass-parser
   lib/parser/ParserGlobal.cpp
   lib/parser/GetInstr.cpp
   lib/parser/_AssignConstExprVisitor.cpp
+  lib/parser/ParserExport.cpp
 )
 
 add_library(wass-core
