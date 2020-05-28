@@ -22,10 +22,14 @@ TEST(unittest_ParserElement, table_id_only){
 }
 
 TEST(unittest_ParserElement, no_list){
-  std::vector<char> data(create_char_vector("(elem 0 (offset i32.const 3))"));
+  std::vector<char> data(create_char_vector("(elem 2 (offset i32.const 3))"));
   ParserContext context(data);
-  ParserElement* result = nullptr;
-  EXPECT_THROW(result = new ParserElement(context), Error<ErrorType::SyntaxError>);
+  ParserElement result(context);
+  EXPECT_TRUE(result.has_value());
+  EXPECT_EQ(result->tableIndex, 2);
+  EXPECT_TRUE(std::holds_alternative<I32ConstInstr>(result->expr));
+  EXPECT_EQ(std::get_if<I32ConstInstr>(&result->expr)->value, 3);
+  EXPECT_EQ(result->funcIndices.size(), 0);
 }
 
 TEST(unittest_ParserElement, two_elem){
