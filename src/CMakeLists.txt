@@ -35,6 +35,7 @@ add_library(wass-parser
   lib/parser/ParserStart.cpp
   lib/parser/ParserElement.cpp
   lib/parser/ParserData.cpp
+  lib/parser/_Abbreviated.cpp
 )
 
 add_library(wass-core

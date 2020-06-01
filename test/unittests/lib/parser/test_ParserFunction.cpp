@@ -71,4 +71,44 @@ TEST(unittest_ParserFunction, with_id){
   EXPECT_STREQ(result->id->c_str(), "test");
 }
 
-// TODO: Abbreviations
+TEST(unittest_ParserFunction, with_import){
+  std::vector<char> data(create_char_vector("(func (import \"module\" \"test\") (type $testType))"));
+  ParserContext context(data);
+  ParserFunction result(context);
+  EXPECT_EQ(context.cursor, data.end());
+  EXPECT_TRUE(result.has_value());
+  EXPECT_STREQ(result->importModule.c_str(), "module");
+  EXPECT_STREQ(result->importName.c_str(), "test");
+}
+
+TEST(unittest_ParserFunction, with_export){
+  std::vector<char> data(create_char_vector("(func (export \"test\") (type $testType))"));
+  ParserContext context(data);
+  ParserFunction result(context);
+  EXPECT_EQ(context.cursor, data.end());
+  EXPECT_TRUE(result.has_value());
+  EXPECT_STREQ(result->exportNames[0].c_str(), "test");
+}
+
+TEST(unittest_ParserFunction, with_more_export){
+  std::vector<char> data(create_char_vector("(func (export \"test1\") (export \"test2\") (type $testType))"));
+  ParserContext context(data);
+  ParserFunction result(context);
+  EXPECT_EQ(context.cursor, data.end());
+  EXPECT_TRUE(result.has_value());
+  EXPECT_EQ(result->exportNames.size(), 2);
+  EXPECT_STREQ(result->exportNames[0].c_str(), "test1");
+  EXPECT_STREQ(result->exportNames[1].c_str(), "test2");
+}
+
+TEST(unittest_ParserFunction, with_import_export){
+  std::vector<char> data(create_char_vector("(func (export \"testexport\") (import \"module\" \"test\") (type $testType))"));
+  ParserContext context(data);
+  ParserFunction result(context);
+  EXPECT_EQ(context.cursor, data.end());
+  EXPECT_TRUE(result.has_value());
+  EXPECT_STREQ(result->importModule.c_str(), "module");
+  EXPECT_STREQ(result->importName.c_str(), "test");
+  EXPECT_EQ(result->exportNames.size(), 1);
+  EXPECT_STREQ(result->exportNames[0].c_str(), "testexport");
+}

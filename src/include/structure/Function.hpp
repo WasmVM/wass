@@ -4,6 +4,7 @@
 #include <map>
 #include <vector>
 #include <string>
+#include <utility>
 #include <optional>
 #include <cstdint>
 #include <structure/TypeUse.hpp>
@@ -17,6 +18,9 @@ public:
   std::map<std::string, uint32_t> localMap;
   std::vector<ValueType> locals;
   std::vector<InstrVariant> body;
+  std::string importModule;
+  std::string importName;
+  std::vector<std::string> exportNames;
 };
 
 #endif

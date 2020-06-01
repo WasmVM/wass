@@ -13,6 +13,7 @@
 #include <parser/ParserBlockedInstr.hpp>
 #include <parser/GetInstr.hpp>
 #include <structure/Function.hpp>
+#include "_Abbreviated.hpp"
 
 struct Local{
   std::optional<std::string> id;
@@ -66,6 +67,19 @@ ParserFunction::ParserFunction(ParserContext& parent_context){
         if(id.has_value()){
           func.id = *id;
         }
+        // Export
+        Comment::skip(context);
+        for(AbbrExport abbrExport(context); abbrExport.has_value(); abbrExport = AbbrExport(context)){
+          func.exportNames.emplace_back(*abbrExport);
+          Comment::skip(context);
+        }
+        // Import
+        Comment::skip(context);
+        AbbrImport abbrImport(context);
+        if(abbrImport.has_value()){
+          func.importModule = abbrImport->first;
+          func.importName = abbrImport->second;
+        }
         // Typeuse
         Comment::skip(context);
         ParserTypeUse typeuse(context);
@@ -74,35 +88,39 @@ ParserFunction::ParserFunction(ParserContext& parent_context){
         }else{
           throw Error<ErrorType::SyntaxError>("expected typeuse in function section");
         }
-        // Local
-        Comment::skip(context);
-        for(std::optional<Local> local = parseLocal(context); local.has_value(); local = parseLocal(context)){
-          uint32_t index = func.locals.size();
-          if(local->id.has_value()){
-            func.localMap[*(local->id)] = index;
-          }
-          for(auto it = local->types.begin(); it != local->types.end(); ++it){
-            func.locals.push_back(*it);
-          }
+
+        if(!abbrImport.has_value()){
+          // Local
           Comment::skip(context);
-        }
-        // Body
-        while (true){
-          Comment::skip(context);
-          InstrVariant instr(getInstruction(context));
-          if(std::holds_alternative<std::monostate>(instr)){
-            ParserFoldedInstr folded(context);
-            if(folded.has_value()){
-              for(auto it = folded->begin(); it != folded->end(); ++it){
-                func.body.emplace_back(*it);
+          for(std::optional<Local> local = parseLocal(context); local.has_value(); local = parseLocal(context)){
+            uint32_t index = func.locals.size();
+            if(local->id.has_value()){
+              func.localMap[*(local->id)] = index;
+            }
+            for(auto it = local->types.begin(); it != local->types.end(); ++it){
+              func.locals.push_back(*it);
+            }
+            Comment::skip(context);
+          }
+          // Body
+          while (true){
+            Comment::skip(context);
+            InstrVariant instr(getInstruction(context));
+            if(std::holds_alternative<std::monostate>(instr)){
+              ParserFoldedInstr folded(context);
+              if(folded.has_value() && folded->size() > 0){
+                for(auto it = folded->begin(); it != folded->end(); ++it){
+                  func.body.emplace_back(*it);
+                }
+              }else{
+                break;
               }
             }else{
-              break;
+              func.body.emplace_back(instr);
             }
-          }else{
-            func.body.emplace_back(instr);
           }
         }
+
         // Postfix
         Comment::skip(context);
         if((*context.cursor) == ')'){
