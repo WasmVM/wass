@@ -8,6 +8,7 @@
 #include <parser/Identifier.hpp>
 #include <parser/Comment.hpp>
 #include <parser/ParserContext.hpp>
+#include "_Abbreviated.hpp"
 
 ParserTable::ParserTable(ParserContext& parent_context){
   if(parent_context.cursor != parent_context.end){
@@ -23,6 +24,19 @@ ParserTable::ParserTable(ParserContext& parent_context){
         Identifier id(context);
         if(id.has_value()){
           table.id = *id;
+        }
+        // Export
+        Comment::skip(context);
+        for(AbbrExport abbrExport(context); abbrExport.has_value(); abbrExport = AbbrExport(context)){
+          table.exportNames.emplace_back(*abbrExport);
+          Comment::skip(context);
+        }
+        // Import
+        Comment::skip(context);
+        AbbrImport abbrImport(context);
+        if(abbrImport.has_value()){
+          table.importModule = abbrImport->first;
+          table.importName = abbrImport->second;
         }
         // Table type
         Comment::skip(context);

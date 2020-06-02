@@ -3,6 +3,7 @@
 
 #include <optional>
 #include <string>
+#include <vector>
 #include <cstdint>
 #include <structure/Limit.hpp>
 
@@ -11,6 +12,9 @@ public:
   Table() = default;
   std::optional<std::string> id;
   Limit tableType;
+  std::string importModule;
+  std::string importName;
+  std::vector<std::string> exportNames;
 };
 
 #endif
