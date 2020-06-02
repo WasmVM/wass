@@ -12,9 +12,10 @@ public:
   Table() = default;
   std::optional<std::string> id;
   Limit tableType;
-  std::string importModule;
-  std::string importName;
-  std::vector<std::string> exportNames;
+  std::optional<std::vector<uint32_t>> elements;
+  std::optional<std::string> importModule;
+  std::optional<std::string> importName;
+  std::optional<std::vector<std::string>> exportNames;
 };
 
 #endif

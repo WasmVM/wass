@@ -6,6 +6,7 @@
 #include <structure/Limit.hpp>
 #include <parser/ParserTableType.hpp>
 #include <parser/Identifier.hpp>
+#include <parser/IntegerLiteral.hpp>
 #include <parser/Comment.hpp>
 #include <parser/ParserContext.hpp>
 #include "_Abbreviated.hpp"
@@ -28,7 +29,10 @@ ParserTable::ParserTable(ParserContext& parent_context){
         // Export
         Comment::skip(context);
         for(AbbrExport abbrExport(context); abbrExport.has_value(); abbrExport = AbbrExport(context)){
-          table.exportNames.emplace_back(*abbrExport);
+          if(!table.exportNames.has_value()){
+            table.exportNames.emplace();
+          }
+          table.exportNames->emplace_back(*abbrExport);
           Comment::skip(context);
         }
         // Import
@@ -38,13 +42,44 @@ ParserTable::ParserTable(ParserContext& parent_context){
           table.importModule = abbrImport->first;
           table.importName = abbrImport->second;
         }
-        // Table type
+        // Elem
         Comment::skip(context);
-        ParserTableType tableType(context);
-        if(tableType.has_value()){
-          table.tableType = *tableType;
+        if(Util::matchString(context.cursor, context.end, "funcref")){
+          context.cursor += 7;
+          Comment::skip(context);
+          if(*context.cursor == '('){
+            ++context.cursor;
+            Comment::skip(context);
+            if(Util::matchString(context.cursor, context.end, "elem")){
+              context.cursor += 4;
+              std::vector<uint32_t>& elems = table.elements.emplace(std::vector<uint32_t>());
+              Comment::skip(context);
+              for(IntegerLiteral elem(context); elem.has_value(); elem = IntegerLiteral(context)){
+                elems.emplace_back(*elem);
+                Comment::skip(context);
+              }
+              table.tableType.min = elems.size();
+              table.tableType.max = elems.size();
+              Comment::skip(context);
+              if(*context.cursor == ')'){
+                ++context.cursor;
+              }else{
+                throw Error<ErrorType::SyntaxError>("expected ')' in abbreviated element of table section");
+              }
+            }else{
+              throw Error<ErrorType::SyntaxError>("expected 'elem' in abbreviated element of table section");
+            }
+          }else{
+            throw Error<ErrorType::SyntaxError>("expected '(' in abbreviated element of table section");
+          }
         }else{
-          throw Error<ErrorType::SyntaxError>("expected tabletype in table section");
+          // Table type
+          ParserTableType tableType(context);
+          if(tableType.has_value()){
+            table.tableType = *tableType;
+          }else{
+            throw Error<ErrorType::SyntaxError>("expected tabletype in table section");
+          }
         }
         // Postfix
         Comment::skip(context);
@@ -52,7 +87,7 @@ ParserTable::ParserTable(ParserContext& parent_context){
           ++context.cursor;
           parent_context.cursor = context.cursor;
         }else{
-          throw Error<ErrorType::SyntaxError>("expected ')' in the end table section");
+          throw Error<ErrorType::SyntaxError>("expected ')' in the end of table section");
         }
       }
     }
