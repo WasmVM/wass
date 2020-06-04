@@ -35,16 +35,14 @@ ParserTable::ParserTable(ParserContext& parent_context){
           table.exportNames->emplace_back(*abbrExport);
           Comment::skip(context);
         }
-        // Import
         Comment::skip(context);
+        // Import
         AbbrImport abbrImport(context);
         if(abbrImport.has_value()){
           table.importModule = abbrImport->first;
           table.importName = abbrImport->second;
-        }
-        // Elem
-        Comment::skip(context);
-        if(Util::matchString(context.cursor, context.end, "funcref")){
+        }else if(Util::matchString(context.cursor, context.end, "funcref")){
+          // Elem
           context.cursor += 7;
           Comment::skip(context);
           if(*context.cursor == '('){
