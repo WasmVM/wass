@@ -70,8 +70,10 @@ ParserTable::ParserTable(ParserContext& parent_context){
           }else{
             throw Error<ErrorType::SyntaxError>("expected '(' in abbreviated element of table section");
           }
-        }else{
-          // Table type
+        }
+        // Table type
+        if(!table.elements.has_value()){
+          Comment::skip(context);
           ParserTableType tableType(context);
           if(tableType.has_value()){
             table.tableType = *tableType;

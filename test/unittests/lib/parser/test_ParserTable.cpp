@@ -63,7 +63,7 @@ TEST(unittest_ParserTable, with_export){
   EXPECT_STREQ(result->exportNames->at(0).c_str(), "test");
 }
 
-TEST(unittest_ParserTable, with_more_xport){
+TEST(unittest_ParserTable, with_more_export){
   std::vector<char> data(create_char_vector("(table (export \"test1\") (export \"test2\") 24 funcref)"));
   ParserContext context(data);
   ParserTable result(context);
