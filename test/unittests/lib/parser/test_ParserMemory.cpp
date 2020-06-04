@@ -63,7 +63,7 @@ TEST(unittest_ParserMemory, with_export){
   EXPECT_STREQ(result->exportNames->at(0).c_str(), "test");
 }
 
-TEST(unittest_ParserMemory, with_more_xport){
+TEST(unittest_ParserMemory, with_more_export){
   std::vector<char> data(create_char_vector("(memory (export \"test1\") (export \"test2\") 24)"));
   ParserContext context(data);
   ParserMemory result(context);

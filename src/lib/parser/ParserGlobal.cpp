@@ -16,6 +16,7 @@
 #include <parser/ParserContext.hpp>
 #include <parser/ParserGlobalType.hpp>
 #include "_AssignConstExprVisitor.hpp"
+#include "_Abbreviated.hpp"
 
 template <typename V, class... Args>
 static V variant_cast(const std::variant<Args...>& v){
@@ -37,6 +38,22 @@ ParserGlobal::ParserGlobal(ParserContext& parent_context){
         if(id.has_value()){
           global.id = *id;
         }
+        // Export
+        Comment::skip(context);
+        for(AbbrExport abbrExport(context); abbrExport.has_value(); abbrExport = AbbrExport(context)){
+          if(!global.exportNames.has_value()){
+            global.exportNames.emplace();
+          }
+          global.exportNames->emplace_back(*abbrExport);
+          Comment::skip(context);
+        }
+        // Import
+        Comment::skip(context);
+        AbbrImport abbrImport(context);
+        if(abbrImport.has_value()){
+          global.importModule = abbrImport->first;
+          global.importName = abbrImport->second;
+        }
         // Global type
         Comment::skip(context);
         ParserGlobalType globalType(context);
@@ -46,17 +63,19 @@ ParserGlobal::ParserGlobal(ParserContext& parent_context){
           throw Error<ErrorType::SyntaxError>("expected globaltype in global section");
         }
         // Expression
-        Comment::skip(context);
-        ParserConstInstr constExpr(context);
-        if(std::holds_alternative<std::monostate>(constExpr)){
-          ParserVariableInstr varExpr(context);
-          if(std::holds_alternative<GlobalGetInstr>(varExpr)){
-            global.expr.emplace<GlobalGetInstr>(std::get<GlobalGetInstr>(varExpr));
+        if(!(global.importModule.has_value() || global.importName.has_value())){
+          Comment::skip(context);
+          ParserConstInstr constExpr(context);
+          if(std::holds_alternative<std::monostate>(constExpr)){
+            ParserVariableInstr varExpr(context);
+            if(std::holds_alternative<GlobalGetInstr>(varExpr)){
+              global.expr.emplace<GlobalGetInstr>(std::get<GlobalGetInstr>(varExpr));
+            }else{
+              throw Error<ErrorType::SyntaxError>("expected constant expression in global section");
+            }
           }else{
-            throw Error<ErrorType::SyntaxError>("expected constant expression in global section");
+            std::visit(AssignExprVisitor(global.expr), variant_cast<ConstExprVariant>(constExpr));
           }
-        }else{
-          std::visit(AssignExprVisitor(global.expr), variant_cast<ConstExprVariant>(constExpr));
         }
         // Postfix
         Comment::skip(context);
