@@ -30,12 +30,13 @@ add_library(wass-parser
   lib/parser/ParserMemory.cpp
   lib/parser/ParserGlobal.cpp
   lib/parser/GetInstr.cpp
-  lib/parser/_AssignConstExprVisitor.cpp
   lib/parser/ParserExport.cpp
   lib/parser/ParserStart.cpp
   lib/parser/ParserElement.cpp
   lib/parser/ParserData.cpp
+  lib/parser/ParserModule.cpp
   lib/parser/_Abbreviated.cpp
+  lib/parser/_AssignConstExprVisitor.cpp
 )
 
 add_library(wass-core

@@ -30,6 +30,7 @@ add_library(test_parser OBJECT
   test_ParserStart.cpp
   test_ParserElement.cpp
   test_ParserData.cpp
+  test_ParserModule.cpp
 )
 add_dependencies(test_parser
   googletest
