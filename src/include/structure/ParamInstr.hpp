@@ -1,5 +1,5 @@
-#ifndef GUARD_wass_parser_ParamInstr
-#define GUARD_wass_parser_ParamInstr
+#ifndef GUARD_wass_structure_ParamInstr
+#define GUARD_wass_structure_ParamInstr
 
 #include <structure/BaseInstr.hpp>
 

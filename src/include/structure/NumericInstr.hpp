@@ -1,5 +1,5 @@
-#ifndef GUARD_wass_parser_NumericInstr
-#define GUARD_wass_parser_NumericInstr
+#ifndef GUARD_wass_structure_NumericInstr
+#define GUARD_wass_structure_NumericInstr
 
 #include <structure/BaseInstr.hpp>
 
