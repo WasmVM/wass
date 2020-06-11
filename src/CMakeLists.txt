@@ -1,44 +1,5 @@
 include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
 
-add_library(wass-parser
-  lib/parser/ParserContext.cpp
-  lib/parser/Comment.cpp
-  lib/parser/IntegerLiteral.cpp
-  lib/parser/FloatLiteral.cpp
-  lib/parser/StringLiteral.cpp
-  lib/parser/Name.cpp
-  lib/parser/Identifier.cpp
-  lib/parser/ParserValueType.cpp
-  lib/parser/ParserParam.cpp
-  lib/parser/ParserResult.cpp
-  lib/parser/ParserFuncType.cpp
-  lib/parser/ParserLimit.cpp
-  lib/parser/ParserTableType.cpp
-  lib/parser/ParserGlobalType.cpp
-  lib/parser/ParserNumericInstr.cpp
-  lib/parser/ParserConstInstr.cpp
-  lib/parser/ParserParamInstr.cpp
-  lib/parser/ParserVariableInstr.cpp
-  lib/parser/ParserMemoryInstr.cpp
-  lib/parser/ParserControlInstr.cpp
-  lib/parser/ParserTypeUse.cpp
-  lib/parser/ParserBlockedInstr.cpp
-  lib/parser/ParserType.cpp
-  lib/parser/ParserImport.cpp
-  lib/parser/ParserFunction.cpp
-  lib/parser/ParserTable.cpp
-  lib/parser/ParserMemory.cpp
-  lib/parser/ParserGlobal.cpp
-  lib/parser/GetInstr.cpp
-  lib/parser/ParserExport.cpp
-  lib/parser/ParserStart.cpp
-  lib/parser/ParserElement.cpp
-  lib/parser/ParserData.cpp
-  lib/parser/ParserModule.cpp
-  lib/parser/_Abbreviated.cpp
-  lib/parser/_AssignConstExprVisitor.cpp
-)
-
 add_library(wass-core
   lib/Error.cpp
   lib/Util.cpp
@@ -49,3 +10,6 @@ add_library(wass-core
   lib/structure/ControlInstr.cpp
   lib/structure/TypeUse.cpp
 )
+
+add_subdirectory(lib/parser)
+add_subdirectory(lib/codegen)
