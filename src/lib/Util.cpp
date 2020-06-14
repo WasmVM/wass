@@ -14,36 +14,36 @@ bool Util::matchString(std::vector<char>::iterator& begin, std::vector<char>::it
   return sIt == str.end();
 }
 
-template<> std::vector<char> Util::toLEB128<uint32_t>(uint32_t value){
-  std::vector<char> result;
+template<> BinaryCode Util::toLEB128<uint32_t>(uint32_t value){
   if(value == 0){
-    result.emplace_back(0);
+    return BinaryCode({'\x00'});
   }else{
+    BinaryCode result;
     for(int i = 0; (i < 5) && (value != 0); ++i){
-      result.emplace_back((value & 0x7F) | 0x80);
+      result += (char)((value & 0x7F) | 0x80);
       value >>= 7;
     }
     result.back() &= 0x7F;
+    return result;
   }
-  return result;
 }
 
-template<> std::vector<char> Util::toLEB128<int32_t>(int32_t value){
-  std::vector<char> result;
+template<> BinaryCode Util::toLEB128<int32_t>(int32_t value){
   if(value == 0){
-    result.emplace_back(0);
+    return BinaryCode({'\x00'});
   }else{
+    BinaryCode result;
     uint32_t mask = (value < 0) ? 0xFFFFFFFF : 0; 
     for(int i = 0; (i < 5) && (((uint32_t)value & mask) != mask); ++i){
-      result.emplace_back((value & 0x7F) | 0x80);
+      result += (char)((value & 0x7F) | 0x80);
       value >>= 7;
       mask >>= 7;
     }
     if(result.size() < 5){
       if(mask == 0 && ((result.back() & 0x40) != 0)){
-        result.emplace_back(0);
+        result += '\x00';
       }else if(mask != 0 && ((result.back() & 0x40) == 0)){
-        result.emplace_back(0x7F);
+        result += '\x7F';
       }
     }else{
       if(mask == 0){
@@ -53,40 +53,40 @@ template<> std::vector<char> Util::toLEB128<int32_t>(int32_t value){
       }
     }
     result.back() &= 0x7F;
+    return result;
   }
-  return result;
 }
 
-template<> std::vector<char> Util::toLEB128<uint64_t>(uint64_t value){
-  std::vector<char> result;
+template<> BinaryCode Util::toLEB128<uint64_t>(uint64_t value){
   if(value == 0){
-    result.emplace_back(0);
+    return BinaryCode({'\x00'});
   }else{
+    BinaryCode result;
     for(int i = 0; (i < 10) && (value != 0); ++i){
-      result.emplace_back(value & 0x7F);
+      result += (char)(value & 0x7F);
       value >>= 7;
     }
     result.back() |= 0x80;
+    return result;
   }
-  return result;
 }
 
-template<> std::vector<char> Util::toLEB128<int64_t>(int64_t value){
-  std::vector<char> result;
+template<> BinaryCode Util::toLEB128<int64_t>(int64_t value){
   if(value == 0){
-    result.emplace_back(0);
+    return BinaryCode({'\x00'});
   }else{
+    BinaryCode result;
     uint64_t mask = (value < 0) ? 0xFFFFFFFFFFFFFFFF : 0; 
     for(int i = 0; (i < 10) && (((uint64_t)value & mask) != mask); ++i){
-      result.emplace_back((value & 0x7F) | 0x80);
+      result += (char)((value & 0x7F) | 0x80);
       value >>= 7;
       mask >>= 7;
     }
     if(result.size() < 10){
       if(mask == 0 && ((result.back() & 0x40) != 0)){
-        result.emplace_back(0);
+        result += '\x00';
       }else if(mask != 0 && ((result.back() & 0x40) == 0)){
-        result.emplace_back(0x7F);
+        result += '\x7F';
       }
     }else{
       if(mask == 0){
@@ -96,10 +96,10 @@ template<> std::vector<char> Util::toLEB128<int64_t>(int64_t value){
       }
     }
     result.back() &= 0x7F;
+    return result;
   }
-  return result;
 }
 
-template<typename T> std::vector<char> Util::toLEB128(T){
+template<typename T> BinaryCode Util::toLEB128(T){
   throw Error<ErrorType::GenerateError>("this type cannot convert to LEB128");
 }

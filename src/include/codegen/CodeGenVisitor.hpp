@@ -6,29 +6,27 @@
 #include <map>
 #include <cstdint>
 #include <string>
+#include <BinaryCode.hpp>
 #include <structure/Module.hpp>
-#include <structure/Type.hpp>
 #include <structure/FuncType.hpp>
 #include <structure/ValueType.hpp>
 
 using CodeGenVariant = std::variant<
   Module,
-  Type,
   FuncType,
   ValueType
 >;
 
 class CodeGenVisitor{
 public:
+  BinaryCode operator()(Module&&);
+  BinaryCode operator()(FuncType&&);
+  BinaryCode operator()(ValueType&&);
+private:
   struct {
-    std::vector<char> typeCode;
+    std::vector<BinaryCode> typeCodes;
     std::map<std::string, uint32_t> typeMap;
   } context;
-
-  std::vector<char> operator()(Module&&);
-  std::vector<char> operator()(Type&&);
-  std::vector<char> operator()(FuncType&&);
-  std::vector<char> operator()(ValueType&&);
 };
 
 #endif

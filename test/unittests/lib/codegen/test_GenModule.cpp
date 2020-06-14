@@ -4,15 +4,22 @@
 #include <variant>
 #include <Error.hpp>
 #include <structure/Module.hpp>
+#include <structure/Type.hpp>
 #include <codegen/CodeGenVisitor.hpp>
+#include <BinaryCode.hpp>
 #include <Helper.hpp>
 
 TEST(unittest_GenModule, empty){
   Module data;
-  std::vector<char> result = std::visit<std::vector<char>>(CodeGenVisitor(), CodeGenVariant(data));
-  std::vector<char> expect {BIN_MAGIC, BIN_VERSION};
-  ASSERT_EQ(result.size(), expect.size());
-  for(size_t i = 0; i < expect.size(); ++i){
-    EXPECT_BITWISE_EQ(result[i], expect[i]);
-  }
+  EXPECT_EQ(std::visit<BinaryCode>(CodeGenVisitor(), CodeGenVariant(data)), BinaryCode({BIN_MAGIC, BIN_VERSION}));
+}
+
+TEST(unittest_GenModule, type_section){
+  Module data;
+  data.types.push_back(Type());
+  CodeGenVisitor visitor;
+  EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({
+    BIN_MAGIC, BIN_VERSION,
+    '\x01', '\x60', '\x00', '\x00'
+  }));
 }
