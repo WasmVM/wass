@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <structure/Type.hpp>
 #include <Util.hpp>
+#include <BinaryCode.hpp>
 
 BinaryCode CodeGenVisitor::operator()(Module&& target){
   BinaryCode result({
@@ -23,6 +24,9 @@ BinaryCode CodeGenVisitor::operator()(Module&& target){
   if(context.typeCodes.size() > 0){
     result += '\x01';
     result += Util::toLEB128((uint32_t)context.typeCodes.size());
+    for(BinaryCode& code : context.typeCodes){
+      result += code;
+    }
   }
   return result;
 }
