@@ -48,7 +48,7 @@ TEST(unittest_ParserParam, empty){
   std::vector<char> data(create_char_vector("(param)"));
   ParserContext context(data);
   ParserParam* result = nullptr;
-  EXPECT_THROW(result = new ParserParam(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new ParserParam(context), Error<ErrorType::ParseError>);
   delete result;
 }
 
@@ -66,7 +66,7 @@ TEST(unittest_ParserParam, empty_with_comment){
   std::vector<char> data(create_char_vector("(param(;comment;))"));
   ParserContext context(data);
   ParserParam* result = nullptr;
-  EXPECT_THROW(result = new ParserParam(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new ParserParam(context), Error<ErrorType::ParseError>);
   delete result;
 }
 
@@ -74,7 +74,7 @@ TEST(unittest_ParserParam, empty_with_id){
   std::vector<char> data(create_char_vector("(param $aaa)"));
   ParserContext context(data);
   ParserParam* result = nullptr;
-  EXPECT_THROW(result = new ParserParam(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new ParserParam(context), Error<ErrorType::ParseError>);
   delete result;
 }
 
@@ -106,6 +106,6 @@ TEST(unittest_ParserParam, multi_value_with_id){
   std::vector<char> data(create_char_vector("(param $aaa i32 i32 i64)"));
   ParserContext context(data);
   ParserParam* result = nullptr;
-  EXPECT_THROW(result = new ParserParam(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new ParserParam(context), Error<ErrorType::ParseError>);
   delete result;
 }

@@ -31,10 +31,10 @@ ParserType::ParserType(ParserContext& parent_context){
             this->std::optional<Type>::operator=(type);
             parent_context.cursor = context.cursor;
           }else{
-            throw Error<ErrorType::SyntaxError>("expected ')' when type section ends");
+            throw Error<ErrorType::ParseError>("expected ')' when type section ends");
           }
         }else{
-          throw Error<ErrorType::SyntaxError>("expected functype in type section");
+          throw Error<ErrorType::ParseError>("expected functype in type section");
         }
       }
     }

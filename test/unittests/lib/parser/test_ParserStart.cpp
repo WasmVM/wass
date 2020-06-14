@@ -10,7 +10,7 @@ TEST(unittest_ParserStart, empty){
   std::vector<char> data(create_char_vector("(start)"));
   ParserContext context(data);
   ParserStart* result = nullptr;
-  EXPECT_THROW(result = new ParserStart(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new ParserStart(context), Error<ErrorType::ParseError>);
 }
 
 TEST(unittest_ParserStart, no_desc){

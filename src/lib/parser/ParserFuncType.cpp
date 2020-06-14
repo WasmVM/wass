@@ -51,7 +51,7 @@ ParserFuncType::ParserFuncType(ParserContext& parent_context){
           this->std::optional<FuncType>::operator=(funcType);
           parent_context = context;
         }else{
-          throw Error<ErrorType::SyntaxError>("expected ')'");
+          throw Error<ErrorType::ParseError>("expected ')'");
         }
       }
     }

@@ -60,7 +60,7 @@ ParserGlobal::ParserGlobal(ParserContext& parent_context){
         if(globalType.has_value()){
           global.globalType = *globalType;
         }else{
-          throw Error<ErrorType::SyntaxError>("expected globaltype in global section");
+          throw Error<ErrorType::ParseError>("expected globaltype in global section");
         }
         // Expression
         if(!(global.importModule.has_value() || global.importName.has_value())){
@@ -71,7 +71,7 @@ ParserGlobal::ParserGlobal(ParserContext& parent_context){
             if(std::holds_alternative<GlobalGetInstr>(varExpr)){
               global.expr.emplace<GlobalGetInstr>(std::get<GlobalGetInstr>(varExpr));
             }else{
-              throw Error<ErrorType::SyntaxError>("expected constant expression in global section");
+              throw Error<ErrorType::ParseError>("expected constant expression in global section");
             }
           }else{
             std::visit(AssignExprVisitor(global.expr), variant_cast<ConstExprVariant>(constExpr));
@@ -83,7 +83,7 @@ ParserGlobal::ParserGlobal(ParserContext& parent_context){
           ++context.cursor;
           parent_context.cursor = context.cursor;
         }else{
-          throw Error<ErrorType::SyntaxError>("expected ')' in the end of global section");
+          throw Error<ErrorType::ParseError>("expected ')' in the end of global section");
         }
       }
     }

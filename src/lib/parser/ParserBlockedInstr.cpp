@@ -9,7 +9,7 @@
 #include <parser/Identifier.hpp>
 #include <parser/ParserResult.hpp>
 #include <parser/GetInstr.hpp>
-#include <structure/Value.hpp>
+#include <structure/ValueType.hpp>
 #include <structure/InstrVariant.hpp>
 
 ParserBlockedInstr::ParserBlockedInstr(ParserContext& parent_context){
@@ -87,10 +87,10 @@ ParserBlockedInstr::ParserBlockedInstr(ParserContext& parent_context){
         if(Util::matchString(context.cursor, context.end, "then")){
           context.cursor += 4;
         }else{
-          throw Error<ErrorType::SyntaxError>("expected 'then' block in folded if");
+          throw Error<ErrorType::ParseError>("expected 'then' block in folded if");
         }
       }else{
-        throw Error<ErrorType::SyntaxError>("expected 'then' block in folded if");
+        throw Error<ErrorType::ParseError>("expected 'then' block in folded if");
       }
     }
 
@@ -120,7 +120,7 @@ ParserBlockedInstr::ParserBlockedInstr(ParserContext& parent_context){
             optionalFoldedElse = false;
           }
         }else{
-          throw Error<ErrorType::SyntaxError>("expected ')' in folded if");
+          throw Error<ErrorType::ParseError>("expected ')' in folded if");
         }
       }
       if(optionalFoldedElse && Util::matchString(context.cursor, context.end, "else")){
@@ -128,7 +128,7 @@ ParserBlockedInstr::ParserBlockedInstr(ParserContext& parent_context){
         Comment::skip(context);
         Identifier postfix(context);
         if(postfix.has_value() && *postfix != *id){
-          throw Error<ErrorType::SyntaxError>("postfix id of 'else' should match block label");
+          throw Error<ErrorType::ParseError>("postfix id of 'else' should match block label");
         }
         std::vector<InstrVariant>& elseInstrs = std::get<IfInstr>(*this).elseInstrs;
         for(bool hasInstr = true; hasInstr; ){
@@ -144,7 +144,7 @@ ParserBlockedInstr::ParserBlockedInstr(ParserContext& parent_context){
           if(*context.cursor == ')'){
             ++context.cursor;
           }else{
-            throw Error<ErrorType::SyntaxError>("expected ')' in folded instruction");
+            throw Error<ErrorType::ParseError>("expected ')' in folded instruction");
           }
         }
       }
@@ -154,7 +154,7 @@ ParserBlockedInstr::ParserBlockedInstr(ParserContext& parent_context){
     Comment::skip(context);
     if(isFolded){
       if(*context.cursor != ')'){
-        throw Error<ErrorType::SyntaxError>("expected ')' in folded instruction");
+        throw Error<ErrorType::ParseError>("expected ')' in folded instruction");
       }else{
         ++context.cursor;
       }
@@ -164,10 +164,10 @@ ParserBlockedInstr::ParserBlockedInstr(ParserContext& parent_context){
         Comment::skip(context);
         Identifier postfix(context);
         if(postfix.has_value() && *postfix != *id){
-          throw Error<ErrorType::SyntaxError>("postfix id should match block label");
+          throw Error<ErrorType::ParseError>("postfix id should match block label");
         }
       }else{
-        throw Error<ErrorType::SyntaxError>("expected 'end' in blocked instruction");
+        throw Error<ErrorType::ParseError>("expected 'end' in blocked instruction");
       }
     }
     parent_context.cursor = context.cursor;
@@ -192,7 +192,7 @@ ParserFoldedInstr::ParserFoldedInstr(ParserContext& parent_context){
       instrs.emplace_back(plainInstr);
       Comment::skip(context);
       if(*context.cursor != ')'){
-        throw Error<ErrorType::SyntaxError>("expected ')' in folded instruction");
+        throw Error<ErrorType::ParseError>("expected ')' in folded instruction");
       }
       ++context.cursor;
       parent_context.cursor = context.cursor;

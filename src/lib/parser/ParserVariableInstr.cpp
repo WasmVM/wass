@@ -20,7 +20,7 @@ ParserVariableInstr::ParserVariableInstr(ParserContext& parent_context){
       emplace<LocalGetInstr>(instr);
       parent_context.cursor = context.cursor;
     }else{
-      throw Error<ErrorType::SyntaxError>("expected integer immediate after local.get");
+      throw Error<ErrorType::ParseError>("expected integer immediate after local.get");
     }
   }else if(Util::matchString(context.cursor, context.end, "local.set")){
     context.cursor += 9;
@@ -32,7 +32,7 @@ ParserVariableInstr::ParserVariableInstr(ParserContext& parent_context){
       emplace<LocalSetInstr>(instr);
       parent_context.cursor = context.cursor;
     }else{
-      throw Error<ErrorType::SyntaxError>("expected integer immediate after local.set");
+      throw Error<ErrorType::ParseError>("expected integer immediate after local.set");
     }
   }else if(Util::matchString(context.cursor, context.end, "local.tee")){
     context.cursor += 9;
@@ -44,7 +44,7 @@ ParserVariableInstr::ParserVariableInstr(ParserContext& parent_context){
       emplace<LocalTeeInstr>(instr);
       parent_context.cursor = context.cursor;
     }else{
-      throw Error<ErrorType::SyntaxError>("expected integer immediate after local.tee");
+      throw Error<ErrorType::ParseError>("expected integer immediate after local.tee");
     }
   }else if(Util::matchString(context.cursor, context.end, "global.get")){
     context.cursor += 10;
@@ -56,7 +56,7 @@ ParserVariableInstr::ParserVariableInstr(ParserContext& parent_context){
       emplace<GlobalGetInstr>(instr);
       parent_context.cursor = context.cursor;
     }else{
-      throw Error<ErrorType::SyntaxError>("expected integer immediate after global.get");
+      throw Error<ErrorType::ParseError>("expected integer immediate after global.get");
     }
   }else if(Util::matchString(context.cursor, context.end, "global.set")){
     context.cursor += 10;
@@ -68,7 +68,7 @@ ParserVariableInstr::ParserVariableInstr(ParserContext& parent_context){
       emplace<GlobalSetInstr>(instr);
       parent_context.cursor = context.cursor;
     }else{
-      throw Error<ErrorType::SyntaxError>("expected integer immediate after global.set");
+      throw Error<ErrorType::ParseError>("expected integer immediate after global.set");
     }
   }
 }

@@ -34,7 +34,7 @@ static void multi_line_comment(ParserContext& context){
     }
   } while (nestedLevel > 0);
   if(nestedLevel != 0){
-    throw Error<ErrorType::SyntaxError>("Multi-line comment is not closed");
+    throw Error<ErrorType::ParseError>("Multi-line comment is not closed");
   }
 }
 

@@ -12,14 +12,14 @@ TEST(unittest_ParserData, empty){
   std::vector<char> data(create_char_vector("(data)"));
   ParserContext context(data);
   ParserData* result = nullptr;
-  EXPECT_THROW(result = new ParserData(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new ParserData(context), Error<ErrorType::ParseError>);
 }
 
 TEST(unittest_ParserData, memidx_only){
   std::vector<char> data(create_char_vector("(data 0)"));
   ParserContext context(data);
   ParserData* result = nullptr;
-  EXPECT_THROW(result = new ParserData(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new ParserData(context), Error<ErrorType::ParseError>);
 }
 
 TEST(unittest_ParserData, no_string){

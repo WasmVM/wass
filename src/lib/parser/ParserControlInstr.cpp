@@ -39,7 +39,7 @@ ParserControlInstr::ParserControlInstr(ParserContext & parent_context){
         emplace<BrTableInstr>(BrTableInstr(labels));
         parent_context.cursor = context.cursor;
       }else{
-        throw Error<ErrorType::SyntaxError>("expected at least a label index for br_table");
+        throw Error<ErrorType::ParseError>("expected at least a label index for br_table");
       }
     }else if(Util::matchString(context.cursor, context.end, "br_if")){
       context.cursor += 5;
@@ -49,7 +49,7 @@ ParserControlInstr::ParserControlInstr(ParserContext & parent_context){
         emplace<BrIfInstr>(BrIfInstr(*label));
         parent_context.cursor = context.cursor;
       }else{
-        throw Error<ErrorType::SyntaxError>("expected a label index for br_if");
+        throw Error<ErrorType::ParseError>("expected a label index for br_if");
       }
     }else if(Util::matchString(context.cursor, context.end, "br")){
       context.cursor += 2;
@@ -59,7 +59,7 @@ ParserControlInstr::ParserControlInstr(ParserContext & parent_context){
         emplace<BrInstr>(BrInstr(*label));
         parent_context.cursor = context.cursor;
       }else{
-        throw Error<ErrorType::SyntaxError>("expected a label index for br");
+        throw Error<ErrorType::ParseError>("expected a label index for br");
       }
     }else if(Util::matchString(context.cursor, context.end, "call_indirect")){
       context.cursor += 13;
@@ -75,7 +75,7 @@ ParserControlInstr::ParserControlInstr(ParserContext & parent_context){
         emplace<CallInstr>(*label);
         parent_context.cursor = context.cursor;
       }else{
-        throw Error<ErrorType::SyntaxError>("expected a function index for call");
+        throw Error<ErrorType::ParseError>("expected a function index for call");
       }
     }
   }

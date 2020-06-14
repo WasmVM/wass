@@ -22,7 +22,7 @@ ParserConstInstr::ParserConstInstr(ParserContext& parent_context){
         emplace<I32ConstInstr>(instr);
         parent_context.cursor = context.cursor;
       }else{
-        throw Error<ErrorType::SyntaxError>("expected integer immediate after i32.const");
+        throw Error<ErrorType::ParseError>("expected integer immediate after i32.const");
       }
     }else if(Util::matchString(context.cursor, context.end, "i64.const")){
       context.cursor += 9;
@@ -34,7 +34,7 @@ ParserConstInstr::ParserConstInstr(ParserContext& parent_context){
         emplace<I64ConstInstr>(instr);
         parent_context.cursor = context.cursor;
       }else{
-        throw Error<ErrorType::SyntaxError>("expected integer immediate after i64.const");
+        throw Error<ErrorType::ParseError>("expected integer immediate after i64.const");
       }
     }else if(Util::matchString(context.cursor, context.end, "f32.const")){
       context.cursor += 9;
@@ -46,7 +46,7 @@ ParserConstInstr::ParserConstInstr(ParserContext& parent_context){
         emplace<F32ConstInstr>(instr);
         parent_context.cursor = context.cursor;
       }else{
-        throw Error<ErrorType::SyntaxError>("expected integer immediate after f32.const");
+        throw Error<ErrorType::ParseError>("expected integer immediate after f32.const");
       }
     }else if(Util::matchString(context.cursor, context.end, "f64.const")){
       context.cursor += 9;
@@ -58,7 +58,7 @@ ParserConstInstr::ParserConstInstr(ParserContext& parent_context){
         emplace<F64ConstInstr>(instr);
         parent_context.cursor = context.cursor;
       }else{
-        throw Error<ErrorType::SyntaxError>("expected integer immediate after f64.const");
+        throw Error<ErrorType::ParseError>("expected integer immediate after f64.const");
       }
     }
   }

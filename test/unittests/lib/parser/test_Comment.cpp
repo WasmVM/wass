@@ -248,7 +248,7 @@ TEST(unittest_Comment, MultiLine_nested_two_semi_inside){
 TEST(unittest_Comment, MultiLine_not_closed){
   std::vector<char> data(create_char_vector("(;comment;;comment"));
   ParserContext context(data);
-  EXPECT_THROW(Comment::skip(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(Comment::skip(context), Error<ErrorType::ParseError>);
 }
 
 TEST(unittest_Comment, MultiLine_missing_matched_start){
@@ -256,11 +256,11 @@ TEST(unittest_Comment, MultiLine_missing_matched_start){
   ParserContext context(data);
   Comment::skip(context);
   EXPECT_EQ(context.cursor, data.begin() + 20);
-  EXPECT_THROW(Comment::skip(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(Comment::skip(context), Error<ErrorType::ParseError>);
 }
 
 TEST(unittest_Comment, MultiLine_nested_not_closed){
   std::vector<char> data(create_char_vector("(;comment;;(;comment;)"));
   ParserContext context(data);
-  EXPECT_THROW(Comment::skip(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(Comment::skip(context), Error<ErrorType::ParseError>);
 }

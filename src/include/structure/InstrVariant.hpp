@@ -5,7 +5,7 @@
 #include <string>
 #include <optional>
 #include <variant>
-#include <structure/Value.hpp>
+#include <structure/ValueType.hpp>
 #include <structure/BaseInstr.hpp>
 #include <structure/ConstInstr.hpp>
 #include <structure/ControlInstr.hpp>

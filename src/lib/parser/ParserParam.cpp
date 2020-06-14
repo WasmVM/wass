@@ -6,7 +6,7 @@
 #include <parser/Comment.hpp>
 #include <parser/Identifier.hpp>
 #include <parser/ParserValueType.hpp>
-#include <structure/Value.hpp>
+#include <structure/ValueType.hpp>
 #include <Util.hpp>
 #include <Error.hpp>
 
@@ -27,7 +27,7 @@ ParserParam::ParserParam(ParserContext& parent_context){
           if(param.has_value()){
             this->std::any::operator=(*param);
           }else{
-            throw Error<ErrorType::SyntaxError>("expected a parameter type");
+            throw Error<ErrorType::ParseError>("expected a parameter type");
           }
         }else{
           std::vector<ValueType> params;
@@ -37,7 +37,7 @@ ParserParam::ParserParam(ParserContext& parent_context){
           }
           switch(params.size()){
             case 0:
-              throw Error<ErrorType::SyntaxError>("expected a parameter type");
+              throw Error<ErrorType::ParseError>("expected a parameter type");
             case 1:
               this->std::any::operator=(params[0]);
               break;
@@ -52,7 +52,7 @@ ParserParam::ParserParam(ParserContext& parent_context){
           parent_context = context;
         }else{
           reset();
-          throw Error<ErrorType::SyntaxError>("expected ')'");
+          throw Error<ErrorType::ParseError>("expected ')'");
         }
       }
     }

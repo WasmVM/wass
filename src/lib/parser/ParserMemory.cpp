@@ -57,13 +57,13 @@ ParserMemory::ParserMemory(ParserContext& parent_context){
               if(*context.cursor == ')'){
                 ++context.cursor;
               }else{
-                throw Error<ErrorType::SyntaxError>("expected ')' in the end of abbreviated data section");
+                throw Error<ErrorType::ParseError>("expected ')' in the end of abbreviated data section");
               }
             }else{
-              throw Error<ErrorType::SyntaxError>("expected datastring in abbreviated data section");
+              throw Error<ErrorType::ParseError>("expected datastring in abbreviated data section");
             }
           }else{
-            throw Error<ErrorType::SyntaxError>("unknown abbriviated section in memory section");
+            throw Error<ErrorType::ParseError>("unknown abbriviated section in memory section");
           }
         }
         // Memory type
@@ -73,7 +73,7 @@ ParserMemory::ParserMemory(ParserContext& parent_context){
           if(memType.has_value()){
             memory.memType = *memType;
           }else{
-            throw Error<ErrorType::SyntaxError>("expected memtype in memory section");
+            throw Error<ErrorType::ParseError>("expected memtype in memory section");
           }
         }
         // Postfix
@@ -82,7 +82,7 @@ ParserMemory::ParserMemory(ParserContext& parent_context){
           ++context.cursor;
           parent_context.cursor = context.cursor;
         }else{
-          throw Error<ErrorType::SyntaxError>("expected ')' in the end of memory section");
+          throw Error<ErrorType::ParseError>("expected ')' in the end of memory section");
         }
       }
     }

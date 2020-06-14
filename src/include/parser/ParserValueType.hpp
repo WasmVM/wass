@@ -2,7 +2,7 @@
 #define GUARD_wass_parser_ParserValueType
 
 #include <optional>
-#include <structure/Value.hpp>
+#include <structure/ValueType.hpp>
 #include <parser/ParserContext.hpp>
 
 class ParserValueType: public std::optional<ValueType>{

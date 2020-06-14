@@ -44,7 +44,7 @@ static std::optional<Local> parseLocal(ParserContext& parent_context){
           parent_context.cursor = context.cursor;
           return std::optional<Local>(result);
         }else{
-          throw Error<ErrorType::SyntaxError>("expected ')'");
+          throw Error<ErrorType::ParseError>("expected ')'");
         }
       }
     }
@@ -86,7 +86,7 @@ ParserFunction::ParserFunction(ParserContext& parent_context){
         if(typeuse.has_value()){
           func.typeUse = *typeuse;
         }else{
-          throw Error<ErrorType::SyntaxError>("expected typeuse in function section");
+          throw Error<ErrorType::ParseError>("expected typeuse in function section");
         }
 
         if(!abbrImport.has_value()){
@@ -127,7 +127,7 @@ ParserFunction::ParserFunction(ParserContext& parent_context){
           ++context.cursor;
           parent_context = context;
         }else{
-          throw Error<ErrorType::SyntaxError>("expected ')'");
+          throw Error<ErrorType::ParseError>("expected ')'");
         }
       }
     }

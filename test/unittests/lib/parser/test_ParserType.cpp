@@ -12,7 +12,7 @@ TEST(unittest_ParserType, empty){
   std::vector<char> data(create_char_vector("(type)"));
   ParserContext context(data);
   ParserType* result = nullptr;
-  EXPECT_THROW(result = new ParserType(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new ParserType(context), Error<ErrorType::ParseError>);
   delete result;
 }
 

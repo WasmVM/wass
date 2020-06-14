@@ -11,14 +11,14 @@ TEST(unittest_ParserElement, empty){
   std::vector<char> data(create_char_vector("(elem)"));
   ParserContext context(data);
   ParserElement* result = nullptr;
-  EXPECT_THROW(result = new ParserElement(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new ParserElement(context), Error<ErrorType::ParseError>);
 }
 
 TEST(unittest_ParserElement, table_id_only){
   std::vector<char> data(create_char_vector("(elem 0)"));
   ParserContext context(data);
   ParserElement* result = nullptr;
-  EXPECT_THROW(result = new ParserElement(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new ParserElement(context), Error<ErrorType::ParseError>);
 }
 
 TEST(unittest_ParserElement, no_list){

@@ -62,13 +62,13 @@ ParserTable::ParserTable(ParserContext& parent_context){
               if(*context.cursor == ')'){
                 ++context.cursor;
               }else{
-                throw Error<ErrorType::SyntaxError>("expected ')' in abbreviated element of table section");
+                throw Error<ErrorType::ParseError>("expected ')' in abbreviated element of table section");
               }
             }else{
-              throw Error<ErrorType::SyntaxError>("expected 'elem' in abbreviated element of table section");
+              throw Error<ErrorType::ParseError>("expected 'elem' in abbreviated element of table section");
             }
           }else{
-            throw Error<ErrorType::SyntaxError>("expected '(' in abbreviated element of table section");
+            throw Error<ErrorType::ParseError>("expected '(' in abbreviated element of table section");
           }
         }
         // Table type
@@ -78,7 +78,7 @@ ParserTable::ParserTable(ParserContext& parent_context){
           if(tableType.has_value()){
             table.tableType = *tableType;
           }else{
-            throw Error<ErrorType::SyntaxError>("expected tabletype in table section");
+            throw Error<ErrorType::ParseError>("expected tabletype in table section");
           }
         }
         // Postfix
@@ -87,7 +87,7 @@ ParserTable::ParserTable(ParserContext& parent_context){
           ++context.cursor;
           parent_context.cursor = context.cursor;
         }else{
-          throw Error<ErrorType::SyntaxError>("expected ')' in the end of table section");
+          throw Error<ErrorType::ParseError>("expected ')' in the end of table section");
         }
       }
     }

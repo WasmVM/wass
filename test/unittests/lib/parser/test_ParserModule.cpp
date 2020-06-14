@@ -114,6 +114,6 @@ TEST(unittest_ParserModule, multiple_start){
   std::vector<char> data(create_char_vector("(module (start 3) (start 4))"));
   ParserContext context(data);
   ParserModule* result = nullptr;
-  EXPECT_THROW(result = new ParserModule(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new ParserModule(context), Error<ErrorType::ParseError>);
 }
 

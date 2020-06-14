@@ -27,7 +27,7 @@ ParserImport::ParserImport(ParserContext& parent_context){
         if(moduleName.has_value()){
           newImport.mod = *moduleName;
         }else{
-          throw Error<ErrorType::SyntaxError>("expected module name in import section");
+          throw Error<ErrorType::ParseError>("expected module name in import section");
         }
         // Name
         Comment::skip(context);
@@ -35,12 +35,12 @@ ParserImport::ParserImport(ParserContext& parent_context){
         if(importName.has_value()){
           newImport.name = *importName;
         }else{
-          throw Error<ErrorType::SyntaxError>("expected module name in import section");
+          throw Error<ErrorType::ParseError>("expected module name in import section");
         }
         // Import desc
         Comment::skip(context);
         if(*context.cursor != '('){
-          throw Error<ErrorType::SyntaxError>("expected '(' before import description");
+          throw Error<ErrorType::ParseError>("expected '(' before import description");
         }else{
           ++context.cursor;
         }
@@ -57,7 +57,7 @@ ParserImport::ParserImport(ParserContext& parent_context){
           if(funcType.has_value()){
             newImport.desc.emplace<TypeUse>(*funcType);
           }else{
-            throw Error<ErrorType::SyntaxError>("expected typeuse in function import description");
+            throw Error<ErrorType::ParseError>("expected typeuse in function import description");
           }
         }else if(Util::matchString(context.cursor, context.end, "table")){
           context.cursor += 5;
@@ -71,7 +71,7 @@ ParserImport::ParserImport(ParserContext& parent_context){
           if(tableType.has_value()){
             newImport.desc.emplace<Limit>(*tableType);
           }else{
-            throw Error<ErrorType::SyntaxError>("expected tabletype in table import description");
+            throw Error<ErrorType::ParseError>("expected tabletype in table import description");
           }
         }else if(Util::matchString(context.cursor, context.end, "memory")){
           context.cursor += 6;
@@ -85,7 +85,7 @@ ParserImport::ParserImport(ParserContext& parent_context){
           if(memoryType.has_value()){
             newImport.desc.emplace<Limit>(*memoryType);
           }else{
-            throw Error<ErrorType::SyntaxError>("expected memorytype in memory import description");
+            throw Error<ErrorType::ParseError>("expected memorytype in memory import description");
           }
         }else if(Util::matchString(context.cursor, context.end, "global")){
           context.cursor += 6;
@@ -99,21 +99,21 @@ ParserImport::ParserImport(ParserContext& parent_context){
           if(globalType.has_value()){
             newImport.desc.emplace<GlobalType>(*globalType);
           }else{
-            throw Error<ErrorType::SyntaxError>("expected globaltype in global import description");
+            throw Error<ErrorType::ParseError>("expected globaltype in global import description");
           }
         }else{
-          throw Error<ErrorType::SyntaxError>("unknown type of import description");
+          throw Error<ErrorType::ParseError>("unknown type of import description");
         }
         // Postfix
         Comment::skip(context);
         if(*context.cursor != ')'){
-          throw Error<ErrorType::SyntaxError>("expected ')' after import description");
+          throw Error<ErrorType::ParseError>("expected ')' after import description");
         }else{
           ++context.cursor;
         }
         Comment::skip(context);
         if(*context.cursor != ')'){
-          throw Error<ErrorType::SyntaxError>("expected ')' after import section");
+          throw Error<ErrorType::ParseError>("expected ')' after import section");
         }else{
           ++context.cursor;
         }

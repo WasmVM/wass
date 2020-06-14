@@ -57,6 +57,6 @@ TEST(unittest_Identifier, empty){
   std::vector<char> data(create_char_vector("$"));
   ParserContext context(data);
   Identifier* result = nullptr;
-  EXPECT_THROW(result = new Identifier(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new Identifier(context), Error<ErrorType::ParseError>);
   delete result;
 }

@@ -22,7 +22,7 @@ AbbrImport::AbbrImport(ParserContext& parent_context){
         if(modName.has_value()){
           importPair.first = *modName;
         }else{
-          throw Error<ErrorType::SyntaxError>("expected module name in import section");
+          throw Error<ErrorType::ParseError>("expected module name in import section");
         }
         // import name
         Comment::skip(context);
@@ -30,7 +30,7 @@ AbbrImport::AbbrImport(ParserContext& parent_context){
         if(name.has_value()){
           importPair.second = *name;
         }else{
-          throw Error<ErrorType::SyntaxError>("expected name in import section");
+          throw Error<ErrorType::ParseError>("expected name in import section");
         }
         // postfix
         Comment::skip(context);
@@ -38,7 +38,7 @@ AbbrImport::AbbrImport(ParserContext& parent_context){
           ++context.cursor;
           parent_context = context;
         }else{
-          throw Error<ErrorType::SyntaxError>("expected ')'");
+          throw Error<ErrorType::ParseError>("expected ')'");
         }
       }
     }
@@ -59,7 +59,7 @@ AbbrExport::AbbrExport(ParserContext& parent_context){
         if(name.has_value()){
           this->std::optional<std::string>::emplace(*name);
         }else{
-          throw Error<ErrorType::SyntaxError>("expected name in export section");
+          throw Error<ErrorType::ParseError>("expected name in export section");
         }
         // postfix
         Comment::skip(context);
@@ -67,7 +67,7 @@ AbbrExport::AbbrExport(ParserContext& parent_context){
           ++context.cursor;
           parent_context = context;
         }else{
-          throw Error<ErrorType::SyntaxError>("expected ')'");
+          throw Error<ErrorType::ParseError>("expected ')'");
         }
       }
     }

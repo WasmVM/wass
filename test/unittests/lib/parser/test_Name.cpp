@@ -38,7 +38,7 @@ TEST(unittest_Name, invalid_character_single){
   std::vector<char> data(create_char_vector("\"\\90\""));
   ParserContext context(data);
   Name* result = nullptr;
-  EXPECT_THROW(result = new Name(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new Name(context), Error<ErrorType::ParseError>);
   delete result;
 }
 
@@ -55,7 +55,7 @@ TEST(unittest_Name, invalid_character_double){
   std::vector<char> data(create_char_vector("\"\\c1\\d1\""));
   ParserContext context(data);
   Name* result = nullptr;
-  EXPECT_THROW(result = new Name(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new Name(context), Error<ErrorType::ParseError>);
   delete result;
 }
 
@@ -63,7 +63,7 @@ TEST(unittest_Name, invalid_character_double_big){
   std::vector<char> data(create_char_vector("\"\\e1\\a0\""));
   ParserContext context(data);
   Name* result = nullptr;
-  EXPECT_THROW(result = new Name(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new Name(context), Error<ErrorType::ParseError>);
   delete result;
 }
 
@@ -80,7 +80,7 @@ TEST(unittest_Name, invalid_character_triple){
   std::vector<char> data(create_char_vector("\"\\e1\\93\\c2\""));
   ParserContext context(data);
   Name* result = nullptr;
-  EXPECT_THROW(result = new Name(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new Name(context), Error<ErrorType::ParseError>);
   delete result;
 }
 
@@ -88,7 +88,7 @@ TEST(unittest_Name, invalid_character_triple_big){
   std::vector<char> data(create_char_vector("\"\\f1\\84\\A3\""));
   ParserContext context(data);
   Name* result = nullptr;
-  EXPECT_THROW(result = new Name(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new Name(context), Error<ErrorType::ParseError>);
   delete result;
 }
 
@@ -96,7 +96,7 @@ TEST(unittest_Name, invalid_character_triple_preserved_range){
   std::vector<char> data(create_char_vector("\"\\ed\\A4\\80\""));
   ParserContext context(data);
   Name* result = nullptr;
-  EXPECT_THROW(result = new Name(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new Name(context), Error<ErrorType::ParseError>);
   delete result;
 }
 
@@ -113,7 +113,7 @@ TEST(unittest_Name, invalid_character_quadruple){
   std::vector<char> data(create_char_vector("\"\\f1\\86\\82\\f0\""));
   ParserContext context(data);
   Name* result = nullptr;
-  EXPECT_THROW(result = new Name(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new Name(context), Error<ErrorType::ParseError>);
   delete result;
 }
 
@@ -121,6 +121,6 @@ TEST(unittest_Name, invalid_character_quadruple_big){
   std::vector<char> data(create_char_vector("\"\\f4\\93\\82\\84\""));
   ParserContext context(data);
   Name* result = nullptr;
-  EXPECT_THROW(result = new Name(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new Name(context), Error<ErrorType::ParseError>);
   delete result;
 }

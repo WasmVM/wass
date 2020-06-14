@@ -38,7 +38,7 @@ TEST(unittest_StringLiteral, hexdigit_one_digit){
   std::vector<char> data(create_char_vector("\"\\c\""));
   ParserContext context(data);
   StringLiteral* result = nullptr;
-  EXPECT_THROW(result = new StringLiteral(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new StringLiteral(context), Error<ErrorType::ParseError>);
   delete result;
 }
 
@@ -73,7 +73,7 @@ TEST(unittest_StringLiteral, unicode_hexnum_separator_prefix){
   std::vector<char> data(create_char_vector("\"\\u{_e00c}\""));
   ParserContext context(data);
   StringLiteral* result = nullptr;
-  EXPECT_THROW(result = new StringLiteral(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new StringLiteral(context), Error<ErrorType::ParseError>);
   delete result;
 }
 
@@ -81,7 +81,7 @@ TEST(unittest_StringLiteral, unicode_hexnum_separator_postfix){
   std::vector<char> data(create_char_vector("\"\\u{e00c_}\""));
   ParserContext context(data);
   StringLiteral* result = nullptr;
-  EXPECT_THROW(result = new StringLiteral(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new StringLiteral(context), Error<ErrorType::ParseError>);
   delete result;
 }
 
@@ -89,7 +89,7 @@ TEST(unittest_StringLiteral, unicode_hexnum_out_of_range){
   std::vector<char> data(create_char_vector("\"\\u{d900}\""));
   ParserContext context(data);
   StringLiteral* result = nullptr;
-  EXPECT_THROW(result = new StringLiteral(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new StringLiteral(context), Error<ErrorType::ParseError>);
   delete result;
 }
 

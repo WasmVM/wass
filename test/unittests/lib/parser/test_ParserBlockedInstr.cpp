@@ -227,6 +227,6 @@ TEST(unittest_ParserBlockedInstr, folded_If_without_then){
   std::vector<char> data(create_char_vector("(if $test (result f32))"));
   ParserContext context(data);
   ParserBlockedInstr* result = nullptr;
-  EXPECT_THROW(result = new ParserBlockedInstr(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new ParserBlockedInstr(context), Error<ErrorType::ParseError>);
   delete result;
 }

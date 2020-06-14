@@ -200,7 +200,7 @@ static Double nanNumber(ParserContext& context, bool negative){
       }
       return Double((negative) ? -std::nan(mantissa.c_str()) : std::nan(mantissa.c_str()));
     }else{
-      throw Error<ErrorType::SyntaxError>("invalid format in float literal");
+      throw Error<ErrorType::ParseError>("invalid format in float literal");
     }
   }else{
     return Double((negative) ? -std::nan("") : std::nan(""));

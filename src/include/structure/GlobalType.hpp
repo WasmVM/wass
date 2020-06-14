@@ -1,7 +1,7 @@
 #ifndef GUARD_wass_structure_GlobalType
 #define GUARD_wass_structure_GlobalType
 
-#include <structure/Value.hpp>
+#include <structure/ValueType.hpp>
 
 class GlobalType{
 public:

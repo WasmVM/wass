@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 #include <cstdint>
-#include <structure/Value.hpp>
+#include <structure/ValueType.hpp>
 
 class FuncType{
 public:

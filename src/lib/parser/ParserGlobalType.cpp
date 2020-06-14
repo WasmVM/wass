@@ -26,7 +26,7 @@ ParserGlobalType::ParserGlobalType(ParserContext& parent_context){
       if(global.immutable == false){
         Comment::skip(context);
         if((*context.cursor) != ')'){
-          throw Error<ErrorType::SyntaxError>("expected ')'");
+          throw Error<ErrorType::ParseError>("expected ')'");
         }else{
           ++context.cursor;
         }

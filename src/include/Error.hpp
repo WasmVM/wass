@@ -5,7 +5,8 @@
 #include <ostream>
 
 enum class ErrorType{
-  SyntaxError,
+  ParseError,
+  GenerateError,
   UnImplemented,
 };
 

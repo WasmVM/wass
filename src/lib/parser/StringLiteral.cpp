@@ -23,14 +23,14 @@ static std::string unicodeHexNumber(ParserContext& context){
           (context.cursor[1] < 'A' || context.cursor[1] > 'F'))
         ){
           if((*context.cursor) == '_'){
-            throw Error<ErrorType::SyntaxError>("invalid UTF-8 encoding");
+            throw Error<ErrorType::ParseError>("invalid UTF-8 encoding");
           }
           break;
         }
         ++context.cursor;
       }
     }else{
-      throw Error<ErrorType::SyntaxError>("invalid UTF-8 encoding");
+      throw Error<ErrorType::ParseError>("invalid UTF-8 encoding");
     }
     if((*context.cursor) == '}' && (
       value < 0xD800 || (value >= 0xE000 && value < 0x110000)
@@ -47,10 +47,10 @@ static std::string unicodeHexNumber(ParserContext& context){
       result += (char)(value & 0xff);
       return result;
     }else{
-      throw Error<ErrorType::SyntaxError>("invalid UTF-8 encoding");
+      throw Error<ErrorType::ParseError>("invalid UTF-8 encoding");
     }
   }else{
-    throw Error<ErrorType::SyntaxError>("invalid UTF-8 encoding");
+    throw Error<ErrorType::ParseError>("invalid UTF-8 encoding");
   }
 }
 
@@ -65,13 +65,13 @@ static char hexNumber(ParserContext& context){
       }else if(context.cursor[i] >= 'A' && context.cursor[i] <= 'F'){
         value = (value << 4) + context.cursor[i] - 'A' + 10;
       }else{
-        throw Error<ErrorType::SyntaxError>("invalid UTF-8 encoding");
+        throw Error<ErrorType::ParseError>("invalid UTF-8 encoding");
       }
     }
     ++context.cursor;
     return value;
   }else{
-    throw Error<ErrorType::SyntaxError>("invalid UTF-8 encoding");
+    throw Error<ErrorType::ParseError>("invalid UTF-8 encoding");
   }
 }
 
@@ -111,7 +111,7 @@ StringLiteral::StringLiteral(ParserContext& parent_context){
               value += hexNumber(context);
           }
         }else{
-          throw Error<ErrorType::SyntaxError>("invalid UTF-8 encoding");
+          throw Error<ErrorType::ParseError>("invalid UTF-8 encoding");
         }
       }else{
         value += *context.cursor;
@@ -122,7 +122,7 @@ StringLiteral::StringLiteral(ParserContext& parent_context){
       this->std::optional<std::string>::operator=(value);
       parent_context.cursor = context.cursor + 1;
     }else{
-      throw Error<ErrorType::SyntaxError>("invalid UTF-8 encoding");
+      throw Error<ErrorType::ParseError>("invalid UTF-8 encoding");
     }
   }
 }

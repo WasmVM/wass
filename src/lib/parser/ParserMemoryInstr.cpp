@@ -25,7 +25,7 @@ MemArg::MemArg(ParserContext& parent_context, int64_t default_align){
       this->offset = *offsetLiteral;
       parent_context.cursor = context.cursor;
     }else{
-      throw Error<ErrorType::SyntaxError>("expected integer literal in offset=");
+      throw Error<ErrorType::ParseError>("expected integer literal in offset=");
     }
   }else{
     this->offset = 0;
@@ -38,7 +38,7 @@ MemArg::MemArg(ParserContext& parent_context, int64_t default_align){
       this->align = *alignLiteral;
       parent_context.cursor = context.cursor;
     }else{
-      throw Error<ErrorType::SyntaxError>("expected integer literal in align=");
+      throw Error<ErrorType::ParseError>("expected integer literal in align=");
     }
   }else{
     this->align = default_align;

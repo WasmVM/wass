@@ -11,14 +11,14 @@ TEST(unittest_ParserExport, empty){
   std::vector<char> data(create_char_vector("(export)"));
   ParserContext context(data);
   ParserExport* result = nullptr;
-  EXPECT_THROW(result = new ParserExport(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new ParserExport(context), Error<ErrorType::ParseError>);
 }
 
 TEST(unittest_ParserExport, no_desc){
   std::vector<char> data(create_char_vector("(export \"test\")"));
   ParserContext context(data);
   ParserExport* result = nullptr;
-  EXPECT_THROW(result = new ParserExport(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new ParserExport(context), Error<ErrorType::ParseError>);
 }
 
 TEST(unittest_ParserExport, func){

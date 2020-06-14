@@ -5,7 +5,7 @@
 #include <vector>
 #include <parser/Comment.hpp>
 #include <parser/ParserValueType.hpp>
-#include <structure/Value.hpp>
+#include <structure/ValueType.hpp>
 #include <Util.hpp>
 #include <Error.hpp>
 
@@ -25,7 +25,7 @@ ParserResult::ParserResult(ParserContext& parent_context){
         }
         switch(results.size()){
           case 0:
-            throw Error<ErrorType::SyntaxError>("expected a result type");
+            throw Error<ErrorType::ParseError>("expected a result type");
           case 1:
             this->std::any::operator=(results[0]);
             break;
@@ -39,7 +39,7 @@ ParserResult::ParserResult(ParserContext& parent_context){
           parent_context = context;
         }else{
           reset();
-          throw Error<ErrorType::SyntaxError>("expected ')'");
+          throw Error<ErrorType::ParseError>("expected ')'");
         }
       }
     }

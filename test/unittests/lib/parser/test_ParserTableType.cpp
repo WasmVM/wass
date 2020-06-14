@@ -31,6 +31,6 @@ TEST(unittest_ParserTableType, no_funcref){
   std::vector<char> data(create_char_vector("24 36"));
   ParserContext context(data);
   ParserTableType* result = nullptr;
-  EXPECT_THROW(result = new ParserTableType(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new ParserTableType(context), Error<ErrorType::ParseError>);
   delete result;
 }

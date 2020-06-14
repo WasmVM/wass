@@ -14,7 +14,7 @@ TEST(unittest_ParserGlobal, empty){
   std::vector<char> data(create_char_vector("(global)"));
   ParserContext context(data);
   ParserGlobal* result = nullptr;
-  EXPECT_THROW(result = new ParserGlobal(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new ParserGlobal(context), Error<ErrorType::ParseError>);
   delete result;
 }
 
@@ -48,7 +48,7 @@ TEST(unittest_ParserGlobal, no_expr){
   std::vector<char> data(create_char_vector("(global i64)"));
   ParserContext context(data);
   ParserGlobal* result = nullptr;
-  EXPECT_THROW(result = new ParserGlobal(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new ParserGlobal(context), Error<ErrorType::ParseError>);
   delete result;
 }
 

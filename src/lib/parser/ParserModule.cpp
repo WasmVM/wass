@@ -97,7 +97,7 @@ ParserModule::ParserModule(ParserContext& parent_context){
           ParserStart newStart(context);
           if(newStart.has_value()){
             if(newModule.start.has_value()){
-              throw Error<ErrorType::SyntaxError>("cannot define multiple start sections in one module");
+              throw Error<ErrorType::ParseError>("cannot define multiple start sections in one module");
             }else{
               newModule.start = *newStart;
             }
@@ -113,7 +113,7 @@ ParserModule::ParserModule(ParserContext& parent_context){
         // Postfix
         Comment::skip(context);
         if(*context.cursor != ')'){
-          throw Error<ErrorType::SyntaxError>("expected ')' after module");
+          throw Error<ErrorType::ParseError>("expected ')' after module");
         }else{
           ++context.cursor;
         }

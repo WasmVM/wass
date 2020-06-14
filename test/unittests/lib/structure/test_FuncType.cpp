@@ -4,7 +4,7 @@
 #include <string>
 #include <unordered_map>
 #include <cstdint>
-#include <structure/Value.hpp>
+#include <structure/ValueType.hpp>
 #include <structure/FuncType.hpp>
 
 TEST(unittest_FuncType, empty){

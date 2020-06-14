@@ -23,7 +23,7 @@ TEST(unittest_ParserConstInstr, no_immediate){
   std::vector<char> data(create_char_vector("i32.const"));
   ParserContext context(data);
   ParserConstInstr* result = nullptr;
-  EXPECT_THROW(result = new ParserConstInstr(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new ParserConstInstr(context), Error<ErrorType::ParseError>);
   delete result;
 }
 

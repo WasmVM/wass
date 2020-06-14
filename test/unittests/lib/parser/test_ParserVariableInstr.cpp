@@ -13,7 +13,7 @@ TEST(unittest_ParserVariableInstr, no_immediate){
   std::vector<char> data(create_char_vector("local.get"));
   ParserContext context(data);
   ParserVariableInstr* result = nullptr;
-  EXPECT_THROW(result = new ParserVariableInstr(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new ParserVariableInstr(context), Error<ErrorType::ParseError>);
   delete result;
 }
 

@@ -18,7 +18,7 @@ ParserTableType::ParserTableType(ParserContext& parent_context){
         this->std::optional<Limit>::operator=(*limit);
         parent_context = context;
       }else{
-        throw Error<ErrorType::SyntaxError>("expected elememt type");
+        throw Error<ErrorType::ParseError>("expected elememt type");
       }
     }
   }

@@ -34,10 +34,10 @@ static void parsrTypeIndex(ParserContext& parent_context, TypeUse& typeUse){
         if(Util::matchString(context.cursor, context.end, ")")){
           parent_context.cursor = ++context.cursor;
         }else{
-          throw Error<ErrorType::SyntaxError>("expected )");
+          throw Error<ErrorType::ParseError>("expected )");
         }
       }else{
-        throw Error<ErrorType::SyntaxError>("expected identifier or type index");
+        throw Error<ErrorType::ParseError>("expected identifier or type index");
       }
     }
   }

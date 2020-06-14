@@ -15,21 +15,21 @@ TEST(unittest_ParserImport, empty){
   std::vector<char> data(create_char_vector("(import)"));
   ParserContext context(data);
   ParserImport* result = nullptr;
-  EXPECT_THROW(result = new ParserImport(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new ParserImport(context), Error<ErrorType::ParseError>);
 }
 
 TEST(unittest_ParserImport, mod_name_only){
   std::vector<char> data(create_char_vector("(import \"testmod\")"));
   ParserContext context(data);
   ParserImport* result = nullptr;
-  EXPECT_THROW(result = new ParserImport(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new ParserImport(context), Error<ErrorType::ParseError>);
 }
 
 TEST(unittest_ParserImport, no_desc){
   std::vector<char> data(create_char_vector("(import \"testmod\" \"test\")"));
   ParserContext context(data);
   ParserImport* result = nullptr;
-  EXPECT_THROW(result = new ParserImport(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new ParserImport(context), Error<ErrorType::ParseError>);
 }
 
 TEST(unittest_ParserImport, func){

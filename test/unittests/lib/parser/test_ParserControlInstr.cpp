@@ -46,7 +46,7 @@ TEST(unittest_ParserControlInstr, br_no_immediate){
   std::vector<char> data(create_char_vector("br"));
   ParserContext context(data);
   ParserControlInstr* result = nullptr;
-  EXPECT_THROW(result = new ParserControlInstr(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new ParserControlInstr(context), Error<ErrorType::ParseError>);
   delete result;
 }
 
@@ -64,7 +64,7 @@ TEST(unittest_ParserControlInstr, br_if_no_immediate){
   std::vector<char> data(create_char_vector("br_if"));
   ParserContext context(data);
   ParserControlInstr* result = nullptr;
-  EXPECT_THROW(result = new ParserControlInstr(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new ParserControlInstr(context), Error<ErrorType::ParseError>);
   delete result;
 }
 
@@ -95,7 +95,7 @@ TEST(unittest_ParserControlInstr, br_table_no_immediate){
   std::vector<char> data(create_char_vector("br_table"));
   ParserContext context(data);
   ParserControlInstr* result = nullptr;
-  EXPECT_THROW(result = new ParserControlInstr(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new ParserControlInstr(context), Error<ErrorType::ParseError>);
   delete result;
 }
 
@@ -113,7 +113,7 @@ TEST(unittest_ParserControlInstr, call_no_immediate){
   std::vector<char> data(create_char_vector("call"));
   ParserContext context(data);
   ParserControlInstr* result = nullptr;
-  EXPECT_THROW(result = new ParserControlInstr(context), Error<ErrorType::SyntaxError>);
+  EXPECT_THROW(result = new ParserControlInstr(context), Error<ErrorType::ParseError>);
   delete result;
 }
 

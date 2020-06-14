@@ -45,7 +45,7 @@ ParserData::ParserData(ParserContext& parent_context){
             context.cursor += 6;
             abbrivate = true;
           }else{
-            throw Error<ErrorType::SyntaxError>("expected offset in data section");
+            throw Error<ErrorType::ParseError>("expected offset in data section");
           }
         }
         // Offset expression
@@ -56,7 +56,7 @@ ParserData::ParserData(ParserContext& parent_context){
           if(std::holds_alternative<GlobalGetInstr>(varExpr)){
             data.expr.emplace<GlobalGetInstr>(std::get<GlobalGetInstr>(varExpr));
           }else{
-            throw Error<ErrorType::SyntaxError>("expected constant expression in data offset");
+            throw Error<ErrorType::ParseError>("expected constant expression in data offset");
           }
         }else{
           std::visit(AssignExprVisitor(data.expr), variant_cast<ConstExprVariant>(constExpr));
@@ -65,7 +65,7 @@ ParserData::ParserData(ParserContext& parent_context){
         if(abbrivate){
           Comment::skip(context);
           if(*context.cursor != ')'){
-            throw Error<ErrorType::SyntaxError>("expected ')' after data offset");
+            throw Error<ErrorType::ParseError>("expected ')' after data offset");
           }else{
             ++context.cursor;
           }
@@ -80,7 +80,7 @@ ParserData::ParserData(ParserContext& parent_context){
         // Postfix
         Comment::skip(context);
         if(*context.cursor != ')'){
-          throw Error<ErrorType::SyntaxError>("expected ')' after data section");
+          throw Error<ErrorType::ParseError>("expected ')' after data section");
         }else{
           ++context.cursor;
         }

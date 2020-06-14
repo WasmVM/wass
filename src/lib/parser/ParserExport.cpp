@@ -25,12 +25,12 @@ ParserExport::ParserExport(ParserContext& parent_context){
         if(exportName.has_value()){
           newExport.name = *exportName;
         }else{
-          throw Error<ErrorType::SyntaxError>("expected module name in export section");
+          throw Error<ErrorType::ParseError>("expected module name in export section");
         }
         // Export desc
         Comment::skip(context);
         if(*context.cursor != '('){
-          throw Error<ErrorType::SyntaxError>("expected '(' before export description");
+          throw Error<ErrorType::ParseError>("expected '(' before export description");
         }else{
           ++context.cursor;
         }
@@ -48,25 +48,25 @@ ParserExport::ParserExport(ParserContext& parent_context){
           context.cursor += 6;
           newExport.type = ExportType::Global;
         }else{
-          throw Error<ErrorType::SyntaxError>("unknown type of export description");
+          throw Error<ErrorType::ParseError>("unknown type of export description");
         }
         Comment::skip(context);
         IntegerLiteral index(context);
         if(index.has_value()){
           newExport.index = (uint32_t)*index;
         }else{
-          throw Error<ErrorType::SyntaxError>("expect index in export description");
+          throw Error<ErrorType::ParseError>("expect index in export description");
         }
         // Postfix
         Comment::skip(context);
         if(*context.cursor != ')'){
-          throw Error<ErrorType::SyntaxError>("expected ')' after export description");
+          throw Error<ErrorType::ParseError>("expected ')' after export description");
         }else{
           ++context.cursor;
         }
         Comment::skip(context);
         if(*context.cursor != ')'){
-          throw Error<ErrorType::SyntaxError>("expected ')' after export section");
+          throw Error<ErrorType::ParseError>("expected ')' after export section");
         }else{
           ++context.cursor;
         }

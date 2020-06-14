@@ -47,7 +47,7 @@ Feature:
 Error:
 
 * Unmatched block-end parentheses
-    * SyntaxError
+    * ParseError
 
 ## Parse module
 
@@ -63,7 +63,7 @@ Feature:
 
 Error:
 
-Several SyntaxErrors
+Several ParseErrors
 
 ## Compose module
 

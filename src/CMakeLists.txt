@@ -4,7 +4,6 @@ add_library(wass-core
   lib/Error.cpp
   lib/Util.cpp
   lib/structure/Limit.cpp
-  lib/structure/Value.cpp
   lib/structure/FuncType.cpp
   lib/structure/GlobalType.cpp
   lib/structure/ControlInstr.cpp

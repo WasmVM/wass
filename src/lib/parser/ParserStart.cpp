@@ -19,12 +19,12 @@ ParserStart::ParserStart(ParserContext& parent_context){
         Comment::skip(context);
         IntegerLiteral index(context);
         if(!index.has_value()){
-          throw Error<ErrorType::SyntaxError>("expect index in start description");
+          throw Error<ErrorType::ParseError>("expect index in start description");
         }
         // Postfix
         Comment::skip(context);
         if(*context.cursor != ')'){
-          throw Error<ErrorType::SyntaxError>("expected ')' after start section");
+          throw Error<ErrorType::ParseError>("expected ')' after start section");
         }else{
           ++context.cursor;
         }
