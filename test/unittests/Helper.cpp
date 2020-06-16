@@ -12,11 +12,6 @@ std::vector<char> create_char_vector(const char* data){
   return create_char_vector(data, strlen(data));
 }
 
-union DoubleUnion{
-  struct {
-    int8_t sign: 1;
-    int16_t exponent: 11;
-    int64_t mantissa: 52;
-  } part;
-  double value;
-};
+CodeGenVisitor::Context Mock_CodeGenVisitor::getContext(){
+  return context;
+}

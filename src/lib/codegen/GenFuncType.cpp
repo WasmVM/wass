@@ -15,5 +15,6 @@ BinaryCode CodeGenVisitor::operator()(FuncType&& target){
   for(ValueType type : target.results){
     result += std::visit<BinaryCode>(*this, CodeGenVariant(type));
   }
+  context.typeDescs.emplace_back(target);
   return result;
 }

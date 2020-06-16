@@ -19,7 +19,8 @@ TEST(unittest_GenModule, type_section){
   data.types.push_back(Type());
   CodeGenVisitor visitor;
   EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({
-    BIN_MAGIC, BIN_VERSION, '\x01',
+    BIN_MAGIC, BIN_VERSION,
+    '\x01', '\x04',
     '\x01', '\x60', '\x00', '\x00'
   }));
 }

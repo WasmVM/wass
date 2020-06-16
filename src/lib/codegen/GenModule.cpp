@@ -1,9 +1,11 @@
 #include <codegen/CodeGenVisitor.hpp>
 
 #include <variant>
+#include <optional>
 #include <vector>
 #include <cstdint>
 #include <structure/Type.hpp>
+#include <codegen/SectionGenerator.hpp>
 #include <Util.hpp>
 #include <BinaryCode.hpp>
 
@@ -13,20 +15,16 @@ BinaryCode CodeGenVisitor::operator()(Module&& target){
     '\x01','\x00','\x00','\x00', // Version
   });
   // TODO: Module id is omitted now, but maybe we can performed in a custom section
-  // Type section
-  for(Type& type : target.types){
-    context.typeCodes.emplace_back(std::visit<BinaryCode>(*this, CodeGenVariant(type.funcType)));
-    if(type.id.has_value()){
-      context.typeMap[*(type.id)] = context.typeCodes.size() - 1;
-    }
+
+  std::optional<SectionGenerator> typeSection;
+  if(target.types.size() > 0){
+    typeSection.emplace(SectionGenerator());
+    typeSection->generate(*this, target.types);
   }
-  // Wrap Type section
-  if(context.typeCodes.size() > 0){
-    result += '\x01';
-    result += Util::toLEB128((uint32_t)context.typeCodes.size());
-    for(BinaryCode& code : context.typeCodes){
-      result += code;
-    }
+
+  // Wrap sections
+  if(typeSection.has_value()){
+    result += typeSection->wrap(1);
   }
   return result;
 }

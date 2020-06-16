@@ -1,5 +1,8 @@
 add_library(wass-codegen
+  SectionGenerator.cpp
   GenModule.cpp
   GenFuncType.cpp
+  GenType.cpp
   GenValueType.cpp
+  GenTypeUse.cpp
 )
