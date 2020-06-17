@@ -40,3 +40,19 @@ TEST(unittest_GenImport, desc_table){
     '\x01', '\x70', '\x00', '\x03'
   }));
 }
+
+TEST(unittest_GenImport, desc_memory){
+  Import data;
+  data.mod = "testMod";
+  data.name = "testImport";
+  data.type = Import::ImportType::Memory;
+  Limit memory;
+  memory.min = 3;
+  data.desc.emplace<Limit>(memory);
+  CodeGenVisitor visitor;
+  EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({
+    '\x07', 't', 'e', 's', 't', 'M', 'o', 'd',
+    '\x0A', 't', 'e', 's', 't', 'I', 'm', 'p', 'o', 'r', 't',
+    '\x02', '\x00', '\x03'
+  }));
+}

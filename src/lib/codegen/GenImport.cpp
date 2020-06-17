@@ -23,6 +23,7 @@ BinaryCode CodeGenVisitor::operator()(Import&& target){
       break;
     case (Import::ImportType::Memory):
       result += '\x02';
+      result += std::visit<BinaryCode>(*this, CodeGenVariant(std::get<Limit>(target.desc)));
       break;
     case (Import::ImportType::Global):
       result += '\x03';
