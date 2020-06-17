@@ -14,6 +14,7 @@
 #include <structure/ValueType.hpp>
 #include <structure/TypeUse.hpp>
 #include <structure/Import.hpp>
+#include <structure/Limit.hpp>
 
 using CodeGenVariant = std::variant<
   Module,
@@ -21,7 +22,8 @@ using CodeGenVariant = std::variant<
   ValueType,
   Type,
   TypeUse,
-  Import
+  Import,
+  Limit
 >;
 
 class CodeGenVisitor{
@@ -32,6 +34,7 @@ public:
   BinaryCode operator()(ValueType&&);
   BinaryCode operator()(TypeUse&&);
   BinaryCode operator()(Import&&);
+  BinaryCode operator()(Limit&&);
 protected:
   struct Context{
     std::vector<FuncType> typeDescs;

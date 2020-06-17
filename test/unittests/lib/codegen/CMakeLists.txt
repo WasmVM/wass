@@ -5,6 +5,7 @@ add_library(test_codegen OBJECT
   test_GenType.cpp
   test_GenTypeUse.cpp
   test_GenImport.cpp
+  test_GenLimit.cpp
 )
 add_dependencies(test_codegen
   googletest
