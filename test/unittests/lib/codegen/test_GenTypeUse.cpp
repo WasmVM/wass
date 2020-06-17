@@ -16,7 +16,50 @@ TEST(unittest_GenTypeUse, typeidx){
 
 TEST(unittest_GenTypeUse, identifier){
   TypeUse data;
-  data.index = "test";
-  CodeGenVisitor visitor;
-  EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({'\x60', '\x00', '\x00'}));
+  data.index = std::string("test");
+  Mock_CodeGenVisitor visitor;
+  visitor.getContext().identifierMap["test"] = 2;
+  EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({'\x02'}));
+}
+
+TEST(unittest_GenTypeUse, inline_matched){
+  TypeUse data;
+  data.params.push_back(ValueType::i32);
+  Mock_CodeGenVisitor visitor;
+  FuncType existed;
+  existed.params.push_back(ValueType::i32);
+  visitor.getContext().typeDescs.push_back(FuncType());
+  visitor.getContext().typeDescs.push_back(existed);
+  EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({'\x01'}));
+}
+
+TEST(unittest_GenTypeUse, inline_matched_with_id){
+  TypeUse data;
+  data.params.push_back(ValueType::i32);
+  data.paramMap["test"] = 2;
+  Mock_CodeGenVisitor visitor;
+  FuncType existed;
+  existed.params.push_back(ValueType::i32);
+  visitor.getContext().typeDescs.push_back(FuncType());
+  visitor.getContext().typeDescs.push_back(existed);
+  EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({'\x01'}));
+  EXPECT_EQ(visitor.getContext().identifierMap["test"], 2);
+}
+
+TEST(unittest_GenTypeUse, inline_no_matched){
+  TypeUse data;
+  data.params.push_back(ValueType::i32);
+  Mock_CodeGenVisitor visitor;
+  EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({'\x00'}));
+  EXPECT_EQ(visitor.getContext().typeDescs.size(), 1);
+}
+
+TEST(unittest_GenTypeUse, inline_no_matched_with_id){
+  TypeUse data;
+  data.params.push_back(ValueType::i32);
+  data.paramMap["test"] = 1;
+  Mock_CodeGenVisitor visitor;
+  EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({'\x00'}));
+  EXPECT_EQ(visitor.getContext().typeDescs.size(), 1);
+  EXPECT_EQ(visitor.getContext().identifierMap["test"], 1);
 }

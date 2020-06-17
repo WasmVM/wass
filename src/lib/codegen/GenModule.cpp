@@ -15,7 +15,8 @@ BinaryCode CodeGenVisitor::operator()(Module&& target){
     '\x01','\x00','\x00','\x00', // Version
   });
   // TODO: Module id is omitted now, but maybe we can performed in a custom section
-
+  
+  // Type section
   std::optional<SectionGenerator> typeSection;
   if(target.types.size() > 0){
     typeSection.emplace(SectionGenerator());

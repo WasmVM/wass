@@ -3,6 +3,7 @@ add_library(test_codegen OBJECT
   test_GenFuncType.cpp
   test_GenValueType.cpp
   test_GenType.cpp
+  test_GenTypeUse.cpp
 )
 add_dependencies(test_codegen
   googletest
