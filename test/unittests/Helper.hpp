@@ -16,5 +16,5 @@ std::vector<char> create_char_vector(const char* data);
 
 class Mock_CodeGenVisitor: public CodeGenVisitor{
 public:
-  CodeGenVisitor::Context getContext();
+  CodeGenVisitor::Context& getContext();
 };

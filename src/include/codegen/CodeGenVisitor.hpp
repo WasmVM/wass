@@ -3,7 +3,7 @@
 
 #include <variant>
 #include <vector>
-#include <map>
+#include <unordered_map>
 #include <cstdint>
 #include <string>
 #include <utility>
@@ -32,7 +32,7 @@ public:
 protected:
   struct Context{
     std::vector<FuncType> typeDescs;
-    std::map<std::string, uint32_t> identifierMap;
+    std::unordered_map<std::string, uint32_t> identifierMap;
   } context;
 };
 

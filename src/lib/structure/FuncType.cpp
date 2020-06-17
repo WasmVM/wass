@@ -5,3 +5,9 @@ FuncType::FuncType(const FuncType& funcType){
   results = funcType.results;
   paramMap = funcType.paramMap;
 }
+
+FuncType::FuncType(const TypeUse& typeUse){
+  params = typeUse.params;
+  results = typeUse.params;
+  paramMap = typeUse.paramMap;
+}

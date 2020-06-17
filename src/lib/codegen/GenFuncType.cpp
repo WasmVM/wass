@@ -2,8 +2,10 @@
 
 #include <variant>
 #include <vector>
+#include <utility>
 #include <structure/FuncType.hpp>
 #include <Util.hpp>
+#include <Error.hpp>
 
 BinaryCode CodeGenVisitor::operator()(FuncType&& target){
   BinaryCode result {0x60};
@@ -16,5 +18,11 @@ BinaryCode CodeGenVisitor::operator()(FuncType&& target){
     result += std::visit<BinaryCode>(*this, CodeGenVariant(type));
   }
   context.typeDescs.emplace_back(target);
+  for(std::pair<std::string, uint32_t> pair : target.paramMap){
+    if(context.identifierMap.contains(pair.first)){
+      throw Error<ErrorType::GenerateError>("Identifier must be unique");
+    }
+    context.identifierMap[pair.first] = pair.second;
+  }
   return result;
 }
