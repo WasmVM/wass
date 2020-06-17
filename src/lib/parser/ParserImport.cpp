@@ -47,6 +47,7 @@ ParserImport::ParserImport(ParserContext& parent_context){
         Comment::skip(context);
         if(Util::matchString(context.cursor, context.end, "func")){
           context.cursor += 4;
+          newImport.type = Import::ImportType::Function;
           Comment::skip(context);
           Identifier id(context);
           if(id.has_value()){
@@ -61,6 +62,7 @@ ParserImport::ParserImport(ParserContext& parent_context){
           }
         }else if(Util::matchString(context.cursor, context.end, "table")){
           context.cursor += 5;
+          newImport.type = Import::ImportType::Table;
           Comment::skip(context);
           Identifier id(context);
           if(id.has_value()){
@@ -75,6 +77,7 @@ ParserImport::ParserImport(ParserContext& parent_context){
           }
         }else if(Util::matchString(context.cursor, context.end, "memory")){
           context.cursor += 6;
+          newImport.type = Import::ImportType::Memory;
           Comment::skip(context);
           Identifier id(context);
           if(id.has_value()){
@@ -89,6 +92,7 @@ ParserImport::ParserImport(ParserContext& parent_context){
           }
         }else if(Util::matchString(context.cursor, context.end, "global")){
           context.cursor += 6;
+          newImport.type = Import::ImportType::Global;
           Comment::skip(context);
           Identifier id(context);
           if(id.has_value()){

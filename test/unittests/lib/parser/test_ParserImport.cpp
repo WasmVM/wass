@@ -37,6 +37,7 @@ TEST(unittest_ParserImport, func){
   ParserContext context(data);
   ParserImport result(context);
   EXPECT_TRUE(result.has_value());
+  EXPECT_EQ(result->type, Import::ImportType::Function);
   EXPECT_STREQ(result->mod.c_str(), "testmod");
   EXPECT_STREQ(result->name.c_str(), "test");
   EXPECT_STREQ(result->descId->c_str(), "testfunc");
@@ -52,6 +53,7 @@ TEST(unittest_ParserImport, table){
   ParserContext context(data);
   ParserImport result(context);
   EXPECT_TRUE(result.has_value());
+  EXPECT_EQ(result->type, Import::ImportType::Table);
   EXPECT_STREQ(result->mod.c_str(), "testmod");
   EXPECT_STREQ(result->name.c_str(), "test");
   EXPECT_STREQ(result->descId->c_str(), "testtable");
@@ -64,6 +66,7 @@ TEST(unittest_ParserImport, memory){
   ParserContext context(data);
   ParserImport result(context);
   EXPECT_TRUE(result.has_value());
+  EXPECT_EQ(result->type, Import::ImportType::Memory);
   EXPECT_STREQ(result->mod.c_str(), "testmod");
   EXPECT_STREQ(result->name.c_str(), "test");
   EXPECT_STREQ(result->descId->c_str(), "testmem");
@@ -76,6 +79,7 @@ TEST(unittest_ParserImport, Global){
   ParserContext context(data);
   ParserImport result(context);
   EXPECT_TRUE(result.has_value());
+  EXPECT_EQ(result->type, Import::ImportType::Global);
   EXPECT_STREQ(result->mod.c_str(), "testmod");
   EXPECT_STREQ(result->name.c_str(), "test");
   EXPECT_STREQ(result->descId->c_str(), "testglobal");

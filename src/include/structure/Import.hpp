@@ -20,6 +20,13 @@ public:
   std::string mod;
   std::string name;
   std::optional<std::string> descId;
+  enum class ImportType{
+    Function,
+    Table,
+    Memory,
+    Global
+  };
+  ImportType type;
   ImportDesc desc;
 };
 
