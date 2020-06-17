@@ -22,10 +22,19 @@ BinaryCode CodeGenVisitor::operator()(Module&& target){
     typeSection.emplace(SectionGenerator());
     typeSection->generate(*this, target.types);
   }
+  // Import section
+  std::optional<SectionGenerator> importSection;
+  if(target.imports.size() > 0){
+    importSection.emplace(SectionGenerator());
+    importSection->generate(*this, target.imports);
+  }
 
   // Wrap sections
   if(typeSection.has_value()){
     result += typeSection->wrap(1);
+  }
+  if(importSection.has_value()){
+    result += importSection->wrap(2);
   }
   return result;
 }

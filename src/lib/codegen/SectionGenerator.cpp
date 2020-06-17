@@ -2,6 +2,7 @@
 
 #include <variant>
 #include <structure/Type.hpp>
+#include <structure/Import.hpp>
 #include <Util.hpp>
 
 template<typename T>
@@ -11,6 +12,7 @@ void SectionGenerator::generate(CodeGenVisitor& visitor, std::vector<T>& targets
   }
 }
 template void SectionGenerator::generate<Type>(CodeGenVisitor&, std::vector<Type>&);
+template void SectionGenerator::generate<Import>(CodeGenVisitor&, std::vector<Import>&);
 
 BinaryCode SectionGenerator::wrap(uint8_t SectionNum){
   BinaryCode result;

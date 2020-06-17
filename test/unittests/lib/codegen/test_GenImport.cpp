@@ -10,8 +10,8 @@
 
 TEST(unittest_GenImport, desc_type){
   Import data;
-  data.name = "testImport";
   data.mod = "testMod";
+  data.name = "testImport";
   data.type = Import::ImportType::Function;
   TypeUse typeUse;
   typeUse.index = (uint32_t) 3;
