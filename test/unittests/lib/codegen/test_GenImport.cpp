@@ -6,6 +6,7 @@
 #include <structure/Import.hpp>
 #include <structure/TypeUse.hpp>
 #include <structure/Table.hpp>
+#include <structure/GlobalType.hpp>
 #include <codegen/CodeGenVisitor.hpp>
 #include <Helper.hpp>
 
@@ -54,5 +55,22 @@ TEST(unittest_GenImport, desc_memory){
     '\x07', 't', 'e', 's', 't', 'M', 'o', 'd',
     '\x0A', 't', 'e', 's', 't', 'I', 'm', 'p', 'o', 'r', 't',
     '\x02', '\x00', '\x03'
+  }));
+}
+
+TEST(unittest_GenImport, desc_global){
+  Import data;
+  data.mod = "testMod";
+  data.name = "testImport";
+  data.type = Import::ImportType::Global;
+  GlobalType global;
+  global.immutable = true;
+  global.type = ValueType::i32;
+  data.desc.emplace<GlobalType>(global);
+  CodeGenVisitor visitor;
+  EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({
+    '\x07', 't', 'e', 's', 't', 'M', 'o', 'd',
+    '\x0A', 't', 'e', 's', 't', 'I', 'm', 'p', 'o', 'r', 't',
+    '\x03', '\x7F', '\x00'
   }));
 }

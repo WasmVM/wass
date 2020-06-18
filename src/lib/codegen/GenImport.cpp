@@ -27,6 +27,7 @@ BinaryCode CodeGenVisitor::operator()(Import&& target){
       break;
     case (Import::ImportType::Global):
       result += '\x03';
+      result += std::visit<BinaryCode>(*this, CodeGenVariant(std::get<GlobalType>(target.desc)));
       break;
   }
   return result;
