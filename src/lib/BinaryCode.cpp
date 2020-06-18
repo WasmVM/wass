@@ -23,9 +23,14 @@ BinaryCode& BinaryCode::operator+=(const std::string& rhs){
   return *this;
 }
 
-BinaryCode operator+(BinaryCode lhs,const BinaryCode& rhs){
+BinaryCode operator+(BinaryCode lhs, const BinaryCode& rhs){
   lhs.resize(lhs.size() + rhs.size());
   memcpy(lhs.data() + lhs.size() - rhs.size(), rhs.data(), sizeof(char) * rhs.size());
+  return lhs;
+}
+
+BinaryCode operator+(BinaryCode lhs, const char& rhs){
+  lhs.emplace_back(rhs);
   return lhs;
 }
 

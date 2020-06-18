@@ -7,4 +7,5 @@ add_library(wass-codegen
   GenTypeUse.cpp
   GenImport.cpp
   GenLimit.cpp
+  GenGlobalType.cpp
 )

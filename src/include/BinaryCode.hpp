@@ -13,6 +13,7 @@ public:
   BinaryCode& operator+=(const char&);
   BinaryCode& operator+=(const std::string&);
   friend BinaryCode operator+(BinaryCode, const BinaryCode&);
+  friend BinaryCode operator+(BinaryCode, const char&);
   friend bool operator==(const BinaryCode&, const BinaryCode&);
 };
 
