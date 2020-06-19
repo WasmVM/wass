@@ -15,12 +15,14 @@ public:
   Function() = default;
   std::optional<std::string> id;
   TypeUse typeUse;
-  std::map<std::string, uint32_t> localMap;
-  std::vector<ValueType> locals;
-  std::vector<InstrVariant> body;
   std::string importModule;
   std::string importName;
   std::vector<std::string> exportNames;
+  struct Content{
+    std::map<std::string, uint32_t> localMap;
+    std::vector<ValueType> locals;
+    std::vector<InstrVariant> body;
+  } content;
 };
 
 #endif

@@ -34,8 +34,8 @@ TEST(unittest_ParserFunction, with_local){
   EXPECT_TRUE(result.has_value());
   EXPECT_TRUE(result->typeUse.index.has_value());
   EXPECT_STREQ(std::any_cast<std::string>(&result->typeUse.index)->c_str(), "testType");
-  EXPECT_EQ(result->locals.size(), 1);
-  EXPECT_EQ(result->locals[0], ValueType::f32);
+  EXPECT_EQ(result->content.locals.size(), 1);
+  EXPECT_EQ(result->content.locals[0], ValueType::f32);
 }
 
 TEST(unittest_ParserFunction, local_with_id){
@@ -46,9 +46,9 @@ TEST(unittest_ParserFunction, local_with_id){
   EXPECT_TRUE(result.has_value());
   EXPECT_TRUE(result->typeUse.index.has_value());
   EXPECT_STREQ(std::any_cast<std::string>(&result->typeUse.index)->c_str(), "testType");
-  EXPECT_EQ(result->locals.size(), 1);
-  EXPECT_EQ(result->locals[0], ValueType::f32);
-  EXPECT_EQ(result->localMap["loc"], 0);
+  EXPECT_EQ(result->content.locals.size(), 1);
+  EXPECT_EQ(result->content.locals[0], ValueType::f32);
+  EXPECT_EQ(result->content.localMap["loc"], 0);
 }
 
 TEST(unittest_ParserFunction, with_body){
@@ -57,9 +57,9 @@ TEST(unittest_ParserFunction, with_body){
   ParserFunction result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(result->body.size(), 2);
-  EXPECT_TRUE(std::holds_alternative<F32ConstInstr>(result->body[0]));
-  EXPECT_TRUE(std::holds_alternative<DropInstr>(result->body[1]));
+  EXPECT_EQ(result->content.body.size(), 2);
+  EXPECT_TRUE(std::holds_alternative<F32ConstInstr>(result->content.body[0]));
+  EXPECT_TRUE(std::holds_alternative<DropInstr>(result->content.body[1]));
 }
 
 TEST(unittest_ParserFunction, with_id){

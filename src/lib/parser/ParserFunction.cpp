@@ -93,12 +93,12 @@ ParserFunction::ParserFunction(ParserContext& parent_context){
           // Local
           Comment::skip(context);
           for(std::optional<Local> local = parseLocal(context); local.has_value(); local = parseLocal(context)){
-            uint32_t index = func.locals.size();
+            uint32_t index = func.content.locals.size();
             if(local->id.has_value()){
-              func.localMap[*(local->id)] = index;
+              func.content.localMap[*(local->id)] = index;
             }
             for(auto it = local->types.begin(); it != local->types.end(); ++it){
-              func.locals.push_back(*it);
+              func.content.locals.push_back(*it);
             }
             Comment::skip(context);
           }
@@ -110,13 +110,13 @@ ParserFunction::ParserFunction(ParserContext& parent_context){
               ParserFoldedInstr folded(context);
               if(folded.has_value() && folded->size() > 0){
                 for(auto it = folded->begin(); it != folded->end(); ++it){
-                  func.body.emplace_back(*it);
+                  func.content.body.emplace_back(*it);
                 }
               }else{
                 break;
               }
             }else{
-              func.body.emplace_back(instr);
+              func.content.body.emplace_back(instr);
             }
           }
         }
