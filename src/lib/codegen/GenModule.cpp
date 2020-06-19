@@ -5,6 +5,7 @@
 #include <vector>
 #include <cstdint>
 #include <structure/Type.hpp>
+#include <structure/Function.hpp>
 #include <codegen/SectionGenerator.hpp>
 #include <Util.hpp>
 #include <BinaryCode.hpp>
@@ -28,6 +29,14 @@ BinaryCode CodeGenVisitor::operator()(Module&& target){
     importSection.emplace(SectionGenerator());
     importSection->generate(*this, target.imports);
   }
+  // Func section
+  std::optional<BinaryCode> funcSection;
+  if(target.funcs.size() > 0){
+    BinaryCode& codes = funcSection.emplace(BinaryCode(Util::toLEB128((uint32_t)target.funcs.size())));
+    for(Function& func : target.funcs){
+      codes += std::visit<BinaryCode>(*this, CodeGenVariant(func.typeUse));
+    }
+  }
 
   // Wrap sections
   if(typeSection.has_value()){
@@ -35,6 +44,10 @@ BinaryCode CodeGenVisitor::operator()(Module&& target){
   }
   if(importSection.has_value()){
     result += importSection->wrap(2);
+  }
+  if(funcSection.has_value()){
+    result += '\x03';
+    result += Util::toLEB128((uint32_t)funcSection->size()) + *funcSection;
   }
   return result;
 }

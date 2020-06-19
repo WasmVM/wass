@@ -47,3 +47,16 @@ TEST(unittest_GenModule, import_section){
     '\x00', '\x02'
   }));
 }
+
+TEST(unittest_GenModule, func_section){
+  Module data;
+  Function testFunc;
+  testFunc.typeUse.index = (uint32_t)2;
+  data.funcs.push_back(testFunc);
+  CodeGenVisitor visitor;
+  EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({
+    BIN_MAGIC, BIN_VERSION,
+    '\x03', '\x02',
+    '\x01', '\x02'
+  }));
+}

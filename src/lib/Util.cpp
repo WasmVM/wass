@@ -63,10 +63,10 @@ template<> BinaryCode Util::toLEB128<uint64_t>(uint64_t value){
   }else{
     BinaryCode result;
     for(int i = 0; (i < 10) && (value != 0); ++i){
-      result += (char)(value & 0x7F);
+      result += (char)((value & 0x7F) | 0x80);
       value >>= 7;
     }
-    result.back() |= 0x80;
+    result.back() &= 0x7F;
     return result;
   }
 }
