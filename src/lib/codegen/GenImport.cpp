@@ -14,36 +14,36 @@ BinaryCode CodeGenVisitor::operator()(Import&& target){
   switch (target.type){
     case (Import::ImportType::Function):
       if(target.descId.has_value()){
-        context.identifierMap[*(target.descId)] = context.funcIdx;
+        context.identifierMap[*(target.descId)] = context.funcCount;
       }
       result += '\x00';
       result += std::visit<BinaryCode>(*this, CodeGenVariant(std::get<TypeUse>(target.desc)));
-      ++context.funcIdx;
+      ++context.funcCount;
       break;
     case (Import::ImportType::Table):
       if(target.descId.has_value()){
-        context.identifierMap[*(target.descId)] = context.tableIdx;
+        context.identifierMap[*(target.descId)] = context.tableCount;
       }
       result += '\x01';
       result += '\x70';
       result += std::visit<BinaryCode>(*this, CodeGenVariant(std::get<Limit>(target.desc)));
-      ++context.tableIdx;
+      ++context.tableCount;
       break;
     case (Import::ImportType::Memory):
       if(target.descId.has_value()){
-        context.identifierMap[*(target.descId)] = context.memIdx;
+        context.identifierMap[*(target.descId)] = context.memCount;
       }
       result += '\x02';
       result += std::visit<BinaryCode>(*this, CodeGenVariant(std::get<Limit>(target.desc)));
-      ++context.memIdx;
+      ++context.memCount;
       break;
     case (Import::ImportType::Global):
       if(target.descId.has_value()){
-        context.identifierMap[*(target.descId)] = context.globalIdx;
+        context.identifierMap[*(target.descId)] = context.globalCount;
       }
       result += '\x03';
       result += std::visit<BinaryCode>(*this, CodeGenVariant(std::get<GlobalType>(target.desc)));
-      ++context.globalIdx;
+      ++context.globalCount;
       break;
   }
   return result;

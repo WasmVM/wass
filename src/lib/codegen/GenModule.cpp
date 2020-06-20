@@ -28,7 +28,7 @@ BinaryCode CodeGenVisitor::operator()(Module&& target){
   }
   // Func section
   if(target.funcs.size() > 0){
-    sections.import.emplace<SectionGenerator>().generate(*this, target.funcs);
+    sections.func.emplace<SectionGenerator>().generate(*this, target.funcs);
   }
 
   // Wrap sections

@@ -4,6 +4,7 @@ add_library(wass-core
   lib/BinaryCode.cpp
   lib/Error.cpp
   lib/Util.cpp
+  lib/structure/Function.cpp
   lib/structure/Limit.cpp
   lib/structure/FuncType.cpp
   lib/structure/GlobalType.cpp

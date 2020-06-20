@@ -12,7 +12,7 @@
 
 class Function{
 public:
-  Function() = default;
+  Function();
   std::optional<std::string> id;
   TypeUse typeUse;
   std::string importModule;

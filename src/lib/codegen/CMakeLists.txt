@@ -1,6 +1,6 @@
 add_library(wass-codegen
   SectionGenerator.cpp
-  FuncSection.cpp
+  CodeGenVisitor.cpp
   GenModule.cpp
   GenFuncType.cpp
   GenType.cpp
@@ -9,5 +9,5 @@ add_library(wass-codegen
   GenImport.cpp
   GenLimit.cpp
   GenGlobalType.cpp
-  GenTable.cpp
+  GenFunction.cpp
 )

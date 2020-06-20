@@ -17,7 +17,6 @@
 #include <structure/Import.hpp>
 #include <structure/Limit.hpp>
 #include <structure/GlobalType.hpp>
-#include <structure/Table.hpp>
 #include <structure/Function.hpp>
 
 using CodeGenVariant = std::variant<
@@ -29,12 +28,12 @@ using CodeGenVariant = std::variant<
   Import,
   Limit,
   GlobalType,
-  Table,
   Function
 >;
 
 class CodeGenVisitor{
 public:
+  CodeGenVisitor();
   BinaryCode operator()(Module&&);
   BinaryCode operator()(Type&&);
   BinaryCode operator()(FuncType&&);
@@ -43,12 +42,15 @@ public:
   BinaryCode operator()(Import&&);
   BinaryCode operator()(Limit&&);
   BinaryCode operator()(GlobalType&&);
-  BinaryCode operator()(Table&&);
   BinaryCode operator()(Function&&);
 protected:
   struct Context{
     std::vector<FuncType> typeDescs;
     std::unordered_map<std::string, uint32_t> identifierMap;
+    uint32_t funcCount;
+    uint32_t tableCount;
+    uint32_t memCount;
+    uint32_t globalCount;
   } context;
   struct Sections{
     std::any type;
