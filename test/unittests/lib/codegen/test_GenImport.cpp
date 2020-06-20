@@ -18,12 +18,13 @@ TEST(unittest_GenImport, desc_function){
   TypeUse typeUse;
   typeUse.index = (uint32_t) 3;
   data.desc.emplace<TypeUse>(typeUse);
-  CodeGenVisitor visitor;
+  Mock_CodeGenVisitor visitor;
   EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({
     '\x07', 't', 'e', 's', 't', 'M', 'o', 'd',
     '\x0A', 't', 'e', 's', 't', 'I', 'm', 'p', 'o', 'r', 't',
     '\x00', '\x03'
   }));
+  EXPECT_EQ(visitor.getContext().funcCount, 1);
 }
 
 TEST(unittest_GenImport, desc_table){
@@ -34,12 +35,13 @@ TEST(unittest_GenImport, desc_table){
   Limit table;
   table.min = 3;
   data.desc.emplace<Limit>(table);
-  CodeGenVisitor visitor;
+  Mock_CodeGenVisitor visitor;
   EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({
     '\x07', 't', 'e', 's', 't', 'M', 'o', 'd',
     '\x0A', 't', 'e', 's', 't', 'I', 'm', 'p', 'o', 'r', 't',
     '\x01', '\x70', '\x00', '\x03'
   }));
+  EXPECT_EQ(visitor.getContext().tableCount, 1);
 }
 
 TEST(unittest_GenImport, desc_memory){
@@ -50,12 +52,13 @@ TEST(unittest_GenImport, desc_memory){
   Limit memory;
   memory.min = 3;
   data.desc.emplace<Limit>(memory);
-  CodeGenVisitor visitor;
+  Mock_CodeGenVisitor visitor;
   EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({
     '\x07', 't', 'e', 's', 't', 'M', 'o', 'd',
     '\x0A', 't', 'e', 's', 't', 'I', 'm', 'p', 'o', 'r', 't',
     '\x02', '\x00', '\x03'
   }));
+  EXPECT_EQ(visitor.getContext().memCount, 1);
 }
 
 TEST(unittest_GenImport, desc_global){
@@ -67,10 +70,11 @@ TEST(unittest_GenImport, desc_global){
   global.immutable = true;
   global.type = ValueType::i32;
   data.desc.emplace<GlobalType>(global);
-  CodeGenVisitor visitor;
+  Mock_CodeGenVisitor visitor;
   EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({
     '\x07', 't', 'e', 's', 't', 'M', 'o', 'd',
     '\x0A', 't', 'e', 's', 't', 'I', 'm', 'p', 'o', 'r', 't',
     '\x03', '\x7F', '\x00'
   }));
+  EXPECT_EQ(visitor.getContext().globalCount, 1);
 }
