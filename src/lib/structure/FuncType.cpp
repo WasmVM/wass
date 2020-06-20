@@ -8,6 +8,6 @@ FuncType::FuncType(const FuncType& funcType){
 
 FuncType::FuncType(const TypeUse& typeUse){
   params = typeUse.params;
-  results = typeUse.params;
+  results = typeUse.results;
   paramMap = typeUse.paramMap;
 }

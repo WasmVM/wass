@@ -4,6 +4,8 @@
 #include <cstddef>
 #include <cstdint>
 #include <codegen/CodeGenVisitor.hpp>
+#include <codegen/SectionGenerator.hpp>
+#include <BinaryCode.hpp>
 
 std::vector<char> create_char_vector(const char* data, size_t size);
 
@@ -17,4 +19,12 @@ std::vector<char> create_char_vector(const char* data);
 class Mock_CodeGenVisitor: public CodeGenVisitor{
 public:
   CodeGenVisitor::Context& getContext();
+  CodeGenVisitor::Sections& getSections();
+};
+
+class Mock_SectionGenerator: public SectionGenerator{
+public:
+  Mock_SectionGenerator() = default;
+  Mock_SectionGenerator(const SectionGenerator&);
+  std::vector<BinaryCode>& getCodes();
 };

@@ -7,6 +7,7 @@
 #include <cstdint>
 #include <string>
 #include <utility>
+#include <any>
 #include <BinaryCode.hpp>
 #include <structure/Type.hpp>
 #include <structure/Module.hpp>
@@ -16,6 +17,8 @@
 #include <structure/Import.hpp>
 #include <structure/Limit.hpp>
 #include <structure/GlobalType.hpp>
+#include <structure/Table.hpp>
+#include <structure/Function.hpp>
 
 using CodeGenVariant = std::variant<
   Module,
@@ -25,7 +28,9 @@ using CodeGenVariant = std::variant<
   TypeUse,
   Import,
   Limit,
-  GlobalType
+  GlobalType,
+  Table,
+  Function
 >;
 
 class CodeGenVisitor{
@@ -38,11 +43,18 @@ public:
   BinaryCode operator()(Import&&);
   BinaryCode operator()(Limit&&);
   BinaryCode operator()(GlobalType&&);
+  BinaryCode operator()(Table&&);
+  BinaryCode operator()(Function&&);
 protected:
   struct Context{
     std::vector<FuncType> typeDescs;
     std::unordered_map<std::string, uint32_t> identifierMap;
   } context;
+  struct Sections{
+    std::any type;
+    std::any import;
+    std::any func;
+  } sections;
 };
 
 #endif

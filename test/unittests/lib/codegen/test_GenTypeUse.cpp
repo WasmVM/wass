@@ -5,6 +5,7 @@
 #include <Error.hpp>
 #include <structure/TypeUse.hpp>
 #include <codegen/CodeGenVisitor.hpp>
+#include <codegen/SectionGenerator.hpp>
 #include <Helper.hpp>
 
 TEST(unittest_GenTypeUse, typeidx){
@@ -62,4 +63,6 @@ TEST(unittest_GenTypeUse, inline_no_matched_with_id){
   EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({'\x00'}));
   EXPECT_EQ(visitor.getContext().typeDescs.size(), 1);
   EXPECT_EQ(visitor.getContext().identifierMap["test"], 1);
+  Mock_SectionGenerator generator(std::any_cast<SectionGenerator>(visitor.getSections().type));
+  EXPECT_EQ(generator.getCodes().size(), 1);
 }

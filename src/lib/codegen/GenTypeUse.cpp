@@ -5,9 +5,12 @@
 #include <utility>
 #include <vector>
 #include <cstdint>
+#include <any>
 #include <structure/TypeUse.hpp>
+#include <structure/Type.hpp>
 #include <Util.hpp>
 #include <Error.hpp>
+#include <codegen/SectionGenerator.hpp>
 
 static bool isMatched(const FuncType& funcType, const TypeUse& target){
   bool matched = true;
@@ -61,13 +64,19 @@ BinaryCode CodeGenVisitor::operator()(TypeUse&& target){
     std::optional<uint32_t> matchedIndex = matchedType(context.typeDescs, target);
     if(!matchedIndex.has_value()){
       matchedIndex = (uint32_t)context.typeDescs.size();
-      context.typeDescs.emplace_back(target);
-    }
-    for(std::pair<std::string, uint32_t> idPair : target.paramMap){
-      if(context.identifierMap.contains(idPair.first)){
-        throw Error<ErrorType::GenerateError>("Identifier must be unique");
+      Type newType;
+      newType.funcType = FuncType(target);
+      if(!sections.type.has_value()){
+        sections.type.emplace<SectionGenerator>();
       }
-      context.identifierMap[idPair.first] = idPair.second;
+      std::any_cast<SectionGenerator>(&(sections.type))->generate(*this, newType);
+    }else{
+      for(std::pair<std::string, uint32_t> idPair : target.paramMap){
+        if(context.identifierMap.contains(idPair.first)){
+          throw Error<ErrorType::GenerateError>("Identifier must be unique");
+        }
+        context.identifierMap[idPair.first] = idPair.second;
+      }
     }
     result += Util::toLEB128((uint32_t)*matchedIndex);
   }

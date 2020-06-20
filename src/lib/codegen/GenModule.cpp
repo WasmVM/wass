@@ -6,9 +6,10 @@
 #include <cstdint>
 #include <structure/Type.hpp>
 #include <structure/Function.hpp>
-#include <codegen/SectionGenerator.hpp>
 #include <Util.hpp>
+#include <Error.hpp>
 #include <BinaryCode.hpp>
+#include <codegen/SectionGenerator.hpp>
 
 BinaryCode CodeGenVisitor::operator()(Module&& target){
   BinaryCode result({
@@ -18,36 +19,27 @@ BinaryCode CodeGenVisitor::operator()(Module&& target){
   // TODO: Module id is omitted now, but maybe we can performed in a custom section
   
   // Type section
-  std::optional<SectionGenerator> typeSection;
   if(target.types.size() > 0){
-    typeSection.emplace(SectionGenerator());
-    typeSection->generate(*this, target.types);
+    sections.type.emplace<SectionGenerator>().generate(*this, target.types);
   }
   // Import section
-  std::optional<SectionGenerator> importSection;
   if(target.imports.size() > 0){
-    importSection.emplace(SectionGenerator());
-    importSection->generate(*this, target.imports);
+    sections.import.emplace<SectionGenerator>().generate(*this, target.imports);
   }
   // Func section
-  std::optional<BinaryCode> funcSection;
   if(target.funcs.size() > 0){
-    BinaryCode& codes = funcSection.emplace(BinaryCode(Util::toLEB128((uint32_t)target.funcs.size())));
-    for(Function& func : target.funcs){
-      codes += std::visit<BinaryCode>(*this, CodeGenVariant(func.typeUse));
-    }
+    sections.import.emplace<SectionGenerator>().generate(*this, target.funcs);
   }
 
   // Wrap sections
-  if(typeSection.has_value()){
-    result += typeSection->wrap(1);
+  if(sections.type.has_value()){
+    result += std::any_cast<SectionGenerator>(sections.type).wrap(1);
   }
-  if(importSection.has_value()){
-    result += importSection->wrap(2);
+  if(sections.import.has_value()){
+    result += std::any_cast<SectionGenerator>(sections.import).wrap(2);
   }
-  if(funcSection.has_value()){
-    result += '\x03';
-    result += Util::toLEB128((uint32_t)funcSection->size()) + *funcSection;
+  if(sections.func.has_value()){
+    result += std::any_cast<SectionGenerator>(sections.func).wrap(3);
   }
   return result;
 }
