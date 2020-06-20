@@ -1,20 +1,8 @@
 include_directories(${PROJECT_SOURCE_DIR}/src/include)
 include_directories(${CMAKE_CURRENT_LIST_DIR})
 
-add_subdirectory(lib)
-
-add_executable(unittest
+add_library(unittest_helper
   Helper.cpp
-  $<TARGET_OBJECTS:test_parser>
-  $<TARGET_OBJECTS:test_codegen>
-  $<TARGET_OBJECTS:test_structure>
 )
-target_link_libraries(unittest
-  wass-codegen
-  wass-parser
-  wass-core
-  gtest
-  gtest_main
-  pthread
-)
-gtest_discover_tests(unittest)
+
+add_subdirectory(lib)

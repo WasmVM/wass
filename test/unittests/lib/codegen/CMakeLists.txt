@@ -1,4 +1,4 @@
-add_library(test_codegen OBJECT
+add_executable(test_codegen
   test_GenModule.cpp
   test_GenFuncType.cpp
   test_GenValueType.cpp
@@ -7,7 +7,18 @@ add_library(test_codegen OBJECT
   test_GenImport.cpp
   test_GenLimit.cpp
   test_GenGlobalType.cpp
+  test_GenFunction.cpp
 )
 add_dependencies(test_codegen
   googletest
 )
+
+target_link_libraries(test_codegen
+  wass-codegen
+  wass-core
+  gtest
+  gtest_main
+  pthread
+  unittest_helper
+)
+gtest_discover_tests(test_codegen)

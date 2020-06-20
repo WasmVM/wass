@@ -1,4 +1,4 @@
-add_library(test_structure OBJECT
+add_executable(test_structure
   test_FuncType.cpp
   test_Limit.cpp
   test_GlobalType.cpp
@@ -6,3 +6,11 @@ add_library(test_structure OBJECT
 add_dependencies(test_structure
   googletest
 )
+target_link_libraries(test_structure
+  wass-core
+  gtest
+  gtest_main
+  pthread
+  unittest_helper
+)
+gtest_discover_tests(test_structure)

@@ -1,4 +1,4 @@
-add_library(test_parser OBJECT
+add_executable(test_parser
   test_Comment.cpp
   test_IntegerLiteral.cpp
   test_FloatLiteral.cpp
@@ -35,3 +35,12 @@ add_library(test_parser OBJECT
 add_dependencies(test_parser
   googletest
 )
+target_link_libraries(test_parser
+  wass-parser
+  wass-core
+  gtest
+  gtest_main
+  pthread
+  unittest_helper
+)
+gtest_discover_tests(test_parser)
