@@ -77,8 +77,8 @@ TEST(unittest_ParserFunction, with_import){
   ParserFunction result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_STREQ(result->importModule.c_str(), "module");
-  EXPECT_STREQ(result->importName.c_str(), "test");
+  EXPECT_STREQ(result->importModule->c_str(), "module");
+  EXPECT_STREQ(result->importName->c_str(), "test");
 }
 
 TEST(unittest_ParserFunction, with_export){
@@ -107,8 +107,8 @@ TEST(unittest_ParserFunction, with_import_export){
   ParserFunction result(context);
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
-  EXPECT_STREQ(result->importModule.c_str(), "module");
-  EXPECT_STREQ(result->importName.c_str(), "test");
+  EXPECT_STREQ(result->importModule->c_str(), "module");
+  EXPECT_STREQ(result->importName->c_str(), "test");
   EXPECT_EQ(result->exportNames.size(), 1);
   EXPECT_STREQ(result->exportNames[0].c_str(), "testexport");
 }

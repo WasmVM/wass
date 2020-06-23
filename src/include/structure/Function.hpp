@@ -12,11 +12,10 @@
 
 class Function{
 public:
-  Function();
   std::optional<std::string> id;
   TypeUse typeUse;
-  std::string importModule;
-  std::string importName;
+  std::optional<std::string> importModule;
+  std::optional<std::string> importName;
   std::vector<std::string> exportNames;
   struct Content{
     std::map<std::string, uint32_t> localMap;

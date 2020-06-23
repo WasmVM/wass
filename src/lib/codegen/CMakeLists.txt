@@ -10,4 +10,5 @@ add_library(wass-codegen
   GenLimit.cpp
   GenGlobalType.cpp
   GenFunction.cpp
+  GenTable.cpp
 )
