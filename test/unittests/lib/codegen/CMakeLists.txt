@@ -10,6 +10,7 @@ add_executable(test_codegen
   test_GenFunction.cpp
   test_GenTable.cpp
   test_GenMemory.cpp
+  test_GenConstInstr.cpp
 )
 add_dependencies(test_codegen
   googletest

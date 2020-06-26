@@ -21,6 +21,8 @@
 #include <structure/Table.hpp>
 #include <structure/Memory.hpp>
 #include <structure/Global.hpp>
+#include <structure/ConstInstr.hpp>
+#include <structure/VariableInstr.hpp>
 
 using CodeGenVariant = std::variant<
   Module,
@@ -53,6 +55,12 @@ public:
   BinaryCode operator()(Memory&&);
   BinaryCode operator()(Global&&);
   BinaryCode operator()(std::monostate&&);
+  BinaryCode operator()(I32ConstInstr&&);
+  BinaryCode operator()(I64ConstInstr&&);
+  BinaryCode operator()(F32ConstInstr&&);
+  BinaryCode operator()(F64ConstInstr&&);
+  BinaryCode operator()(GlobalGetInstr&&);
+
 protected:
   struct Context{
     std::vector<FuncType> typeDescs;

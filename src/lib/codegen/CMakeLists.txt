@@ -13,4 +13,6 @@ add_library(wass-codegen
   GenTable.cpp
   GenMemory.cpp
   GenGlobal.cpp
+  GenConstInstr.cpp
+  GenVariableInstr.cpp
 )

@@ -29,7 +29,7 @@ BinaryCode CodeGenVisitor::operator()(Global&& target){
     }
     ++context.globalCount;
     result += std::visit<BinaryCode>(*this, CodeGenVariant(target.globalType));
-    result += std::visit<BinaryCode>(*this, target.expr);
+    result += std::visit<BinaryCode>(*this, ConstExprVariant(target.expr));
   }else{
     throw Error<ErrorType::GenerateError>("import name and module name should be both performed");
   }
