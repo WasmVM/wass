@@ -5,5 +5,6 @@
 #include <Util.hpp>
 
 BinaryCode CodeGenVisitor::operator()(GlobalGetInstr&& target){
+  // TODO:
   return BinaryCode();
 }
