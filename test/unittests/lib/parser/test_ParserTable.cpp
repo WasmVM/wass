@@ -100,6 +100,20 @@ TEST(unittest_ParserTable, with_elem){
   EXPECT_TRUE(result->tableType.max.has_value());
   EXPECT_EQ(result->tableType.max, 2);
   EXPECT_TRUE(result->elements.has_value());
-  EXPECT_EQ(result->elements->at(0), 4);
-  EXPECT_EQ(result->elements->at(1), 6);
+  EXPECT_EQ(std::get<uint32_t>(result->elements->at(0)), 4);
+  EXPECT_EQ(std::get<uint32_t>(result->elements->at(1)), 6);
+}
+
+TEST(unittest_ParserTable, with_elem_in_id){
+  std::vector<char> data(create_char_vector("(table funcref (elem $test 6))"));
+  ParserContext context(data);
+  ParserTable result(context);
+  EXPECT_EQ(context.cursor, data.end());
+  EXPECT_TRUE(result.has_value());
+  EXPECT_EQ(result->tableType.min, 2);
+  EXPECT_TRUE(result->tableType.max.has_value());
+  EXPECT_EQ(result->tableType.max, 2);
+  EXPECT_TRUE(result->elements.has_value());
+  EXPECT_STREQ(std::get<std::string>(result->elements->at(0)).c_str(), "test");
+  EXPECT_EQ(std::get<uint32_t>(result->elements->at(1)), 6);
 }

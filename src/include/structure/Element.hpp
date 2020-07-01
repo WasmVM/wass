@@ -5,12 +5,13 @@
 #include <vector>
 #include <cstdint>
 #include <structure/InstrVariant.hpp>
+#include <structure/Index.hpp>
 
 class Element{
 public:
-  uint32_t tableIndex;
+  Index tableIndex;
   ConstExprVariant expr;
-  std::vector<uint32_t> funcIndices;
+  std::vector<Index> funcIndices;
 };
 
 #endif

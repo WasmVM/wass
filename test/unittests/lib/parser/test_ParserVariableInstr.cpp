@@ -24,7 +24,7 @@ TEST(unittest_ParserVariableInstr, local_get){
   EXPECT_EQ(context.cursor, data.end());
   LocalGetInstr* instr = std::get_if<LocalGetInstr>(&result);
   EXPECT_NE(instr, nullptr);
-  EXPECT_EQ(instr->index, 1);
+  EXPECT_EQ(std::get<uint32_t>(instr->index), 1);
 }
 
 TEST(unittest_ParserVariableInstr, local_set){
@@ -34,7 +34,7 @@ TEST(unittest_ParserVariableInstr, local_set){
   EXPECT_EQ(context.cursor, data.end());
   LocalSetInstr* instr = std::get_if<LocalSetInstr>(&result);
   EXPECT_NE(instr, nullptr);
-  EXPECT_EQ(instr->index, 1);
+  EXPECT_EQ(std::get<uint32_t>(instr->index), 1);
 }
 
 TEST(unittest_ParserVariableInstr, local_tee){
@@ -44,7 +44,7 @@ TEST(unittest_ParserVariableInstr, local_tee){
   EXPECT_EQ(context.cursor, data.end());
   LocalTeeInstr* instr = std::get_if<LocalTeeInstr>(&result);
   EXPECT_NE(instr, nullptr);
-  EXPECT_EQ(instr->index, 1);
+  EXPECT_EQ(std::get<uint32_t>(instr->index), 1);
 }
 
 TEST(unittest_ParserVariableInstr, global_get){
@@ -54,7 +54,7 @@ TEST(unittest_ParserVariableInstr, global_get){
   EXPECT_EQ(context.cursor, data.end());
   GlobalGetInstr* instr = std::get_if<GlobalGetInstr>(&result);
   EXPECT_NE(instr, nullptr);
-  EXPECT_EQ(instr->index, 1);
+  EXPECT_EQ(std::get<uint32_t>(instr->index), 1);
 }
 
 TEST(unittest_ParserVariableInstr, global_set){
@@ -64,5 +64,15 @@ TEST(unittest_ParserVariableInstr, global_set){
   EXPECT_EQ(context.cursor, data.end());
   GlobalSetInstr* instr = std::get_if<GlobalSetInstr>(&result);
   EXPECT_NE(instr, nullptr);
-  EXPECT_EQ(instr->index, 1);
+  EXPECT_EQ(std::get<uint32_t>(instr->index), 1);
+}
+
+TEST(unittest_ParserVariableInstr, use_id){
+  std::vector<char> data(create_char_vector("global.set $test"));
+  ParserContext context(data);
+  ParserVariableInstr result(context);
+  EXPECT_EQ(context.cursor, data.end());
+  GlobalSetInstr* instr = std::get_if<GlobalSetInstr>(&result);
+  EXPECT_NE(instr, nullptr);
+  EXPECT_STREQ(std::get<std::string>(instr->index).c_str(), "test");
 }

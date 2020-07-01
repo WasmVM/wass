@@ -28,7 +28,17 @@ TEST(unittest_ParserExport, func){
   EXPECT_TRUE(result.has_value());
   EXPECT_STREQ(result->name.c_str(), "test");
   EXPECT_EQ(result->type, ExportType::Func);
-  EXPECT_EQ(result->index, 2);
+  EXPECT_EQ(std::get<uint32_t>(result->index), 2);
+}
+
+TEST(unittest_ParserExport, func_id){
+  std::vector<char> data(create_char_vector("(export \"test\" (func $testFunc))"));
+  ParserContext context(data);
+  ParserExport result(context);
+  EXPECT_TRUE(result.has_value());
+  EXPECT_STREQ(result->name.c_str(), "test");
+  EXPECT_EQ(result->type, ExportType::Func);
+  EXPECT_STREQ(std::get<std::string>(result->index).c_str(), "testFunc");
 }
 
 TEST(unittest_ParserExport, table){
@@ -38,7 +48,17 @@ TEST(unittest_ParserExport, table){
   EXPECT_TRUE(result.has_value());
   EXPECT_STREQ(result->name.c_str(), "test");
   EXPECT_EQ(result->type, ExportType::Table);
-  EXPECT_EQ(result->index, 2);
+  EXPECT_EQ(std::get<uint32_t>(result->index), 2);
+}
+
+TEST(unittest_ParserExport, table_id){
+  std::vector<char> data(create_char_vector("(export \"test\" (table $testTable))"));
+  ParserContext context(data);
+  ParserExport result(context);
+  EXPECT_TRUE(result.has_value());
+  EXPECT_STREQ(result->name.c_str(), "test");
+  EXPECT_EQ(result->type, ExportType::Table);
+  EXPECT_STREQ(std::get<std::string>(result->index).c_str(), "testTable");
 }
 
 TEST(unittest_ParserExport, memory){
@@ -48,7 +68,17 @@ TEST(unittest_ParserExport, memory){
   EXPECT_TRUE(result.has_value());
   EXPECT_STREQ(result->name.c_str(), "test");
   EXPECT_EQ(result->type, ExportType::Memory);
-  EXPECT_EQ(result->index, 2);
+  EXPECT_EQ(std::get<uint32_t>(result->index), 2);
+}
+
+TEST(unittest_ParserExport, memory_id){
+  std::vector<char> data(create_char_vector("(export \"test\" (memory $testMem))"));
+  ParserContext context(data);
+  ParserExport result(context);
+  EXPECT_TRUE(result.has_value());
+  EXPECT_STREQ(result->name.c_str(), "test");
+  EXPECT_EQ(result->type, ExportType::Memory);
+  EXPECT_STREQ(std::get<std::string>(result->index).c_str(), "testMem");
 }
 
 TEST(unittest_ParserExport, Global){
@@ -58,5 +88,15 @@ TEST(unittest_ParserExport, Global){
   EXPECT_TRUE(result.has_value());
   EXPECT_STREQ(result->name.c_str(), "test");
   EXPECT_EQ(result->type, ExportType::Global);
-  EXPECT_EQ(result->index, 2);
+  EXPECT_EQ(std::get<uint32_t>(result->index), 2);
+}
+
+TEST(unittest_ParserExport, Global_id){
+  std::vector<char> data(create_char_vector("(export \"test\" (global $testGlob))"));
+  ParserContext context(data);
+  ParserExport result(context);
+  EXPECT_TRUE(result.has_value());
+  EXPECT_STREQ(result->name.c_str(), "test");
+  EXPECT_EQ(result->type, ExportType::Global);
+  EXPECT_STREQ(std::get<std::string>(result->index).c_str(), "testGlob");
 }

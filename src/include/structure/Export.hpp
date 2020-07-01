@@ -3,6 +3,7 @@
 
 #include <string>
 #include <cstdint>
+#include <structure/Index.hpp>
 
 enum class ExportType{
   none,
@@ -15,7 +16,7 @@ enum class ExportType{
 class Export{
 public:
   std::string name;
-  uint32_t index;
+  Index index;
   ExportType type;
 };
 

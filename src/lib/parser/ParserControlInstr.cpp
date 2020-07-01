@@ -5,12 +5,13 @@
 #include <vector>
 #include <cstdint>
 #include <parser/ParserContext.hpp>
-#include <parser/IntegerLiteral.hpp>
+#include <parser/ParserIndex.hpp>
 #include <parser/Comment.hpp>
 #include <parser/ParserTypeUse.hpp>
 #include <Util.hpp>
 #include <Error.hpp>
 #include <structure/ControlInstr.hpp>
+#include <structure/Index.hpp>
 
 ParserControlInstr::ParserControlInstr(ParserContext & parent_context){
   if(parent_context.cursor != parent_context.end){
@@ -29,10 +30,10 @@ ParserControlInstr::ParserControlInstr(ParserContext & parent_context){
       parent_context.cursor = context.cursor;
     }else if(Util::matchString(context.cursor, context.end, "br_table")){
       context.cursor += 8;
-      std::vector<uint32_t> labels;
+      std::vector<Index> labels;
       Comment::skip(context);
-      for(IntegerLiteral immediate(context); immediate.has_value(); immediate = IntegerLiteral(context)){
-        labels.push_back(*immediate);
+      for(ParserIndex label(context); label.has_value(); label = ParserIndex(context)){
+        labels.push_back(*label);
         Comment::skip(context);
       }
       if(labels.size() > 0){
@@ -44,7 +45,7 @@ ParserControlInstr::ParserControlInstr(ParserContext & parent_context){
     }else if(Util::matchString(context.cursor, context.end, "br_if")){
       context.cursor += 5;
       Comment::skip(context);
-      IntegerLiteral label(context);
+      ParserIndex label(context);
       if(label.has_value()){
         emplace<BrIfInstr>(BrIfInstr(*label));
         parent_context.cursor = context.cursor;
@@ -54,7 +55,7 @@ ParserControlInstr::ParserControlInstr(ParserContext & parent_context){
     }else if(Util::matchString(context.cursor, context.end, "br")){
       context.cursor += 2;
       Comment::skip(context);
-      IntegerLiteral label(context);
+      ParserIndex label(context);
       if(label.has_value()){
         emplace<BrInstr>(BrInstr(*label));
         parent_context.cursor = context.cursor;
@@ -70,7 +71,7 @@ ParserControlInstr::ParserControlInstr(ParserContext & parent_context){
     }else if(Util::matchString(context.cursor, context.end, "call")){
       context.cursor += 4;
       Comment::skip(context);
-      IntegerLiteral label(context);
+      ParserIndex label(context);
       if(label.has_value()){
         emplace<CallInstr>(*label);
         parent_context.cursor = context.cursor;

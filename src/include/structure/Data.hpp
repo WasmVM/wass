@@ -4,10 +4,11 @@
 #include <string>
 #include <cstdint>
 #include <structure/InstrVariant.hpp>
+#include <structure/Index.hpp>
 
 class Data{
 public:
-  uint32_t memIndex;
+  Index memIndex;
   ConstExprVariant expr;
   std::string data;
 };

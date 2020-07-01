@@ -3,11 +3,12 @@
 
 #include <cstdint>
 #include <structure/BaseInstr.hpp>
+#include <structure/Index.hpp>
 
 template<InstrType T>
 class VariableInstr: public BaseInstr<T>{
 public:
-  int32_t index;
+  Index index;
 };
 
 using LocalGetInstr = VariableInstr<InstrType::LocalGet>;

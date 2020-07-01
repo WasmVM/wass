@@ -5,6 +5,7 @@
 #include <Util.hpp>
 #include <Error.hpp>
 #include <parser/IntegerLiteral.hpp>
+#include <parser/ParserIndex.hpp>
 #include <parser/StringLiteral.hpp>
 #include <parser/ParserConstInstr.hpp>
 #include <parser/ParserVariableInstr.hpp>
@@ -29,11 +30,11 @@ ParserData::ParserData(ParserContext& parent_context){
         Data& data = emplace<Data>(Data());
         // Memory index
         Comment::skip(context);
-        IntegerLiteral memIndex(context);
+        ParserIndex memIndex(context);
         if(memIndex.has_value()){
-          data.memIndex = (uint32_t)*memIndex;
+          data.memIndex = *memIndex;
         }else{
-          data.memIndex = 0;
+          data.memIndex.emplace<Index>((uint32_t)0);
         }
         // Offset prefix
         bool abbrivate = false;

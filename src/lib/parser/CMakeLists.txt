@@ -33,6 +33,7 @@ add_library(wass-parser
   ParserElement.cpp
   ParserData.cpp
   ParserModule.cpp
+  ParserIndex.cpp
   _Abbreviated.cpp
   _AssignConstExprVisitor.cpp
 )

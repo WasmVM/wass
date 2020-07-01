@@ -14,6 +14,7 @@
 #include <structure/Export.hpp>
 #include <structure/Element.hpp>
 #include <structure/Data.hpp>
+#include <structure/Index.hpp>
 
 class Module{
 public:
@@ -26,7 +27,7 @@ public:
   std::vector<Global> globals;
   std::vector<Export> exports;
   std::vector<Element> elems;
-  std::optional<uint32_t> start;
+  std::optional<Index> start;
   std::vector<Data> datas;
 };
 

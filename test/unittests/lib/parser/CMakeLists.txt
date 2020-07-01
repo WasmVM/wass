@@ -31,6 +31,7 @@ add_executable(test_parser
   test_ParserElement.cpp
   test_ParserData.cpp
   test_ParserModule.cpp
+  test_ParserIndex.cpp
 )
 add_dependencies(test_parser
   googletest
