@@ -7,12 +7,11 @@
 #include <Error.hpp>
 #include <parser/ParserParam.hpp>
 #include <parser/ParserResult.hpp>
-#include <parser/IntegerLiteral.hpp>
-#include <parser/Identifier.hpp>
+#include <parser/ParserIndex.hpp>
 #include <parser/Comment.hpp>
 #include <structure/TypeUse.hpp>
 
-static void parsrTypeIndex(ParserContext& parent_context, TypeUse& typeUse){
+static void parseTypeIndex(ParserContext& parent_context, TypeUse& typeUse){
   ParserContext context = parent_context;
   if((context.cursor != parent_context.end) && *context.cursor == '('){
     ++context.cursor;
@@ -20,16 +19,9 @@ static void parsrTypeIndex(ParserContext& parent_context, TypeUse& typeUse){
     if(Util::matchString(context.cursor, context.end, "type")){
       context.cursor += 4;
       Comment::skip(context);
-      IntegerLiteral literal(context);
-      if(literal.has_value()){
-        typeUse.index = (uint32_t)*literal;
-      }else{
-        Identifier identifier(context);
-        if(identifier.has_value()){
-          typeUse.index = *identifier;
-        }
-      }
-      if(typeUse.index.has_value()){
+      ParserIndex index(context);
+      if(index.has_value()){
+        typeUse.index = *index;
         Comment::skip(context);
         if(Util::matchString(context.cursor, context.end, ")")){
           parent_context.cursor = ++context.cursor;
@@ -46,7 +38,7 @@ static void parsrTypeIndex(ParserContext& parent_context, TypeUse& typeUse){
 ParserTypeUse::ParserTypeUse(ParserContext& parent_context){
   ParserContext context = parent_context;
   TypeUse typeUse;
-  parsrTypeIndex(context, typeUse);
+  parseTypeIndex(context, typeUse);
   Comment::skip(context);
   for(ParserParam param(context); param.has_value(); param = ParserParam(context)){
     if(param.type() == typeid(ValueType)){

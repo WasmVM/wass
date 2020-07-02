@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <Util.hpp>
 #include <Error.hpp>
-#include <parser/IntegerLiteral.hpp>
+#include <parser/ParserIndex.hpp>
 #include <parser/ParserContext.hpp>
 #include <parser/Comment.hpp>
 
@@ -17,9 +17,11 @@ ParserStart::ParserStart(ParserContext& parent_context){
       if(Util::matchString(context.cursor, context.end, "start")){
         context.cursor += 5;
         Comment::skip(context);
-        IntegerLiteral index(context);
-        if(!index.has_value()){
-          throw Error<ErrorType::ParseError>("expect index in start description");
+        ParserIndex index(context);
+        if(index.has_value()){
+          emplace(*index);
+        }else{
+          throw Error<ErrorType::ParseError>("expected a function index as start function");
         }
         // Postfix
         Comment::skip(context);
@@ -28,7 +30,6 @@ ParserStart::ParserStart(ParserContext& parent_context){
         }else{
           ++context.cursor;
         }
-        this->std::optional<uint32_t>::operator=((uint32_t)*index);
         parent_context.cursor = context.cursor;
       }
     }

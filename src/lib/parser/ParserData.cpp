@@ -34,7 +34,7 @@ ParserData::ParserData(ParserContext& parent_context){
         if(memIndex.has_value()){
           data.memIndex = *memIndex;
         }else{
-          data.memIndex.emplace<Index>((uint32_t)0);
+          data.memIndex = (uint32_t)0;
         }
         // Offset prefix
         bool abbrivate = false;

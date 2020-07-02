@@ -4,8 +4,8 @@
 #include <optional>
 #include <utility>
 #include <vector>
+#include <string>
 #include <cstdint>
-#include <any>
 #include <structure/TypeUse.hpp>
 #include <structure/Type.hpp>
 #include <Util.hpp>
@@ -45,21 +45,24 @@ static std::optional<uint32_t> matchedType(const std::vector<FuncType>& types, c
   return std::optional<uint32_t>();
 }
 
+template<class... Ts> struct overloaded : Ts... { using Ts::operator()...; };
+template<class... Ts> overloaded(Ts...) -> overloaded<Ts...>;
+
 BinaryCode CodeGenVisitor::operator()(TypeUse&& target){
   BinaryCode result;
   if(target.index.has_value()){
-    if(target.index.type() == typeid(std::string)){
-      std::string* index = std::any_cast<std::string>(&(target.index));
-      if(context.identifierMap.contains(*index)){
-        result += Util::toLEB128(context.identifierMap[*index]);
-      }else{
-        throw Error<ErrorType::GenerateError>("Unknown identifier of index in TypeUse");
+    std::visit(overloaded {
+      [&result](uint32_t index){
+        result += Util::toLEB128(index);
+      },
+      [&result, this](std::string index){
+        if(context.identifierMap.contains(index)){
+          result += Util::toLEB128(context.identifierMap[index]);
+        }else{
+          throw Error<ErrorType::GenerateError>("Unknown identifier of index in TypeUse");
+        }
       }
-    }else if(target.index.type() == typeid(uint32_t)){
-      result += Util::toLEB128(*(std::any_cast<uint32_t>(&(target.index))));
-    }else{
-      throw Error<ErrorType::GenerateError>("Unknown type of index in TypeUse");
-    }
+    }, *target.index);
   }else{
     std::optional<uint32_t> matchedIndex = matchedType(context.typeDescs, target);
     if(!matchedIndex.has_value()){

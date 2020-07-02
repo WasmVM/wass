@@ -4,9 +4,10 @@
 #include <Util.hpp>
 #include <Error.hpp>
 #include <structure/Limit.hpp>
+#include <structure/Index.hpp>
 #include <parser/ParserTableType.hpp>
 #include <parser/Identifier.hpp>
-#include <parser/IntegerLiteral.hpp>
+#include <parser/ParserIndex.hpp>
 #include <parser/Comment.hpp>
 #include <parser/ParserContext.hpp>
 #include "_Abbreviated.hpp"
@@ -50,14 +51,14 @@ ParserTable::ParserTable(ParserContext& parent_context){
             Comment::skip(context);
             if(Util::matchString(context.cursor, context.end, "elem")){
               context.cursor += 4;
-              std::vector<uint32_t>& elems = table.elements.emplace(std::vector<uint32_t>());
+              std::vector<Index>& indices = table.elements.emplace(std::vector<Index>());
               Comment::skip(context);
-              for(IntegerLiteral elem(context); elem.has_value(); elem = IntegerLiteral(context)){
-                elems.emplace_back(*elem);
+              for(ParserIndex elem(context); elem.has_value(); elem = ParserIndex(context)){
+                indices.emplace_back(*elem);
                 Comment::skip(context);
               }
-              table.tableType.min = elems.size();
-              table.tableType.max = elems.size();
+              table.tableType.min = indices.size();
+              table.tableType.max = indices.size();
               Comment::skip(context);
               if(*context.cursor == ')'){
                 ++context.cursor;

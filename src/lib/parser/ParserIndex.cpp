@@ -19,8 +19,6 @@ ParserIndex::ParserIndex(ParserContext& parent_context){
       IntegerLiteral intIndex(context);
       if(intIndex.has_value()){
         emplace<Index>(Index((uint32_t)*intIndex));
-      }else{
-        throw Error<ErrorType::ParseError>("unknown type of index");
       }
     }
     parent_context.cursor = context.cursor;

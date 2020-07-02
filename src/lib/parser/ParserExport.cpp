@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <Util.hpp>
 #include <Error.hpp>
-#include <parser/IntegerLiteral.hpp>
+#include <parser/ParserIndex.hpp>
 #include <parser/Name.hpp>
 #include <parser/ParserContext.hpp>
 #include <parser/Comment.hpp>
@@ -51,9 +51,9 @@ ParserExport::ParserExport(ParserContext& parent_context){
           throw Error<ErrorType::ParseError>("unknown type of export description");
         }
         Comment::skip(context);
-        IntegerLiteral index(context);
+        ParserIndex index(context);
         if(index.has_value()){
-          newExport.index = (uint32_t)*index;
+          newExport.index = *index;
         }else{
           throw Error<ErrorType::ParseError>("expect index in export description");
         }

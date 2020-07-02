@@ -27,7 +27,7 @@ TEST(unittest_ParserData, no_string){
   ParserContext context(data);
   ParserData result(context);
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::get<uint32_t>(result->memIndex, 2);
+  EXPECT_EQ(std::get<uint32_t>(result->memIndex), 2);
   EXPECT_TRUE(std::holds_alternative<I32ConstInstr>(result->expr));
   EXPECT_EQ(std::get_if<I32ConstInstr>(&result->expr)->value, 3);
   EXPECT_EQ(result->data.size(), 0);
@@ -60,7 +60,7 @@ TEST(unittest_ParserData, two_string){
   ParserContext context(data);
   ParserData result(context);
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::get<uint32_t>(result->memIndex, 1);
+  EXPECT_EQ(std::get<uint32_t>(result->memIndex), 1);
   EXPECT_TRUE(std::holds_alternative<I32ConstInstr>(result->expr));
   EXPECT_EQ(std::get_if<I32ConstInstr>(&result->expr)->value, 3);
   EXPECT_STREQ(result->data.c_str(), "teststring");
@@ -71,7 +71,7 @@ TEST(unittest_ParserData, expr_abbreviated){
   ParserContext context(data);
   ParserData result(context);
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::get<uint32_t>(result->memIndex, 2);
+  EXPECT_EQ(std::get<uint32_t>(result->memIndex), 2);
   EXPECT_TRUE(std::holds_alternative<I32ConstInstr>(result->expr));
   EXPECT_EQ(std::get_if<I32ConstInstr>(&result->expr)->value, 3);
   EXPECT_STREQ(result->data.c_str(), "test");
@@ -82,7 +82,7 @@ TEST(unittest_ParserData, omit_memidx){
   ParserContext context(data);
   ParserData result(context);
   EXPECT_TRUE(result.has_value());
-  EXPECT_EQ(std::get<uint32_t>(result->memIndex, 0);
+  EXPECT_EQ(std::get<uint32_t>(result->memIndex), 0);
   EXPECT_TRUE(std::holds_alternative<I32ConstInstr>(result->expr));
   EXPECT_EQ(std::get_if<I32ConstInstr>(&result->expr)->value, 6);
   EXPECT_STREQ(result->data.c_str(), "test");

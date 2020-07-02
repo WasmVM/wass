@@ -9,8 +9,8 @@
 TEST(unittest_ParserIndex, unknown){
   std::vector<char> data(create_char_vector("abcd1234"));
   ParserContext context(data);
-  ParserIndex *result = nullptr;
-  EXPECT_THROW(result = new ParserIndex(context), Error<ErrorType::ParseError>)
+  ParserIndex result(context);
+  EXPECT_FALSE(result.has_value());
 }
 
 TEST(unittest_ParserIndex, string_index){

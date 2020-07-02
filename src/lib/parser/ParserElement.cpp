@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <Util.hpp>
 #include <Error.hpp>
-#include <parser/IntegerLiteral.hpp>
+#include <parser/ParserIndex.hpp>
 #include <parser/ParserConstInstr.hpp>
 #include <parser/ParserVariableInstr.hpp>
 #include <parser/ParserContext.hpp>
@@ -28,11 +28,11 @@ ParserElement::ParserElement(ParserContext& parent_context){
         Element& element = emplace<Element>(Element());
         // Table index
         Comment::skip(context);
-        IntegerLiteral tableIndex(context);
+        ParserIndex tableIndex(context);
         if(tableIndex.has_value()){
-          element.tableIndex = (uint32_t)*tableIndex;
+          element.tableIndex = *tableIndex;
         }else{
-          element.tableIndex = 0;
+          element.tableIndex = Index((uint32_t)0);
         }
         // Offset prefix
         bool abbrivate = false;
@@ -71,8 +71,8 @@ ParserElement::ParserElement(ParserContext& parent_context){
         }
         // Function indices
         Comment::skip(context);
-        for(IntegerLiteral funcidx(context); funcidx.has_value(); funcidx = IntegerLiteral(context)){
-          element.funcIndices.push_back((uint32_t)*funcidx);
+        for(ParserIndex funcidx(context); funcidx.has_value(); funcidx = ParserIndex(context)){
+          element.funcIndices.emplace_back(*funcidx);
           Comment::skip(context);
         }
         // Postfix

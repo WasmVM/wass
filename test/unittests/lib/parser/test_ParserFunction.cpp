@@ -23,7 +23,7 @@ TEST(unittest_ParserFunction, typeuse_only){
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
   EXPECT_TRUE(result->typeUse.index.has_value());
-  EXPECT_STREQ(std::any_cast<std::string>(&result->typeUse.index)->c_str(), "testType");
+  EXPECT_STREQ(std::get<std::string>(*(result->typeUse.index)).c_str(), "testType");
 }
 
 TEST(unittest_ParserFunction, with_local){
@@ -33,7 +33,7 @@ TEST(unittest_ParserFunction, with_local){
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
   EXPECT_TRUE(result->typeUse.index.has_value());
-  EXPECT_STREQ(std::any_cast<std::string>(&result->typeUse.index)->c_str(), "testType");
+  EXPECT_STREQ(std::get<std::string>(*(result->typeUse.index)).c_str(), "testType");
   EXPECT_EQ(result->content.locals.size(), 1);
   EXPECT_EQ(result->content.locals[0], ValueType::f32);
 }
@@ -45,7 +45,7 @@ TEST(unittest_ParserFunction, local_with_id){
   EXPECT_EQ(context.cursor, data.end());
   EXPECT_TRUE(result.has_value());
   EXPECT_TRUE(result->typeUse.index.has_value());
-  EXPECT_STREQ(std::any_cast<std::string>(&result->typeUse.index)->c_str(), "testType");
+  EXPECT_STREQ(std::get<std::string>(*(result->typeUse.index)).c_str(), "testType");
   EXPECT_EQ(result->content.locals.size(), 1);
   EXPECT_EQ(result->content.locals[0], ValueType::f32);
   EXPECT_EQ(result->content.localMap["loc"], 0);

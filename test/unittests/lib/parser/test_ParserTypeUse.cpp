@@ -1,6 +1,5 @@
 #include <gtest/gtest.h>
 
-#include <any>
 #include <cstdint>
 #include <string>
 #include <vector>
@@ -111,7 +110,7 @@ TEST(unittest_ParserTypeUse, type_index){
   EXPECT_EQ(typeUse.results.size(), 0);
   EXPECT_EQ(typeUse.paramMap.size(), 0);
   EXPECT_TRUE(typeUse.index.has_value());
-  EXPECT_EQ(std::any_cast<uint32_t>(typeUse.index), 5);
+  EXPECT_EQ(std::get<uint32_t>(*typeUse.index), 5);
 }
 
 TEST(unittest_ParserTypeUse, type_identifier){
@@ -125,7 +124,7 @@ TEST(unittest_ParserTypeUse, type_identifier){
   EXPECT_EQ(typeUse.results.size(), 0);
   EXPECT_EQ(typeUse.paramMap.size(), 0);
   EXPECT_TRUE(typeUse.index.has_value());
-  EXPECT_STREQ(std::any_cast<std::string>(typeUse.index).c_str(), "test");
+  EXPECT_STREQ(std::get<std::string>(*typeUse.index).c_str(), "test");
 }
 
 TEST(unittest_ParserTypeUse, type_param){
@@ -140,7 +139,7 @@ TEST(unittest_ParserTypeUse, type_param){
   EXPECT_EQ(typeUse.results.size(), 0);
   EXPECT_EQ(typeUse.paramMap.size(), 0);
   EXPECT_TRUE(typeUse.index.has_value());
-  EXPECT_EQ(std::any_cast<uint32_t>(typeUse.index), 5);
+  EXPECT_EQ(std::get<uint32_t>(*typeUse.index), 5);
 }
 
 TEST(unittest_ParserTypeUse, type_result){
@@ -155,7 +154,7 @@ TEST(unittest_ParserTypeUse, type_result){
   EXPECT_EQ(typeUse.results[0], ValueType::i64);
   EXPECT_EQ(typeUse.paramMap.size(), 0);
   EXPECT_TRUE(typeUse.index.has_value());
-  EXPECT_EQ(std::any_cast<uint32_t>(typeUse.index), 5);
+  EXPECT_EQ(std::get<uint32_t>(*typeUse.index), 5);
 }
 
 TEST(unittest_ParserTypeUse, type_param_result){
@@ -171,5 +170,5 @@ TEST(unittest_ParserTypeUse, type_param_result){
   EXPECT_EQ(typeUse.results[0], ValueType::i64);
   EXPECT_EQ(typeUse.paramMap.size(), 0);
   EXPECT_TRUE(typeUse.index.has_value());
-  EXPECT_EQ(std::any_cast<uint32_t>(typeUse.index), 5);
+  EXPECT_EQ(std::get<uint32_t>(*typeUse.index), 5);
 }

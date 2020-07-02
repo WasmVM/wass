@@ -58,7 +58,7 @@ TEST(unittest_ParserModule, with_one_section){
   EXPECT_EQ(result->globals.size(), 0);
   EXPECT_EQ(result->exports.size(), 1);
   EXPECT_STREQ(result->exports[0].name.c_str(), "test");
-  EXPECT_EQ(result->exports[0].index, 2);
+  EXPECT_EQ(std::get<uint32_t>(result->exports[0].index), 2);
   EXPECT_EQ(result->exports[0].type, ExportType::Func);
   EXPECT_EQ(result->elems.size(), 0);
   EXPECT_EQ(result->datas.size(), 0);
@@ -79,7 +79,7 @@ TEST(unittest_ParserModule, one_section_with_id){
   EXPECT_EQ(result->globals.size(), 0);
   EXPECT_EQ(result->exports.size(), 1);
   EXPECT_STREQ(result->exports[0].name.c_str(), "testEx");
-  EXPECT_EQ(result->exports[0].index, 2);
+  EXPECT_EQ(std::get<uint32_t>(result->exports[0].index), 2);
   EXPECT_EQ(result->exports[0].type, ExportType::Func);
   EXPECT_EQ(result->elems.size(), 0);
   EXPECT_EQ(result->datas.size(), 0);
@@ -101,12 +101,12 @@ TEST(unittest_ParserModule, with_more_section){
   EXPECT_EQ(result->globals.size(), 0);
   EXPECT_EQ(result->exports.size(), 1);
   EXPECT_STREQ(result->exports[0].name.c_str(), "test");
-  EXPECT_EQ(result->exports[0].index, 2);
+  EXPECT_EQ(std::get<uint32_t>(result->exports[0].index), 2);
   EXPECT_EQ(result->exports[0].type, ExportType::Func);
   EXPECT_EQ(result->elems.size(), 0);
   EXPECT_EQ(result->datas.size(), 0);
   EXPECT_TRUE(result->start.has_value());
-  EXPECT_EQ(*result->start, 3);
+  EXPECT_EQ(std::get<uint32_t>(*(result->start)), 3);
   EXPECT_FALSE(result->id.has_value());
 }
 
