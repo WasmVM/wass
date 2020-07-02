@@ -67,7 +67,7 @@ TEST(unittest_ParserControlInstr, br_if){
   EXPECT_EQ(context.cursor, data.end());
   BrIfInstr* instrPtr = std::get_if<BrIfInstr>(&result);
   EXPECT_NE(instrPtr, nullptr);
-  EXPECT_EQ(instrPtr->label, 3);
+  EXPECT_EQ(std::get<uint32_t>(instrPtr->label), 3);
 }
 
 TEST(unittest_ParserControlInstr, br_if_by_id){
@@ -96,8 +96,8 @@ TEST(unittest_ParserControlInstr, br_table){
   BrTableInstr* instr = std::get_if<BrTableInstr>(&result);
   EXPECT_NE(instr, nullptr);
   EXPECT_EQ(instr->labels.size(), 2);
-  EXPECT_EQ(instr->labels[0], 3);
-  EXPECT_EQ(instr->labels[1], 5);
+  EXPECT_EQ(std::get<uint32_t>(instr->labels[0]), 3);
+  EXPECT_EQ(std::get<uint32_t>(instr->labels[1]), 5);
 }
 
 TEST(unittest_ParserControlInstr, br_table_by_id){
@@ -109,7 +109,7 @@ TEST(unittest_ParserControlInstr, br_table_by_id){
   EXPECT_NE(instr, nullptr);
   EXPECT_EQ(instr->labels.size(), 2);
   EXPECT_STREQ(std::get<std::string>(instr->labels[0]).c_str(), "test");
-  EXPECT_EQ(instr->labels[1], 5);
+  EXPECT_EQ(std::get<uint32_t>(instr->labels[1]), 5);
 }
 
 TEST(unittest_ParserControlInstr, br_table_default_only){
@@ -120,7 +120,7 @@ TEST(unittest_ParserControlInstr, br_table_default_only){
   BrTableInstr* instr = std::get_if<BrTableInstr>(&result);
   EXPECT_NE(instr, nullptr);
   EXPECT_EQ(instr->labels.size(), 1);
-  EXPECT_EQ(instr->labels[0], 3);
+  EXPECT_EQ(std::get<uint32_t>(instr->labels[0]), 3);
 }
 
 TEST(unittest_ParserControlInstr, br_table_no_immediate){
@@ -138,7 +138,7 @@ TEST(unittest_ParserControlInstr, call){
   EXPECT_EQ(context.cursor, data.end());
   CallInstr* instrPtr = std::get_if<CallInstr>(&result);
   EXPECT_NE(instrPtr, nullptr);
-  EXPECT_EQ(instrPtr->funcidx, 3);
+  EXPECT_EQ(std::get<uint32_t>(instrPtr->funcidx), 3);
 }
 
 TEST(unittest_ParserControlInstr, call_by_id){

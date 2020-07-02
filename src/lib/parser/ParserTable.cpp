@@ -4,6 +4,7 @@
 #include <Util.hpp>
 #include <Error.hpp>
 #include <structure/Limit.hpp>
+#include <structure/Index.hpp>
 #include <parser/ParserTableType.hpp>
 #include <parser/Identifier.hpp>
 #include <parser/IntegerLiteral.hpp>
@@ -50,10 +51,10 @@ ParserTable::ParserTable(ParserContext& parent_context){
             Comment::skip(context);
             if(Util::matchString(context.cursor, context.end, "elem")){
               context.cursor += 4;
-              std::vector<uint32_t>& elems = table.elements.emplace(std::vector<uint32_t>());
+              std::vector<Index>& elems = table.elements.emplace(std::vector<Index>());
               Comment::skip(context);
               for(IntegerLiteral elem(context); elem.has_value(); elem = IntegerLiteral(context)){
-                elems.emplace_back(*elem);
+                elems.emplace_back((uint32_t)*elem);
                 Comment::skip(context);
               }
               table.tableType.min = elems.size();

@@ -10,7 +10,7 @@ TEST(unittest_ParserIndex, unknown){
   std::vector<char> data(create_char_vector("abcd1234"));
   ParserContext context(data);
   ParserIndex *result = nullptr;
-  EXPECT_THROW(result = new ParserIndex(context), Error<ErrorType::ParseError>)
+  EXPECT_THROW(result = new ParserIndex(context), Error<ErrorType::ParseError>);
 }
 
 TEST(unittest_ParserIndex, string_index){

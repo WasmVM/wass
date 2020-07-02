@@ -4,8 +4,9 @@
 #include <optional>
 #include <cstdint>
 #include <parser/ParserContext.hpp>
+#include <structure/Index.hpp>
 
-class ParserStart: public std::optional<uint32_t>{
+class ParserStart: public std::optional<Index>{
 public:
   ParserStart(ParserContext& context);
 };

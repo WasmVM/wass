@@ -7,6 +7,7 @@
 #include <parser/IntegerLiteral.hpp>
 #include <parser/ParserContext.hpp>
 #include <parser/Comment.hpp>
+#include <parser/Identifier.hpp>
 
 ParserStart::ParserStart(ParserContext& parent_context){
   if(parent_context.cursor != parent_context.end){
@@ -17,9 +18,17 @@ ParserStart::ParserStart(ParserContext& parent_context){
       if(Util::matchString(context.cursor, context.end, "start")){
         context.cursor += 5;
         Comment::skip(context);
-        IntegerLiteral index(context);
-        if(!index.has_value()){
-          throw Error<ErrorType::ParseError>("expect index in start description");
+        Index& index = std::optional<Index>::emplace();
+        IntegerLiteral intIndex(context);
+        if(intIndex.has_value()){
+          index.emplace<uint32_t>(*intIndex);
+        }else{
+          Identifier strIndex(context);
+          if(strIndex.has_value()){
+            index.emplace<std::string>(*strIndex);
+          }else{
+            throw Error<ErrorType::ParseError>("expected a function index as start function");
+          }
         }
         // Postfix
         Comment::skip(context);
@@ -28,7 +37,6 @@ ParserStart::ParserStart(ParserContext& parent_context){
         }else{
           ++context.cursor;
         }
-        this->std::optional<uint32_t>::operator=((uint32_t)*index);
         parent_context.cursor = context.cursor;
       }
     }
