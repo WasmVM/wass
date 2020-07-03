@@ -5,6 +5,5 @@
 #include <Util.hpp>
 
 BinaryCode CodeGenVisitor::operator()(GlobalGetInstr&& target){
-  // TODO:
-  return BinaryCode();
+  return BinaryCode({'\x23'}) + std::visit<BinaryCode>(*this, CodeGenVariant(target.index));
 }

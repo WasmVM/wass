@@ -45,24 +45,9 @@ static std::optional<uint32_t> matchedType(const std::vector<FuncType>& types, c
   return std::optional<uint32_t>();
 }
 
-template<class... Ts> struct overloaded : Ts... { using Ts::operator()...; };
-template<class... Ts> overloaded(Ts...) -> overloaded<Ts...>;
-
 BinaryCode CodeGenVisitor::operator()(TypeUse&& target){
-  BinaryCode result;
   if(target.index.has_value()){
-    std::visit(overloaded {
-      [&result](uint32_t index){
-        result += Util::toLEB128(index);
-      },
-      [&result, this](std::string index){
-        if(context.identifierMap.contains(index)){
-          result += Util::toLEB128(context.identifierMap[index]);
-        }else{
-          throw Error<ErrorType::GenerateError>("Unknown identifier of index in TypeUse");
-        }
-      }
-    }, *target.index);
+    return std::visit<BinaryCode>(*this, CodeGenVariant(*target.index));
   }else{
     std::optional<uint32_t> matchedIndex = matchedType(context.typeDescs, target);
     if(!matchedIndex.has_value()){
@@ -81,7 +66,6 @@ BinaryCode CodeGenVisitor::operator()(TypeUse&& target){
         context.identifierMap[idPair.first] = idPair.second;
       }
     }
-    result += Util::toLEB128((uint32_t)*matchedIndex);
+    return Util::toLEB128((uint32_t)*matchedIndex);
   }
-  return result;
 }

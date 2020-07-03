@@ -23,6 +23,7 @@
 #include <structure/Global.hpp>
 #include <structure/ConstInstr.hpp>
 #include <structure/VariableInstr.hpp>
+#include <structure/Index.hpp>
 
 using CodeGenVariant = std::variant<
   Module,
@@ -36,7 +37,8 @@ using CodeGenVariant = std::variant<
   Function,
   Table,
   Memory,
-  Global
+  Global,
+  Index
 >;
 
 class CodeGenVisitor{
@@ -60,6 +62,7 @@ public:
   BinaryCode operator()(F32ConstInstr&&);
   BinaryCode operator()(F64ConstInstr&&);
   BinaryCode operator()(GlobalGetInstr&&);
+  BinaryCode operator()(Index&&);
 
 protected:
   struct Context{
