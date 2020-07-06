@@ -13,6 +13,7 @@ add_executable(test_codegen
   test_GenConstInstr.cpp
   test_GenVariableInstr.cpp
   test_GenGlobal.cpp
+  test_GenExport.cpp
 )
 add_dependencies(test_codegen
   googletest
