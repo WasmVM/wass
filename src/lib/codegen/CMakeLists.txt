@@ -17,4 +17,5 @@ add_library(wass-codegen
   GenVariableInstr.cpp
   GenIndex.cpp
   GenExport.cpp
+  GenElement.cpp
 )
