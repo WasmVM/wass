@@ -14,7 +14,7 @@ TEST(unittest_GenGlobal, const_value){
   data.globalType.type = ValueType::i32;
   data.expr.emplace<I32ConstInstr>().value = 5;
   CodeGenVisitor visitor;
-  EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({'\x7F', '\x00', '\x41', '\x05'}));
+  EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({'\x7F', '\x00', '\x41', '\x05', '\x0B'}));
 }
 
 TEST(unittest_GenGlobal, mutable_value){
@@ -23,5 +23,5 @@ TEST(unittest_GenGlobal, mutable_value){
   data.globalType.type = ValueType::i32;
   data.expr.emplace<GlobalGetInstr>().index = (uint32_t) 7;
   CodeGenVisitor visitor;
-  EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({'\x7F', '\x01', '\x23', '\x07'}));
+  EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({'\x7F', '\x01', '\x23', '\x07', '\x0B'}));
 }

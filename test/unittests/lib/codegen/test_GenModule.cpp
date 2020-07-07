@@ -8,6 +8,9 @@
 #include <structure/Import.hpp>
 #include <structure/TypeUse.hpp>
 #include <structure/Table.hpp>
+#include <structure/Memory.hpp>
+#include <structure/Global.hpp>
+#include <structure/ConstInstr.hpp>
 #include <codegen/CodeGenVisitor.hpp>
 #include <BinaryCode.hpp>
 #include <Helper.hpp>
@@ -85,5 +88,20 @@ TEST(unittest_GenModule, memory_section){
     BIN_MAGIC, BIN_VERSION,
     '\x05', '\x03',
     '\x01', '\x00', '\x03'
+  }));
+}
+
+TEST(unittest_GenModule, Global_section){
+  Module data;
+  Global testGlobal;
+  testGlobal.globalType.immutable = false;
+  testGlobal.globalType.type = ValueType::i64;
+  testGlobal.expr.emplace<I64ConstInstr>().value = 6;
+  data.globals.push_back(testGlobal);
+  CodeGenVisitor visitor;
+  EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({
+    BIN_MAGIC, BIN_VERSION,
+    '\x06', '\x06',
+    '\x01', '\x7E', '\x01', '\x42', '\x06', '\x0B'
   }));
 }

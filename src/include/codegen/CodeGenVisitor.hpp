@@ -85,6 +85,7 @@ protected:
     std::any func;
     std::any table;
     std::any memory;
+    std::any global;
   } sections;
 };
 
