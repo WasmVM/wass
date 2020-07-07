@@ -84,6 +84,7 @@ protected:
     std::any import;
     std::any func;
     std::any table;
+    std::any memory;
   } sections;
 };
 

@@ -74,3 +74,16 @@ TEST(unittest_GenModule, table_section){
     '\x01', '\x70', '\x00', '\x03'
   }));
 }
+
+TEST(unittest_GenModule, memory_section){
+  Module data;
+  Memory testMem;
+  testMem.memType.min = 3;
+  data.memories.push_back(testMem);
+  CodeGenVisitor visitor;
+  EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({
+    BIN_MAGIC, BIN_VERSION,
+    '\x05', '\x03',
+    '\x01', '\x00', '\x03'
+  }));
+}

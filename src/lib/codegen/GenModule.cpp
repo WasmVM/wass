@@ -34,6 +34,10 @@ BinaryCode CodeGenVisitor::operator()(Module&& target){
   if(target.tables.size() > 0){
     sections.table.emplace<SectionGenerator>().generate(*this, target.tables);
   }
+  // Memory section
+  if(target.memories.size() > 0){
+    sections.memory.emplace<SectionGenerator>().generate(*this, target.memories);
+  }
 
   // Wrap sections
   if(sections.type.has_value()){
@@ -47,6 +51,9 @@ BinaryCode CodeGenVisitor::operator()(Module&& target){
   }
   if(sections.table.has_value()){
     result += std::any_cast<SectionGenerator>(sections.table).wrap(4);
+  }
+  if(sections.memory.has_value()){
+    result += std::any_cast<SectionGenerator>(sections.memory).wrap(5);
   }
   return result;
 }
