@@ -86,6 +86,7 @@ protected:
     std::any table;
     std::any memory;
     std::any global;
+    std::any exports;
   } sections;
 };
 

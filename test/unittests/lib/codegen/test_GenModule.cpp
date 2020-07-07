@@ -10,6 +10,7 @@
 #include <structure/Table.hpp>
 #include <structure/Memory.hpp>
 #include <structure/Global.hpp>
+#include <structure/Export.hpp>
 #include <structure/ConstInstr.hpp>
 #include <codegen/CodeGenVisitor.hpp>
 #include <BinaryCode.hpp>
@@ -103,5 +104,21 @@ TEST(unittest_GenModule, Global_section){
     BIN_MAGIC, BIN_VERSION,
     '\x06', '\x06',
     '\x01', '\x7E', '\x01', '\x42', '\x06', '\x0B'
+  }));
+}
+
+TEST(unittest_GenModule, Export_section){
+  Module data;
+  Export testExport;
+  testExport.type = ExportType::Memory;
+  testExport.name = "exp";
+  testExport.index = (uint32_t) 3;
+  data.exports.push_back(testExport);
+  CodeGenVisitor visitor;
+  EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({
+    BIN_MAGIC, BIN_VERSION,
+    '\x07', '\x07',
+    '\x01', '\x03', 'e', 'x', 'p',
+    '\x02', '\x03'
   }));
 }
