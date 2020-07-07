@@ -30,6 +30,10 @@ BinaryCode CodeGenVisitor::operator()(Module&& target){
   if(target.funcs.size() > 0){
     sections.func.emplace<SectionGenerator>().generate(*this, target.funcs);
   }
+  // Table section
+  if(target.tables.size() > 0){
+    sections.table.emplace<SectionGenerator>().generate(*this, target.tables);
+  }
 
   // Wrap sections
   if(sections.type.has_value()){
@@ -40,6 +44,9 @@ BinaryCode CodeGenVisitor::operator()(Module&& target){
   }
   if(sections.func.has_value()){
     result += std::any_cast<SectionGenerator>(sections.func).wrap(3);
+  }
+  if(sections.table.has_value()){
+    result += std::any_cast<SectionGenerator>(sections.table).wrap(4);
   }
   return result;
 }

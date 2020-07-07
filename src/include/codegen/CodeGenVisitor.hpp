@@ -83,6 +83,7 @@ protected:
     std::any type;
     std::any import;
     std::any func;
+    std::any table;
   } sections;
 };
 

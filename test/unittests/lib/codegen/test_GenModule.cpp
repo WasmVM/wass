@@ -7,6 +7,7 @@
 #include <structure/Type.hpp>
 #include <structure/Import.hpp>
 #include <structure/TypeUse.hpp>
+#include <structure/Table.hpp>
 #include <codegen/CodeGenVisitor.hpp>
 #include <BinaryCode.hpp>
 #include <Helper.hpp>
@@ -58,5 +59,18 @@ TEST(unittest_GenModule, func_section){
     BIN_MAGIC, BIN_VERSION,
     '\x03', '\x02',
     '\x01', '\x02'
+  }));
+}
+
+TEST(unittest_GenModule, table_section){
+  Module data;
+  Table testTable;
+  testTable.tableType.min = 3;
+  data.tables.push_back(testTable);
+  CodeGenVisitor visitor;
+  EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({
+    BIN_MAGIC, BIN_VERSION,
+    '\x04', '\x04',
+    '\x01', '\x70', '\x00', '\x03'
   }));
 }
