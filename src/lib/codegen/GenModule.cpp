@@ -69,5 +69,11 @@ BinaryCode CodeGenVisitor::operator()(Module&& target){
   if(sections.exports.has_value()){
     result += std::any_cast<SectionGenerator>(sections.exports).wrap(7);
   }
+  if(target.start.has_value()){
+    result += '\x08';
+    BinaryCode startCode = std::visit<BinaryCode>(*this, CodeGenVariant(*(target.start)));
+    result += Util::toLEB128((uint32_t) startCode.size());
+    result += startCode;
+  }
   return result;
 }

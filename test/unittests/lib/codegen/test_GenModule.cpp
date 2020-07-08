@@ -122,3 +122,13 @@ TEST(unittest_GenModule, Export_section){
     '\x02', '\x03'
   }));
 }
+
+TEST(unittest_GenModule, Start_section){
+  Module data;
+  data.start = 9;
+  CodeGenVisitor visitor;
+  EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({
+    BIN_MAGIC, BIN_VERSION,
+    '\x08', '\x01', '\x09'
+  }));
+}
