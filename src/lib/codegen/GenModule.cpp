@@ -46,6 +46,10 @@ BinaryCode CodeGenVisitor::operator()(Module&& target){
   if(target.exports.size() > 0){
     sections.exports.emplace<SectionGenerator>().generate(*this, target.exports);
   }
+  // Element section
+  if(target.elems.size() > 0){
+    sections.elem.emplace<SectionGenerator>().generate(*this, target.elems);
+  }
 
   // Wrap sections
   if(sections.type.has_value()){
@@ -74,6 +78,9 @@ BinaryCode CodeGenVisitor::operator()(Module&& target){
     BinaryCode startCode = std::visit<BinaryCode>(*this, CodeGenVariant(*(target.start)));
     result += Util::toLEB128((uint32_t) startCode.size());
     result += startCode;
+  }
+  if(sections.elem.has_value()){
+    result += std::any_cast<SectionGenerator>(sections.elem).wrap(9);
   }
   return result;
 }

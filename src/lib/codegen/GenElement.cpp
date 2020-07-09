@@ -8,6 +8,7 @@
 BinaryCode CodeGenVisitor::operator()(Element&& target){
   BinaryCode result = std::visit<BinaryCode>(*this, CodeGenVariant(target.tableIndex));
   result += std::visit<BinaryCode>(*this, ConstExprVariant(target.expr));
+  result += '\x0B';
   result += Util::toLEB128((uint32_t) target.funcIndices.size());
   for(std::vector<Index>::iterator it = target.funcIndices.begin(); it != target.funcIndices.end(); ++it){
     result += std::visit<BinaryCode>(*this, CodeGenVariant(*it));

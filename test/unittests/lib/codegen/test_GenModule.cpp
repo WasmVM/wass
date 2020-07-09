@@ -11,6 +11,7 @@
 #include <structure/Memory.hpp>
 #include <structure/Global.hpp>
 #include <structure/Export.hpp>
+#include <structure/Element.hpp>
 #include <structure/ConstInstr.hpp>
 #include <codegen/CodeGenVisitor.hpp>
 #include <BinaryCode.hpp>
@@ -130,5 +131,22 @@ TEST(unittest_GenModule, Start_section){
   EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({
     BIN_MAGIC, BIN_VERSION,
     '\x08', '\x01', '\x09'
+  }));
+}
+
+TEST(unittest_GenModule, Element_section){
+  Module data;
+  Element testElem;
+  testElem.tableIndex = 12;
+  testElem.expr.emplace<I32ConstInstr>().value = 8;
+  testElem.funcIndices.push_back((uint32_t) 4);
+  testElem.funcIndices.push_back((uint32_t) 9);
+  data.elems.push_back(testElem);
+  CodeGenVisitor visitor;
+  EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({
+    BIN_MAGIC, BIN_VERSION,
+    '\x09', '\x08',
+    '\x01', '\x0C', '\x41', '\x08', '\x0B',
+    '\x02', '\x04', '\x09'
   }));
 }
