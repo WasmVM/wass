@@ -13,6 +13,8 @@
 #include <structure/Export.hpp>
 #include <structure/Element.hpp>
 #include <structure/ConstInstr.hpp>
+#include <structure/Function.hpp>
+#include <structure/ParamInstr.hpp>
 #include <codegen/CodeGenVisitor.hpp>
 #include <BinaryCode.hpp>
 #include <Helper.hpp>
@@ -63,7 +65,10 @@ TEST(unittest_GenModule, func_section){
   EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({
     BIN_MAGIC, BIN_VERSION,
     '\x03', '\x02',
-    '\x01', '\x02'
+    '\x01', '\x02',
+
+    '\x0A', '\x04',
+    '\x01', '\x02', '\x00', '\x0B'
   }));
 }
 
@@ -148,5 +153,25 @@ TEST(unittest_GenModule, Element_section){
     '\x09', '\x08',
     '\x01', '\x0C', '\x41', '\x08', '\x0B',
     '\x02', '\x04', '\x09'
+  }));
+}
+
+TEST(unittest_GenModule, Code_section){
+  Module data;
+  Function testCode;
+  testCode.typeUse.index = (uint32_t)2;
+  testCode.content.locals.push_back(ValueType::i32);
+  testCode.content.body.push_back(InstrVariant(DropInstr()));
+  data.funcs.push_back(testCode);
+  CodeGenVisitor visitor;
+  EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({
+    BIN_MAGIC, BIN_VERSION,
+    '\x03', '\x02',
+    '\x01', '\x02',
+
+    '\x0A', '\x07',
+    '\x01', '\x05',
+    '\x01', '\x01', '\x7F',
+    '\x1A', '\x0B'
   }));
 }

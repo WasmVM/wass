@@ -266,6 +266,7 @@ protected:
     std::any global;
     std::any exports;
     std::any elem;
+    std::any code;
   } sections;
 };
 

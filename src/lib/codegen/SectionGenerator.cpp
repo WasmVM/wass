@@ -42,6 +42,7 @@ template void SectionGenerator::generate<Memory>(CodeGenVisitor&, Memory&);
 template void SectionGenerator::generate<Global>(CodeGenVisitor&, Global&);
 template void SectionGenerator::generate<Export>(CodeGenVisitor&, Export&);
 template void SectionGenerator::generate<Element>(CodeGenVisitor&, Element&);
+template void SectionGenerator::generate<Function::Content>(CodeGenVisitor&, Function::Content&);
 
 BinaryCode SectionGenerator::wrap(uint8_t SectionNum){
   BinaryCode result;
