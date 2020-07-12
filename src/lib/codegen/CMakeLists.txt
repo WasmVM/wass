@@ -18,4 +18,9 @@ add_library(wass-codegen
   GenIndex.cpp
   GenExport.cpp
   GenElement.cpp
+  GenFunctionContent.cpp
+  GenControlInstr.cpp
+  GenMemoryInstr.cpp
+  GenNumericInstr.cpp
+  GenParamInstr.cpp
 )

@@ -15,6 +15,7 @@ add_executable(test_codegen
   test_GenGlobal.cpp
   test_GenExport.cpp
   test_GenElement.cpp
+  test_GenFunctionContent.cpp
 )
 add_dependencies(test_codegen
   googletest
