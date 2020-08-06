@@ -13,6 +13,7 @@
 #include <structure/NumericInstr.hpp>
 #include <structure/ParamInstr.hpp>
 #include <structure/VariableInstr.hpp>
+#include <structure/TypeUse.hpp>
 
 template<InstrType T>
 class BlockedInstr;
@@ -205,11 +206,16 @@ using InstrVariant = std::variant<
   F64ReinterpretI64Instr
 >;
 
+using BlockType = std::variant<
+  TypeUse,
+  ValueType
+>;
+
 template<InstrType T>
 class BlockedInstr: public BaseInstr<T>{
 public:
-  std::optional<std::string> id;
-  std::vector<ValueType> resultTypes;
+  std::optional<std::string> label;
+  std::optional<BlockType> blockType;
   std::vector<InstrVariant> instrs;
 };
 

@@ -9,15 +9,16 @@
 #include <parser/Identifier.hpp>
 #include <parser/ParserResult.hpp>
 #include <parser/GetInstr.hpp>
-#include <structure/ValueType.hpp>
+#include <parser/ParserTypeUse.hpp>
+#include <structure/TypeUse.hpp>
 #include <structure/InstrVariant.hpp>
 
 ParserBlockedInstr::ParserBlockedInstr(ParserContext& parent_context){
   if(parent_context.cursor != parent_context.end){
     ParserContext context = parent_context;
 
-    std::optional<std::string>* idPtr = nullptr;
-    std::vector<ValueType>* resultsPtr = nullptr;
+    std::optional<std::string>* labelPtr = nullptr;
+    std::optional<BlockType>* typePtr = nullptr;
     std::vector<InstrVariant>* instrsPtr = nullptr;
     std::vector<InstrVariant>* foldedPtr = nullptr;
     bool isFolded = false;
@@ -31,20 +32,20 @@ ParserBlockedInstr::ParserBlockedInstr(ParserContext& parent_context){
     if(Util::matchString(context.cursor, context.end, "block")){
       context.cursor += 5;
       BlockInstr& instr = emplace<BlockInstr>(BlockInstr());
-      idPtr = &instr.id;
-      resultsPtr = &instr.resultTypes;
+      labelPtr = &instr.label;
+      typePtr = &instr.blockType;
       instrsPtr = &instr.instrs;
     }else if(Util::matchString(context.cursor, context.end, "loop")){
       context.cursor += 4;
       LoopInstr& instr = emplace<LoopInstr>(LoopInstr());
-      idPtr = &instr.id;
-      resultsPtr = &instr.resultTypes;
+      labelPtr = &instr.label;
+      typePtr = &instr.blockType;
       instrsPtr = &instr.instrs;
     }else if(Util::matchString(context.cursor, context.end, "if")){
       context.cursor += 2;
       IfInstr& instr = emplace<IfInstr>(IfInstr());
-      idPtr = &instr.id;
-      resultsPtr = &instr.resultTypes;
+      labelPtr = &instr.label;
+      typePtr = &instr.blockType;
       instrsPtr = &instr.instrs;
       if(isFolded){
         foldedPtr = &instr.foldedInstrs;
@@ -54,21 +55,21 @@ ParserBlockedInstr::ParserBlockedInstr(ParserContext& parent_context){
     }
     // Id
     Comment::skip(context);
-    Identifier id(context);
-    *idPtr = id;
+    Identifier label(context);
+    *labelPtr = label;
 
     // Return Type
     Comment::skip(context);
-    for(ParserResult result(context); result.has_value(); result = ParserResult(context)){
-      if(result.type() == typeid(ValueType)){
-        resultsPtr->emplace_back(std::any_cast<ValueType>(result));
-      }else{
-        std::vector<ValueType> newResults(std::any_cast<std::vector<ValueType>>(result));
-        for(auto it = newResults.begin(); it != newResults.end(); ++it){
-          resultsPtr->emplace_back(*it);
-        }
+    ParserContext result_context = context;
+    ParserResult result(result_context);
+    if(result.has_value() && result.type() == typeid(ValueType)){
+      typePtr->emplace<ValueType>(std::any_cast<ValueType>(result));
+      context = result_context;
+    }else{
+      ParserTypeUse typeUse(context);
+      if(typeUse.has_value()){
+        **typePtr = *typeUse;
       }
-      Comment::skip(context);
     }
 
     // Folded instructions of if
@@ -127,7 +128,7 @@ ParserBlockedInstr::ParserBlockedInstr(ParserContext& parent_context){
         context.cursor += 4;
         Comment::skip(context);
         Identifier postfix(context);
-        if(postfix.has_value() && *postfix != *id){
+        if(postfix.has_value() && *postfix != *label){
           throw Error<ErrorType::ParseError>("postfix id of 'else' should match block label");
         }
         std::vector<InstrVariant>& elseInstrs = std::get<IfInstr>(*this).elseInstrs;
@@ -163,7 +164,7 @@ ParserBlockedInstr::ParserBlockedInstr(ParserContext& parent_context){
         context.cursor += 3;
         Comment::skip(context);
         Identifier postfix(context);
-        if(postfix.has_value() && *postfix != *id){
+        if(postfix.has_value() && *postfix != *label){
           throw Error<ErrorType::ParseError>("postfix id should match block label");
         }
       }else{
