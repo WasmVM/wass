@@ -19,6 +19,7 @@ add_executable(test_codegen
   test_GenNumericInstr.cpp
   test_GenParamInstr.cpp
   test_GenMemoryInstr.cpp
+  test_GenControlInstr.cpp
 )
 add_dependencies(test_codegen
   googletest

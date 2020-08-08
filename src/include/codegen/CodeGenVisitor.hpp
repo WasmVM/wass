@@ -7,6 +7,7 @@
 #include <cstdint>
 #include <string>
 #include <utility>
+#include <optional>
 #include <any>
 #include <BinaryCode.hpp>
 #include <structure/Type.hpp>
@@ -30,6 +31,8 @@
 #include <structure/Index.hpp>
 #include <structure/Export.hpp>
 #include <structure/Element.hpp>
+#include <structure/ControlInstr.hpp>
+#include <structure/InstrVariant.hpp>
 
 using CodeGenVariant = std::variant<
   Module,
