@@ -66,6 +66,6 @@ ParserTypeUse::ParserTypeUse(ParserContext& parent_context){
     }
     Comment::skip(context);
   }
-  this->std::optional<TypeUse>::operator=(typeUse);
+  emplace(typeUse);
   parent_context.cursor = context.cursor;
 }

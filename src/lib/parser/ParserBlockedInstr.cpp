@@ -56,8 +56,10 @@ ParserBlockedInstr::ParserBlockedInstr(ParserContext& parent_context){
     // Id
     Comment::skip(context);
     Identifier label(context);
-    *labelPtr = label;
-
+    if(label.has_value()){
+      *labelPtr = *label;
+    }
+    
     // Return Type
     Comment::skip(context);
     ParserContext result_context = context;
@@ -68,7 +70,7 @@ ParserBlockedInstr::ParserBlockedInstr(ParserContext& parent_context){
     }else{
       ParserTypeUse typeUse(context);
       if(typeUse.has_value()){
-        **typePtr = *typeUse;
+        typePtr->emplace<TypeUse>(TypeUse(*typeUse));
       }
     }
 

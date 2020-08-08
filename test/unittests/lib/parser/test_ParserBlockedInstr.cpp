@@ -62,7 +62,10 @@ TEST(unittest_ParserBlockedInstr, block_without_result){
   EXPECT_EQ(context.cursor, data.end());
   BlockInstr* instr = std::get_if<BlockInstr>(&result);
   EXPECT_FALSE(instr->label.has_value());
-  EXPECT_FALSE(instr->blockType.has_value());
+  EXPECT_TRUE(instr->blockType.has_value());
+  TypeUse& typeUse = std::get<TypeUse>(*(instr->blockType));
+  EXPECT_EQ(typeUse.params.size(), 0);
+  EXPECT_EQ(typeUse.results.size(), 0);
   EXPECT_EQ(instr->instrs.size(), 2);
   EXPECT_NE(std::get_if<F32ConstInstr>(&(instr->instrs[0])), nullptr);
   EXPECT_FLOAT_EQ(std::get_if<F32ConstInstr>(&(instr->instrs[0]))->value, 3.2);
