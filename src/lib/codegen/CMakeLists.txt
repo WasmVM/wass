@@ -23,4 +23,5 @@ add_library(wass-codegen
   GenMemoryInstr.cpp
   GenNumericInstr.cpp
   GenParamInstr.cpp
+  GenData.cpp
 )

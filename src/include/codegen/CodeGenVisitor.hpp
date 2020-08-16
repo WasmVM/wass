@@ -33,6 +33,7 @@
 #include <structure/Element.hpp>
 #include <structure/ControlInstr.hpp>
 #include <structure/InstrVariant.hpp>
+#include <structure/Data.hpp>
 
 using CodeGenVariant = std::variant<
   Module,
@@ -50,7 +51,8 @@ using CodeGenVariant = std::variant<
   Index,
   Export,
   Element,
-  Function::Content
+  Function::Content,
+  Data
 >;
 
 class CodeGenVisitor{
@@ -74,6 +76,7 @@ public:
   BinaryCode operator()(Export&&);
   BinaryCode operator()(Element&&);
   BinaryCode operator()(Function::Content&&);
+  BinaryCode operator()(Data&&);
 
   BinaryCode operator()(I32ConstInstr&&);
   BinaryCode operator()(I64ConstInstr&&);
