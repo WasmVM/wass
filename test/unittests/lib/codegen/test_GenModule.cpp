@@ -15,6 +15,7 @@
 #include <structure/ConstInstr.hpp>
 #include <structure/Function.hpp>
 #include <structure/ParamInstr.hpp>
+#include <structure/Data.hpp>
 #include <codegen/CodeGenVisitor.hpp>
 #include <BinaryCode.hpp>
 #include <Helper.hpp>
@@ -173,5 +174,22 @@ TEST(unittest_GenModule, Code_section){
     '\x01', '\x05',
     '\x01', '\x01', '\x7F',
     '\x1A', '\x0B'
+  }));
+}
+
+TEST(unittest_GenModule, Data_section){
+  Module data;
+  Data testData;
+  testData.memIndex = (uint32_t)7;
+  I32ConstInstr& expr = testData.expr.emplace<I32ConstInstr>(I32ConstInstr());
+  expr.value = 9;
+  testData.data = "datasec";
+  data.datas.push_back(testData);
+  CodeGenVisitor visitor;
+  EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({
+    BIN_MAGIC, BIN_VERSION,
+    '\x0B', '\x0C',
+    '\x01', '\x07', '\x41', '\x09',
+    '\x07', 'd', 'a', 't', 'a', 's', 'e', 'c'
   }));
 }

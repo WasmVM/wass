@@ -273,6 +273,7 @@ protected:
     std::any exports;
     std::any elem;
     std::any code;
+    std::any data;
   } sections;
 };
 

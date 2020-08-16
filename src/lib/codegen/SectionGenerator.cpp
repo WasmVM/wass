@@ -9,6 +9,7 @@
 #include <structure/Global.hpp>
 #include <structure/Export.hpp>
 #include <structure/Element.hpp>
+#include <structure/Data.hpp>
 
 #include <Util.hpp>
 
@@ -26,6 +27,7 @@ template void SectionGenerator::generate<Memory>(CodeGenVisitor&, std::vector<Me
 template void SectionGenerator::generate<Global>(CodeGenVisitor&, std::vector<Global>&);
 template void SectionGenerator::generate<Export>(CodeGenVisitor&, std::vector<Export>&);
 template void SectionGenerator::generate<Element>(CodeGenVisitor&, std::vector<Element>&);
+template void SectionGenerator::generate<Data>(CodeGenVisitor&, std::vector<Data>&);
 
 template<typename T>
 void SectionGenerator::generate(CodeGenVisitor& visitor, T& target){
@@ -43,6 +45,7 @@ template void SectionGenerator::generate<Global>(CodeGenVisitor&, Global&);
 template void SectionGenerator::generate<Export>(CodeGenVisitor&, Export&);
 template void SectionGenerator::generate<Element>(CodeGenVisitor&, Element&);
 template void SectionGenerator::generate<Function::Content>(CodeGenVisitor&, Function::Content&);
+template void SectionGenerator::generate<Data>(CodeGenVisitor&, Data&);
 
 BinaryCode SectionGenerator::wrap(uint8_t SectionNum){
   BinaryCode result;
