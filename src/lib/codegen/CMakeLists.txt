@@ -1,27 +1,4 @@
+aux_source_directory(${CMAKE_CURRENT_LIST_DIR} codegen_sources)
 add_library(wass-codegen
-  SectionGenerator.cpp
-  CodeGenVisitor.cpp
-  GenModule.cpp
-  GenFuncType.cpp
-  GenType.cpp
-  GenValueType.cpp
-  GenTypeUse.cpp
-  GenImport.cpp
-  GenLimit.cpp
-  GenGlobalType.cpp
-  GenFunction.cpp
-  GenTable.cpp
-  GenMemory.cpp
-  GenGlobal.cpp
-  GenConstInstr.cpp
-  GenVariableInstr.cpp
-  GenIndex.cpp
-  GenExport.cpp
-  GenElement.cpp
-  GenFunctionContent.cpp
-  GenControlInstr.cpp
-  GenMemoryInstr.cpp
-  GenNumericInstr.cpp
-  GenParamInstr.cpp
-  GenData.cpp
+  ${codegen_sources}
 )

@@ -8,4 +8,5 @@ add_dependencies(unittest_helper
   googletest
 )
 
+add_subdirectory(exec)
 add_subdirectory(lib)

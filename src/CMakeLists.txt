@@ -1,15 +1,21 @@
 include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
 
+aux_source_directory(lib/structure structure_sources)
+aux_source_directory(lib core_sources)
 add_library(wass-core
-  lib/BinaryCode.cpp
-  lib/Error.cpp
-  lib/Util.cpp
-  lib/structure/Limit.cpp
-  lib/structure/FuncType.cpp
-  lib/structure/GlobalType.cpp
-  lib/structure/ControlInstr.cpp
-  lib/structure/TypeUse.cpp
+  ${core_sources}
+  ${structure_sources}
 )
 
 add_subdirectory(lib/parser)
 add_subdirectory(lib/codegen)
+
+add_executable(wass
+  exec/wass.cpp
+  exec/CommandLine.cpp
+)
+target_link_libraries(wass
+  wass-core
+  wass-parser
+  wass-codegen
+)
