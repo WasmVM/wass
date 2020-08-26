@@ -26,11 +26,11 @@ CommandLine::OptionMap::OptionMap(std::initializer_list<std::pair<std::string, O
         if(keys.size() > 0){
             if(keys.front().starts_with('-')){
                 unpositioned.insert_or_assign(keys.front(), op.second);
+                for(auto it = std::next(keys.begin()); it != keys.end(); it = std::next(it)){
+                    aliases.insert_or_assign(*it, keys.front());
+                }
             }else{
                 positioned.emplace_back(keys.front(), op.second);
-            }
-            for(auto it = std::next(keys.begin()); it != keys.end(); it = std::next(it)){
-                aliases.insert_or_assign(*it, keys.front());
             }
         }else{
             throw std::invalid_argument("Option name is required");
@@ -40,14 +40,28 @@ CommandLine::OptionMap::OptionMap(std::initializer_list<std::pair<std::string, O
 
 struct OptionVisitor {
     int& cur;
+    const int argc;
     const char** (&argv);
     const bool isPositioned;
-    OptionVisitor(int& cur, const char** (&argv), const bool isPositioned):cur(cur), argv(argv), isPositioned(isPositioned){}
+    OptionVisitor(int& cur, const int argc, const char** (&argv), const bool isPositioned):cur(cur), argc(argc), argv(argv), isPositioned(isPositioned){}
     void operator()(std::string& value){
         if(!isPositioned){
             ++cur;
         }
-        value = argv[cur];
+        if(cur < argc){
+            value = argv[cur];
+        }
+    }
+    void operator()(std::vector<std::string>& value){
+        if(!isPositioned){
+            ++cur;
+        }
+        while(cur < argc){
+            value.emplace_back(argv[cur++]);
+        }
+    }
+    void operator()(bool& value){
+        value = true;
     }
     void operator()(auto&&){
         throw std::invalid_argument("Unsupported option type");
@@ -82,7 +96,7 @@ void CommandLine::OptionMap::parse(int argc, const char *argv[]){
         }else{
             continue;
         }
-        std::visit(OptionVisitor(cur, argv, isPositioned), optionPtr->first);
+        std::visit(OptionVisitor(cur, argc, argv, isPositioned), optionPtr->first);
     }
     // Validate
     for(auto optionIt = unpositioned.begin(); optionIt != unpositioned.end(); optionIt = std::next(optionIt)){
@@ -91,6 +105,9 @@ void CommandLine::OptionMap::parse(int argc, const char *argv[]){
             throw std::invalid_argument(option.key() + " is required");
         }
         option.key() = std::string_view(option.key()).substr(option.key().find_first_not_of('-'));
+        if(!unpositioned.insert(std::move(option)).inserted){
+            throw std::runtime_error(std::string("error rename option") + option.key());
+        }
     }
     for(std::pair<std::string, CommandLine::Option> option : positioned){
         if(option.second.second && (parsed.find(option.first) == parsed.end())){

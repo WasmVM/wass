@@ -13,7 +13,9 @@ namespace CommandLine{
 
 using OptionValue = std::variant<
     std::monostate,
-    std::string
+    bool,
+    std::string,
+    std::vector<std::string>
 >;
 
 using Option = std::pair<OptionValue, bool>;
