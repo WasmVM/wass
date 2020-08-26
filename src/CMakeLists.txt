@@ -1,7 +1,8 @@
 include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
 
-aux_source_directory(lib/structure structure_sources)
-aux_source_directory(lib core_sources)
+aux_source_directory(${CMAKE_CURRENT_LIST_DIR}/lib/structure structure_sources)
+aux_source_directory(${CMAKE_CURRENT_LIST_DIR}/lib core_sources)
+
 add_library(wass-core
   ${core_sources}
   ${structure_sources}
