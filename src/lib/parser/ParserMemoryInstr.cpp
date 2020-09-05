@@ -1,5 +1,6 @@
 #include <parser/ParserMemoryInstr.hpp>
 
+#include <cmath>
 #include <variant>
 #include <structure/MemoryInstr.hpp>
 #include <parser/ParserContext.hpp>
@@ -35,7 +36,7 @@ MemArg::MemArg(ParserContext& parent_context, int64_t default_align){
     context.cursor += 6;
     IntegerLiteral alignLiteral(context);
     if(alignLiteral.has_value()){
-      this->align = *alignLiteral;
+      this->align = (int64_t)std::log2((double)*alignLiteral);
       parent_context.cursor = context.cursor;
     }else{
       throw Error<ErrorType::ParseError>("expected integer literal in align=");
@@ -58,7 +59,7 @@ ParserMemoryInstr::ParserMemoryInstr(ParserContext& parent_context){
       parent_context.cursor = context.cursor;
     }else if(Util::matchString(context.cursor, context.end, "i32.load8_s")){
       context.cursor += 11;
-      MemArg memarg(context, 2);
+      MemArg memarg(context, 0);
       I32Load8SInstr instr;
       instr.align = memarg.align;
       instr.offset = memarg.offset;
@@ -66,7 +67,7 @@ ParserMemoryInstr::ParserMemoryInstr(ParserContext& parent_context){
       parent_context.cursor = context.cursor;
     }else if(Util::matchString(context.cursor, context.end, "i32.load8_u")){
       context.cursor += 11;
-      MemArg memarg(context, 2);
+      MemArg memarg(context, 0);
       I32Load8UInstr instr;
       instr.align = memarg.align;
       instr.offset = memarg.offset;
@@ -74,7 +75,7 @@ ParserMemoryInstr::ParserMemoryInstr(ParserContext& parent_context){
       parent_context.cursor = context.cursor;
     }else if(Util::matchString(context.cursor, context.end, "i32.load16_s")){
       context.cursor += 12;
-      MemArg memarg(context, 2);
+      MemArg memarg(context, 1);
       I32Load16SInstr instr;
       instr.align = memarg.align;
       instr.offset = memarg.offset;
@@ -82,7 +83,7 @@ ParserMemoryInstr::ParserMemoryInstr(ParserContext& parent_context){
       parent_context.cursor = context.cursor;
     }else if(Util::matchString(context.cursor, context.end, "i32.load16_u")){
       context.cursor += 12;
-      MemArg memarg(context, 2);
+      MemArg memarg(context, 1);
       I32Load16UInstr instr;
       instr.align = memarg.align;
       instr.offset = memarg.offset;
@@ -90,7 +91,7 @@ ParserMemoryInstr::ParserMemoryInstr(ParserContext& parent_context){
       parent_context.cursor = context.cursor;
     }else if(Util::matchString(context.cursor, context.end, "i64.load8_s")){
       context.cursor += 11;
-      MemArg memarg(context, 3);
+      MemArg memarg(context, 0);
       I64Load8SInstr instr;
       instr.align = memarg.align;
       instr.offset = memarg.offset;
@@ -98,7 +99,7 @@ ParserMemoryInstr::ParserMemoryInstr(ParserContext& parent_context){
       parent_context.cursor = context.cursor;
     }else if(Util::matchString(context.cursor, context.end, "i64.load8_u")){
       context.cursor += 11;
-      MemArg memarg(context, 3);
+      MemArg memarg(context, 0);
       I64Load8UInstr instr;
       instr.align = memarg.align;
       instr.offset = memarg.offset;
@@ -106,7 +107,7 @@ ParserMemoryInstr::ParserMemoryInstr(ParserContext& parent_context){
       parent_context.cursor = context.cursor;
     }else if(Util::matchString(context.cursor, context.end, "i64.load16_s")){
       context.cursor += 12;
-      MemArg memarg(context, 3);
+      MemArg memarg(context, 1);
       I64Load16SInstr instr;
       instr.align = memarg.align;
       instr.offset = memarg.offset;
@@ -114,7 +115,7 @@ ParserMemoryInstr::ParserMemoryInstr(ParserContext& parent_context){
       parent_context.cursor = context.cursor;
     }else if(Util::matchString(context.cursor, context.end, "i64.load16_u")){
       context.cursor += 12;
-      MemArg memarg(context, 3);
+      MemArg memarg(context, 1);
       I64Load16UInstr instr;
       instr.align = memarg.align;
       instr.offset = memarg.offset;
@@ -122,7 +123,7 @@ ParserMemoryInstr::ParserMemoryInstr(ParserContext& parent_context){
       parent_context.cursor = context.cursor;
     }else if(Util::matchString(context.cursor, context.end, "i64.load32_s")){
       context.cursor += 12;
-      MemArg memarg(context, 3);
+      MemArg memarg(context, 2);
       I64Load32SInstr instr;
       instr.align = memarg.align;
       instr.offset = memarg.offset;
@@ -130,7 +131,7 @@ ParserMemoryInstr::ParserMemoryInstr(ParserContext& parent_context){
       parent_context.cursor = context.cursor;
     }else if(Util::matchString(context.cursor, context.end, "i64.load32_u")){
       context.cursor += 12;
-      MemArg memarg(context, 3);
+      MemArg memarg(context, 2);
       I64Load32UInstr instr;
       instr.align = memarg.align;
       instr.offset = memarg.offset;
@@ -138,7 +139,7 @@ ParserMemoryInstr::ParserMemoryInstr(ParserContext& parent_context){
       parent_context.cursor = context.cursor;
     }else if(Util::matchString(context.cursor, context.end, "i32.store8")){
       context.cursor += 10;
-      MemArg memarg(context, 2);
+      MemArg memarg(context, 0);
       I32Store8Instr instr;
       instr.align = memarg.align;
       instr.offset = memarg.offset;
@@ -146,7 +147,7 @@ ParserMemoryInstr::ParserMemoryInstr(ParserContext& parent_context){
       parent_context.cursor = context.cursor;
     }else if(Util::matchString(context.cursor, context.end, "i32.store16")){
       context.cursor += 11;
-      MemArg memarg(context, 2);
+      MemArg memarg(context, 1);
       I32Store16Instr instr;
       instr.align = memarg.align;
       instr.offset = memarg.offset;
@@ -154,7 +155,7 @@ ParserMemoryInstr::ParserMemoryInstr(ParserContext& parent_context){
       parent_context.cursor = context.cursor;
     }else if(Util::matchString(context.cursor, context.end, "i64.store8")){
       context.cursor += 10;
-      MemArg memarg(context, 3);
+      MemArg memarg(context, 0);
       I64Store8Instr instr;
       instr.align = memarg.align;
       instr.offset = memarg.offset;
@@ -162,7 +163,7 @@ ParserMemoryInstr::ParserMemoryInstr(ParserContext& parent_context){
       parent_context.cursor = context.cursor;
     }else if(Util::matchString(context.cursor, context.end, "i64.store16")){
       context.cursor += 11;
-      MemArg memarg(context, 3);
+      MemArg memarg(context, 1);
       I64Store16Instr instr;
       instr.align = memarg.align;
       instr.offset = memarg.offset;
@@ -170,7 +171,7 @@ ParserMemoryInstr::ParserMemoryInstr(ParserContext& parent_context){
       parent_context.cursor = context.cursor;
     }else if(Util::matchString(context.cursor, context.end, "i64.store32")){
       context.cursor += 11;
-      MemArg memarg(context, 3);
+      MemArg memarg(context, 2);
       I64Store32Instr instr;
       instr.align = memarg.align;
       instr.offset = memarg.offset;

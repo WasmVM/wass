@@ -49,6 +49,8 @@ int main(int argc, const char *argv[]){
     if(outputName.size() == 0){
         outputName = inputPath.replace_extension(".wasm");
     }
+    ;
+    std::filesystem::create_directories(std::filesystem::absolute(std::filesystem::path(outputName)).parent_path());
     std::ofstream outputFile(outputName);
     outputFile.write(binaryCode.data(), binaryCode.size());
     outputFile.close();
