@@ -18,7 +18,7 @@ TEST(unittest_GenData, with_datastring){
   CodeGenVisitor visitor;
   EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({
     '\x04',
-    '\x41', '\x05',
+    '\x41', '\x05', '\x0B',
     '\x04', 't', 'e', 's', 't'
   }));
 }
@@ -32,7 +32,7 @@ TEST(unittest_GenData, without_datastring){
   CodeGenVisitor visitor;
   EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({
     '\x04',
-    '\x41', '\x05',
+    '\x41', '\x05', '\x0B',
     '\x00'
   }));
 }

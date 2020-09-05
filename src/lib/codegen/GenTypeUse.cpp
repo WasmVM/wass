@@ -60,9 +60,6 @@ BinaryCode CodeGenVisitor::operator()(TypeUse&& target){
       std::any_cast<SectionGenerator>(&(sections.type))->generate(*this, newType);
     }else{
       for(std::pair<std::string, uint32_t> idPair : target.paramMap){
-        if(context.identifierMap.contains(idPair.first)){
-          throw Error<ErrorType::GenerateError>("Identifier must be unique");
-        }
         context.identifierMap[idPair.first] = idPair.second;
       }
     }

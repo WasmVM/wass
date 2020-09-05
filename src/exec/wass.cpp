@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <BinaryCode.hpp>
+#include <Error.hpp>
 #include <structure/Module.hpp>
 #include <parser/ParserModule.hpp>
 #include <codegen/CodeGenVisitor.hpp>
@@ -23,15 +24,26 @@ int main(int argc, const char *argv[]){
     std::vector<char> inputData(std::filesystem::file_size(inputPath));
     inputFile.read(inputData.data(), inputData.size());
     inputFile.close();
-    // Parse module
+    BinaryCode binaryCode;
+    
     ParserContext context(inputData);
-    ParserModule parsedModule(context);
-    if(!parsedModule.has_value()){
-        std::cerr << "No module has been parsed" << std::endl;
+    try{
+        // Parse module
+        ParserModule parsedModule(context);
+        if(!parsedModule.has_value()){
+            std::cerr << "No module has been parsed" << std::endl;
+        }
+        // Generate binary
+        CodeGenVisitor visitor;
+        binaryCode = std::visit<BinaryCode>(visitor, CodeGenVariant(*parsedModule));
+    }catch(Error<ErrorType::ParseError> err){
+        std::cerr << "wass: parse error: " << err << std::endl;
+        return -1;
+    }catch(Error<ErrorType::GenerateError> err){
+        std::cerr << "wass: generate error: " << err << std::endl;
+        return -2;
     }
-    // Generate binary
-    CodeGenVisitor visitor;
-    BinaryCode binaryCode = std::visit<BinaryCode>(visitor, CodeGenVariant(*parsedModule));
+
     // Write output
     std::string outputName(std::get<std::string>(options["output_file"]));
     if(outputName.size() == 0){

@@ -37,16 +37,14 @@ ParserData::ParserData(ParserContext& parent_context){
           data.memIndex = (uint32_t)0;
         }
         // Offset prefix
-        bool abbrivate = false;
+        bool abbrivate = true;
         Comment::skip(context);
         if(*context.cursor == '('){
           ++context.cursor;
           Comment::skip(context);
+          abbrivate = false;
           if(Util::matchString(context.cursor, context.end, "offset")){
             context.cursor += 6;
-            abbrivate = true;
-          }else{
-            throw Error<ErrorType::ParseError>("expected offset in data section");
           }
         }
         // Offset expression
@@ -63,7 +61,7 @@ ParserData::ParserData(ParserContext& parent_context){
           std::visit(AssignExprVisitor(data.expr), variant_cast<ConstExprVariant>(constExpr));
         }
         // Offset Postfix
-        if(abbrivate){
+        if(!abbrivate){
           Comment::skip(context);
           if(*context.cursor != ')'){
             throw Error<ErrorType::ParseError>("expected ')' after data offset");

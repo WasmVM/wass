@@ -35,7 +35,9 @@ ParserModule::ParserModule(ParserContext& parent_context){
           newModule.id = *id;
         }
         // Sections
-        for(bool has_section = true; has_section; has_section = false){
+        bool has_section = false;
+        do{
+          has_section = false;
           // Type
           Comment::skip(context);
           ParserType newType(context);
@@ -109,7 +111,7 @@ ParserModule::ParserModule(ParserContext& parent_context){
             newModule.datas.emplace_back(*newData);
             has_section = true;
           }
-        }
+        }while(has_section);
         // Postfix
         Comment::skip(context);
         if(*context.cursor != ')'){

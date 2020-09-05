@@ -60,12 +60,3 @@ TEST(unittest_GenFuncType, param_with_id){
   EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({'\x60', '\x01', '\x7E', '\x00'}));
   EXPECT_EQ(visitor.getContext().identifierMap["test"], 2);
 }
-
-TEST(unittest_GenFuncType, id_not_unique){
-  FuncType data;
-  data.params.push_back(ValueType::i64);
-  data.paramMap["test"] = 2;
-  Mock_CodeGenVisitor visitor;
-  visitor.getContext().identifierMap["test"] = 1;
-  EXPECT_THROW(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), Error<ErrorType::GenerateError>);
-}

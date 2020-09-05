@@ -188,8 +188,8 @@ TEST(unittest_GenModule, Data_section){
   CodeGenVisitor visitor;
   EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({
     BIN_MAGIC, BIN_VERSION,
-    '\x0B', '\x0C',
-    '\x01', '\x07', '\x41', '\x09',
+    '\x0B', '\x0D',
+    '\x01', '\x07', '\x41', '\x09', '\x0B',
     '\x07', 'd', 'a', 't', 'a', 's', 'e', 'c'
   }));
 }

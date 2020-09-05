@@ -19,9 +19,6 @@ BinaryCode CodeGenVisitor::operator()(FuncType&& target){
   }
   context.typeDescs.emplace_back(target);
   for(std::pair<std::string, uint32_t> pair : target.paramMap){
-    if(context.identifierMap.contains(pair.first)){
-      throw Error<ErrorType::GenerateError>("Identifier must be unique");
-    }
     context.identifierMap[pair.first] = pair.second;
   }
   return result;
