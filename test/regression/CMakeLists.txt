@@ -8,10 +8,11 @@ function(add_regression_tests test_dir)
         get_filename_component(test_name ${test_file} NAME_WE)
         string(REGEX REPLACE / _ test_title ${test_title_path})
         add_test(NAME "${test_title}.${test_name}"
-            COMMAND ${CMAKE_BINARY_DIR}/src/wass ${CMAKE_CURRENT_LIST_DIR}/${test_file} -o test_output/${test_title_path}/${test_name}.wasm
+            COMMAND bash ${CMAKE_CURRENT_LIST_DIR}/run_test.sh ${CMAKE_BINARY_DIR}/src/wass ${CMAKE_CURRENT_LIST_DIR}/${test_file} test_output/${test_title_path}/${test_name}.wasm ${CMAKE_CURRENT_LIST_DIR}/${test_title_path}/${test_name}.wasm
             WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
         )
     endforeach(test_file IN LISTS test_files)
 endfunction()
 
 add_regression_tests(valid/address)
+add_regression_tests(valid/align)
