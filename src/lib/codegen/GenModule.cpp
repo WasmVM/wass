@@ -44,7 +44,11 @@ BinaryCode CodeGenVisitor::operator()(Module&& target){
   }
   // Export section
   if(target.exports.size() > 0){
-    sections.exports.emplace<SectionGenerator>().generate(*this, target.exports);
+    if(!sections.exports.has_value()){
+      sections.exports.emplace<SectionGenerator>().generate(*this, target.exports);
+    }else{
+      std::any_cast<SectionGenerator>(&(sections.exports))->generate(*this, target.exports);
+    }
   }
   // Element section
   if(target.elems.size() > 0){

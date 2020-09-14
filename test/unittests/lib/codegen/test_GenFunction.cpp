@@ -62,4 +62,17 @@ TEST(unittest_GenFunction, import_with_id){
   }));
 }
 
-// TODO: inline export
+TEST(unittest_GenFunction, inline_export){
+  Function data;
+  data.typeUse.index = (uint32_t) 3;
+  data.exportNames.push_back("test");
+  Mock_CodeGenVisitor visitor;
+  EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({'\x03'}));
+  EXPECT_EQ(visitor.getContext().funcCount, 1);
+  Mock_SectionGenerator generator(std::any_cast<SectionGenerator>(visitor.getSections().exports));
+  EXPECT_EQ(generator.getCodes().size(), 1);
+  EXPECT_EQ(generator.getCodes()[0], BinaryCode({
+    '\x04', 't', 'e', 's', 't',
+    '\x00', '\x00'
+  }));
+}
