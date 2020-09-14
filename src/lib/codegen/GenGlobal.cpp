@@ -8,7 +8,20 @@
 
 BinaryCode CodeGenVisitor::operator()(Global&& target){
   BinaryCode result;
-  // TODO: inline export
+  if(target.exportNames.size() > 0){
+    for(std::string name : target.exportNames){
+      // Inline export
+      Export newExport;
+      newExport.index.emplace<uint32_t>(context.globalCount);
+      newExport.name = name;
+      newExport.type = ExportType::Global;
+      if(!sections.exports.has_value()){
+        sections.exports.emplace<SectionGenerator>().generate(*this, newExport);
+      }else{
+        std::any_cast<SectionGenerator>(&(sections.exports))->generate(*this, newExport);
+      }
+    }
+  }
   if((target.importModule.has_value()) && (target.importName.has_value())){
     // Inline import
     Import newImport;

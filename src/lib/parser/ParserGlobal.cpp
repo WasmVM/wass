@@ -41,10 +41,7 @@ ParserGlobal::ParserGlobal(ParserContext& parent_context){
         // Export
         Comment::skip(context);
         for(AbbrExport abbrExport(context); abbrExport.has_value(); abbrExport = AbbrExport(context)){
-          if(!global.exportNames.has_value()){
-            global.exportNames.emplace();
-          }
-          global.exportNames->emplace_back(*abbrExport);
+          global.exportNames.emplace_back(*abbrExport);
           Comment::skip(context);
         }
         // Import

@@ -25,3 +25,19 @@ TEST(unittest_GenGlobal, mutable_value){
   CodeGenVisitor visitor;
   EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({'\x7F', '\x01', '\x23', '\x07', '\x0B'}));
 }
+
+TEST(unittest_GenGlobal, inline_export){
+  Global data;
+  data.globalType.immutable = true;
+  data.globalType.type = ValueType::i32;
+  data.expr.emplace<I32ConstInstr>().value = 5;
+  data.exportNames.push_back("test");
+  Mock_CodeGenVisitor visitor;
+  EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({'\x7F', '\x00', '\x41', '\x05', '\x0B'}));
+  Mock_SectionGenerator generator(std::any_cast<SectionGenerator>(visitor.getSections().exports));
+  EXPECT_EQ(generator.getCodes().size(), 1);
+  EXPECT_EQ(generator.getCodes()[0], BinaryCode({
+    '\x04', 't', 'e', 's', 't',
+    '\x03', '\x00'
+  }));
+}
