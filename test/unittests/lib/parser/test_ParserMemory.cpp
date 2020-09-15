@@ -59,8 +59,8 @@ TEST(unittest_ParserMemory, with_export){
   EXPECT_TRUE(result.has_value());
   EXPECT_EQ(result->memType.min, 24);
   EXPECT_FALSE(result->memType.max.has_value());
-  EXPECT_EQ(result->exportNames->size(), 1);
-  EXPECT_STREQ(result->exportNames->at(0).c_str(), "test");
+  EXPECT_EQ(result->exportNames.size(), 1);
+  EXPECT_STREQ(result->exportNames.at(0).c_str(), "test");
 }
 
 TEST(unittest_ParserMemory, with_more_export){
@@ -71,9 +71,9 @@ TEST(unittest_ParserMemory, with_more_export){
   EXPECT_TRUE(result.has_value());
   EXPECT_EQ(result->memType.min, 24);
   EXPECT_FALSE(result->memType.max.has_value());
-  EXPECT_EQ(result->exportNames->size(), 2);
-  EXPECT_STREQ(result->exportNames->at(0).c_str(), "test1");
-  EXPECT_STREQ(result->exportNames->at(1).c_str(), "test2");
+  EXPECT_EQ(result->exportNames.size(), 2);
+  EXPECT_STREQ(result->exportNames.at(0).c_str(), "test1");
+  EXPECT_STREQ(result->exportNames.at(1).c_str(), "test2");
 }
 
 TEST(unittest_ParserMemory, with_import_export){
@@ -86,8 +86,8 @@ TEST(unittest_ParserMemory, with_import_export){
   EXPECT_FALSE(result->memType.max.has_value());
   EXPECT_STREQ(result->importModule->c_str(), "module");
   EXPECT_STREQ(result->importName->c_str(), "test");
-  EXPECT_EQ(result->exportNames->size(), 1);
-  EXPECT_STREQ(result->exportNames->at(0).c_str(), "testEx");
+  EXPECT_EQ(result->exportNames.size(), 1);
+  EXPECT_STREQ(result->exportNames.at(0).c_str(), "testEx");
 }
 
 TEST(unittest_ParserMemory, with_data){

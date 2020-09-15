@@ -29,10 +29,7 @@ ParserMemory::ParserMemory(ParserContext& parent_context){
         // Export
         Comment::skip(context);
         for(AbbrExport abbrExport(context); abbrExport.has_value(); abbrExport = AbbrExport(context)){
-          if(!memory.exportNames.has_value()){
-            memory.exportNames.emplace();
-          }
-          memory.exportNames->emplace_back(*abbrExport);
+          memory.exportNames.emplace_back(*abbrExport);
           Comment::skip(context);
         }
         // Import
