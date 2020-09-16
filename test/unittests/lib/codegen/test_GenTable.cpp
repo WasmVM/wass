@@ -64,5 +64,19 @@ TEST(unittest_GenTable, import_with_id){
   }));
 }
 
-// TODO: inline export
+TEST(unittest_GenTable, inline_export){
+  Table data;
+  data.tableType.min = 5;
+  data.exportNames.push_back("test");
+  Mock_CodeGenVisitor visitor;
+  EXPECT_EQ(std::visit<BinaryCode>(visitor, CodeGenVariant(data)), BinaryCode({'\x70', '\x00', '\x05'}));
+  EXPECT_EQ(visitor.getContext().tableCount, 1);
+  Mock_SectionGenerator generator(std::any_cast<SectionGenerator>(visitor.getSections().exports));
+  EXPECT_EQ(generator.getCodes().size(), 1);
+  EXPECT_EQ(generator.getCodes()[0], BinaryCode({
+    '\x04', 't', 'e', 's', 't',
+    '\x01', '\x00'
+  }));
+}
+
 // TODO: inline element

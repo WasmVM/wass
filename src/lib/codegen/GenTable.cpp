@@ -9,7 +9,20 @@
 BinaryCode CodeGenVisitor::operator()(Table&& target){
   BinaryCode result;
   // TODO: inline export
-  // TODO: inline element
+  if(target.exportNames.size() > 0){
+    for(std::string name : target.exportNames){
+      // Inline export
+      Export newExport;
+      newExport.index.emplace<uint32_t>(context.tableCount);
+      newExport.name = name;
+      newExport.type = ExportType::Table;
+      if(!sections.exports.has_value()){
+        sections.exports.emplace<SectionGenerator>().generate(*this, newExport);
+      }else{
+        std::any_cast<SectionGenerator>(&(sections.exports))->generate(*this, newExport);
+      }
+    }
+  }
   if(target.importModule.has_value() && target.importName.has_value()){
     // Inline import
     Import newImport;

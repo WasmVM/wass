@@ -30,10 +30,7 @@ ParserTable::ParserTable(ParserContext& parent_context){
         // Export
         Comment::skip(context);
         for(AbbrExport abbrExport(context); abbrExport.has_value(); abbrExport = AbbrExport(context)){
-          if(!table.exportNames.has_value()){
-            table.exportNames.emplace();
-          }
-          table.exportNames->emplace_back(*abbrExport);
+          table.exportNames.emplace_back(*abbrExport);
           Comment::skip(context);
         }
         Comment::skip(context);
