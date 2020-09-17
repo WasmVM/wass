@@ -3,12 +3,26 @@
 #include <variant>
 #include <structure/Import.hpp>
 #include <structure/Memory.hpp>
+#include <structure/Data.hpp>
+#include <structure/ConstInstr.hpp>
 #include <codegen/SectionGenerator.hpp>
 #include <Error.hpp>
 
 BinaryCode CodeGenVisitor::operator()(Memory&& target){
   BinaryCode result;
   // TODO: inline data
+  if(target.data.has_value()){
+    Data newData;
+    newData.data = *target.data;
+    I32ConstInstr& expr = newData.expr.emplace<I32ConstInstr>(I32ConstInstr());
+    expr.value = 0;
+    newData.memIndex = context.memCount;
+    if(!sections.data.has_value()){
+      sections.data.emplace<SectionGenerator>().generate(*this, newData);
+    }else{
+      std::any_cast<SectionGenerator>(&(sections.data))->generate(*this, newData);
+    }
+  }
   if(target.exportNames.size() > 0){
     for(std::string name : target.exportNames){
       // Inline export

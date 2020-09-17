@@ -8,7 +8,6 @@
 
 BinaryCode CodeGenVisitor::operator()(Table&& target){
   BinaryCode result;
-  // TODO: inline export
   if(target.exportNames.size() > 0){
     for(std::string name : target.exportNames){
       // Inline export

@@ -63,7 +63,11 @@ BinaryCode CodeGenVisitor::operator()(Module&& target){
   }
   // Data section
   if(target.datas.size() > 0){
-    sections.data.emplace<SectionGenerator>().generate(*this, target.datas);
+    if(!sections.data.has_value()){
+      sections.data.emplace<SectionGenerator>().generate(*this, target.datas);
+    }else{
+      std::any_cast<SectionGenerator>(&(sections.data))->generate(*this, target.datas);
+    }
   }
 
   // Wrap sections
