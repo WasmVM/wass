@@ -52,7 +52,11 @@ BinaryCode CodeGenVisitor::operator()(Module&& target){
   }
   // Element section
   if(target.elems.size() > 0){
-    sections.elem.emplace<SectionGenerator>().generate(*this, target.elems);
+    if(!sections.elem.has_value()){
+      sections.elem.emplace<SectionGenerator>().generate(*this, target.elems);
+    }else{
+      std::any_cast<SectionGenerator>(&(sections.elem))->generate(*this, target.elems);
+    }
   }
   // Code section
   if(target.funcs.size() > 0){

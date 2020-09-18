@@ -99,9 +99,9 @@ TEST(unittest_ParserTable, with_elem){
   EXPECT_EQ(result->tableType.min, 2);
   EXPECT_TRUE(result->tableType.max.has_value());
   EXPECT_EQ(result->tableType.max, 2);
-  EXPECT_TRUE(result->elements.has_value());
-  EXPECT_EQ(std::get<uint32_t>(result->elements->at(0)), 4);
-  EXPECT_EQ(std::get<uint32_t>(result->elements->at(1)), 6);
+  EXPECT_EQ(result->elements.size(), 2);
+  EXPECT_EQ(std::get<uint32_t>(result->elements.at(0)), 4);
+  EXPECT_EQ(std::get<uint32_t>(result->elements.at(1)), 6);
 }
 
 TEST(unittest_ParserTable, with_elem_in_id){
@@ -113,7 +113,7 @@ TEST(unittest_ParserTable, with_elem_in_id){
   EXPECT_EQ(result->tableType.min, 2);
   EXPECT_TRUE(result->tableType.max.has_value());
   EXPECT_EQ(result->tableType.max, 2);
-  EXPECT_TRUE(result->elements.has_value());
-  EXPECT_STREQ(std::get<std::string>(result->elements->at(0)).c_str(), "test");
-  EXPECT_EQ(std::get<uint32_t>(result->elements->at(1)), 6);
+  EXPECT_EQ(result->elements.size(), 2);
+  EXPECT_STREQ(std::get<std::string>(result->elements.at(0)).c_str(), "test");
+  EXPECT_EQ(std::get<uint32_t>(result->elements.at(1)), 6);
 }

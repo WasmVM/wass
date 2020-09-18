@@ -3,11 +3,25 @@
 #include <variant>
 #include <structure/Import.hpp>
 #include <structure/Table.hpp>
+#include <structure/Element.hpp>
+#include <structure/ConstInstr.hpp>
 #include <codegen/SectionGenerator.hpp>
 #include <Error.hpp>
 
 BinaryCode CodeGenVisitor::operator()(Table&& target){
   BinaryCode result;
+  if(target.elements.size() > 0){
+    Element newElem;
+    newElem.funcIndices = target.elements;
+    I32ConstInstr& expr = newElem.expr.emplace<I32ConstInstr>(I32ConstInstr());
+    expr.value = 0;
+    newElem.tableIndex = context.tableCount;
+    if(!sections.elem.has_value()){
+      sections.elem.emplace<SectionGenerator>().generate(*this, newElem);
+    }else{
+      std::any_cast<SectionGenerator>(&(sections.data))->generate(*this, newElem);
+    }
+  }
   if(target.exportNames.size() > 0){
     for(std::string name : target.exportNames){
       // Inline export

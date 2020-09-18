@@ -48,14 +48,13 @@ ParserTable::ParserTable(ParserContext& parent_context){
             Comment::skip(context);
             if(Util::matchString(context.cursor, context.end, "elem")){
               context.cursor += 4;
-              std::vector<Index>& indices = table.elements.emplace(std::vector<Index>());
               Comment::skip(context);
               for(ParserIndex elem(context); elem.has_value(); elem = ParserIndex(context)){
-                indices.emplace_back(*elem);
+                table.elements.emplace_back(*elem);
                 Comment::skip(context);
               }
-              table.tableType.min = indices.size();
-              table.tableType.max = indices.size();
+              table.tableType.min = table.elements.size();
+              table.tableType.max = table.elements.size();
               Comment::skip(context);
               if(*context.cursor == ')'){
                 ++context.cursor;
@@ -70,7 +69,7 @@ ParserTable::ParserTable(ParserContext& parent_context){
           }
         }
         // Table type
-        if(!table.elements.has_value()){
+        if(table.elements.size() <= 0){
           Comment::skip(context);
           ParserTableType tableType(context);
           if(tableType.has_value()){

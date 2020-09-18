@@ -10,7 +10,6 @@
 
 BinaryCode CodeGenVisitor::operator()(Memory&& target){
   BinaryCode result;
-  // TODO: inline data
   if(target.data.has_value()){
     Data newData;
     newData.data = *target.data;
