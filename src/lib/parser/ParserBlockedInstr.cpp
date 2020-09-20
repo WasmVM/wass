@@ -102,7 +102,14 @@ ParserBlockedInstr::ParserBlockedInstr(ParserContext& parent_context){
       Comment::skip(context);
       InstrVariant instr = getInstruction(context);
       if(std::holds_alternative<std::monostate>(instr)){
-        hasInstr = false;
+        ParserFoldedInstr foldedInstr(context);
+        if(foldedInstr.has_value()){
+          for(std::vector<InstrVariant>::iterator it = foldedInstr->begin(); it != foldedInstr->end(); it = std::next(it)){
+            instrsPtr->emplace_back(*it);
+          }
+        }else{
+          hasInstr = false;
+        }
       }else{
         instrsPtr->emplace_back(instr);
       }
