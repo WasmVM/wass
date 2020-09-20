@@ -28,23 +28,25 @@ static std::optional<Local> parseLocal(ParserContext& parent_context){
       Comment::skip(context);
       if(Util::matchString(context.cursor, context.end, "local")){
         context.cursor += 5;
-        Comment::skip(context);
-        Local result;
-        Identifier id(context);
-        if(id.has_value()){
-          result.id = *id;
-        }
-        Comment::skip(context);
-        for(ParserValueType valType(context); valType.has_value(); valType = ParserValueType(context)){
-          result.types.push_back(*valType);
+        if(*(context.cursor) != '.'){
           Comment::skip(context);
-        }
-        if((*context.cursor) == ')'){
-          ++context.cursor;
-          parent_context.cursor = context.cursor;
-          return std::optional<Local>(result);
-        }else{
-          throw Error<ErrorType::ParseError>("expected ')'");
+          Local result;
+          Identifier id(context);
+          if(id.has_value()){
+            result.id = *id;
+          }
+          Comment::skip(context);
+          for(ParserValueType valType(context); valType.has_value(); valType = ParserValueType(context)){
+            result.types.push_back(*valType);
+            Comment::skip(context);
+          }
+          if((*context.cursor) == ')'){
+            ++context.cursor;
+            parent_context.cursor = context.cursor;
+            return std::optional<Local>(result);
+          }else{
+            throw Error<ErrorType::ParseError>("expected ')'");
+          }
         }
       }
     }
