@@ -262,6 +262,7 @@ protected:
     uint32_t tableCount;
     uint32_t memCount;
     uint32_t globalCount;
+    uint32_t blockDepth;
   } context;
   struct Sections{
     std::any type;

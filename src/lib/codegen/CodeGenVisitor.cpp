@@ -5,6 +5,7 @@ CodeGenVisitor::CodeGenVisitor(){
   context.globalCount = 0;
   context.memCount = 0;
   context.tableCount = 0;
+  context.blockDepth = 0;
 }
 
 BinaryCode CodeGenVisitor::operator()(std::monostate&&){
